@@ -1,0 +1,805 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="GUI,Java,UML,面向对象," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="问题描述1.1 问题域概述 用面向对象方法和面向对象程序设计语言，实现满足下述要求的一个高速公路客运活动仿真程序。西安市到宝鸡市之间是我省主要的高速公路客运路线之一，经过简化后的客运路线端点、中途停靠点和里程如下图所示（括号里是简称，里程的单位是公里） 1.2 限定条件 （1）从XN 始发至BJ 的客车和从BJ 始发至XN 的客车均有两种车型：沃尔沃（限定乘客人数为48 人）；依维柯（限定乘客人数">
+<meta name="keywords" content="GUI,Java,UML,面向对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java模拟高速客运站">
+<meta property="og:url" content="http://www.hoyoung.net/2015/08/10/Java模拟高速客运站/index.html">
+<meta property="og:site_name" content="Hoyoung&#39;s Blog">
+<meta property="og:description" content="问题描述1.1 问题域概述 用面向对象方法和面向对象程序设计语言，实现满足下述要求的一个高速公路客运活动仿真程序。西安市到宝鸡市之间是我省主要的高速公路客运路线之一，经过简化后的客运路线端点、中途停靠点和里程如下图所示（括号里是简称，里程的单位是公里） 1.2 限定条件 （1）从XN 始发至BJ 的客车和从BJ 始发至XN 的客车均有两种车型：沃尔沃（限定乘客人数为48 人）；依维柯（限定乘客人数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.hoyoung.net/uploads/2015/08/模拟客运站UML类图.png">
+<meta property="og:image" content="http://www.hoyoung.net/uploads/2015/08/模拟客运站界面.png">
+<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java模拟高速客运站">
+<meta name="twitter:description" content="问题描述1.1 问题域概述 用面向对象方法和面向对象程序设计语言，实现满足下述要求的一个高速公路客运活动仿真程序。西安市到宝鸡市之间是我省主要的高速公路客运路线之一，经过简化后的客运路线端点、中途停靠点和里程如下图所示（括号里是简称，里程的单位是公里） 1.2 限定条件 （1）从XN 始发至BJ 的客车和从BJ 始发至XN 的客车均有两种车型：沃尔沃（限定乘客人数为48 人）；依维柯（限定乘客人数">
+<meta name="twitter:image" content="http://www.hoyoung.net/uploads/2015/08/模拟客运站UML类图.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Java模拟高速客运站 | Hoyoung's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hoyoung's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">独具匠心</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java模拟高速客运站
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-10T09:51:36+08:00" content="2015-08-10">
+              2015-08-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/10/Java模拟高速客运站/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/10/Java模拟高速客运站/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>1.1 问题域概述</p>
+<p>用面向对象方法和面向对象程序设计语言，实现满足下述要求的一个高速公路客运活动仿真程序。西安市到宝鸡市之间是我省主要的高速公路客运路线之一，经过简化后的客运路线端点、中途停靠点和里程如下图所示（括号里是简称，里程的单位是公里）</p>
+<p>1.2 限定条件</p>
+<p>（1）从XN 始发至BJ 的客车和从BJ 始发至XN 的客车均有两种车型：沃尔沃（限定乘客人数为48 人）；依维柯（限定乘客人数为21 人）。沃尔沃的速度为1.9 公里/分钟，依维柯的速度为1.4 公里/分钟。<br>（2）起始状态时，XN 拥有沃尔沃和依维柯客车分别为XNW和XNY 辆，BJ 拥有沃尔沃和依维柯客车分别为BJW和BJY 辆。<br>（3）从XN 至BJ 和从BJ 至XN 的沃尔沃，均为上午8:30 开始，每小时一班，最后一班为下午5:30；从XN 至BJ 和从BJ 至XN 的依维柯，均为上午8:00 开始，每20 分钟一班，最后一班为下午6:00。<br><a id="more"></a><br>（4）从XN 至BJ 的客车到达BJ 后，即成为从BJ 至XN 的客车，排在当时BJ 同类车型的队尾，再按（3）确定发车时间；从BJ 至XN 的客车到达XN 后的规则相同。<br>（5）只考虑途中只有乘客下车、没有乘客上车的情况。<br>（6）有乘客下车时，不论方向与车型，停车时间统一为2 分钟。<br>（7）乘坐从XN 至BJ 客车的乘客，其下车点为XY、XP、WG、CP、GZ 和BJ 的可能性分别为P_XBXY、P_XBXP、P_XBWG、P_XBCP、P_XBGZ 和P_XBBJ。这些可能性之和为1；乘坐从BJ 至XN 客车的乘客，其下车点为GZ、CP、WG、XP、XY 和XN 的可能性分别为P_BXGZ、P_BXCP、P_BXWG、P_BXXP、P_BXXY 和P_BXXN。这些可能性之和为1。</p>
+<p>2.1.3须仿真的客运活动</p>
+<p>（1）从上午7:30 开始到下午5:59 为止，每分钟分别在XN 和BJ 随机产生去往BJ 和XN 方向的新到达的乘客。每分钟到达的人数范围为0~PN 人。<br>（2）按照限定条件，随机产生新到达的乘客的目的地。<br>（3）乘客按到达的先后顺序上最近一辆该车客满则等候下一辆始发的客车。<br>（4）若客车到达中途停靠站时有乘客在此下车，按限定条件（5）和（6）处理，否则不停车继续行驶。</p>
+<p><a href="/uploads/2015/08/模拟客运站UML类图.png"><img src="/uploads/2015/08/模拟客运站UML类图.png" alt="模拟客运站UML类图"></a></p>
+<p><strong>使用PowerDesigner16反向工程导出的UML类图</strong></p>
+<p><strong>运行情况</strong><br>开发语言为java，开发环境为Eclipse</p>
+<h3 id="界面说明"><a href="#界面说明" class="headerlink" title="界面说明"></a>界面说明</h3><p><a href="/uploads/2015/08/模拟客运站界面.png"><img src="/uploads/2015/08/模拟客运站界面.png" alt="模拟客运站界面"></a></p>
+<p>高速公路中开往宝鸡和西安的两个车队显示在列表中，列表的每个条目含义如下：</p>
+<p>客车编号-路程-状态（行驶/停车）-乘客数量-当前所在地点</p>
+<p>图中红色框框中客车的状态表示编号是依维柯Y3，已经行驶了138.6km，正在行驶中，车中目前有五名乘客，刚停靠过的地点是CP。</p>
+<p>系统运行流畅稳定，没有报错。车站中的乘客生成数量也满足系统容量，不会出现等待乘客不断增加而超过车站服务速率的问题。最终会达到稳态。该程序完整的显示了车站、高速公路、汽车的各项指标，并且将高速公路中的行车状况绘制出来，可以直观的看到在途客车的行驶和停车情况。</p>
+<p>系统存在的问题是，现实世界中乘客到达服从泊松分布，而程序中则是均匀到达，有待改进。另外高速公路的绘制不够精确。程序中没有将停车时下去了多少名乘客显示出来，以及没有将汽车距离下一站的距离明确标注出来，只能从图中大概看到汽车是否到达站点。</p>
+<p>最后是下载地址，我分享到百度网盘了<a href="http://pan.baidu.com/s/1pKgB2Vh" target="_blank" rel="external">http://pan.baidu.com/s/1pKgB2Vh</a>，如果遇到什么问题可以新浪微博@噬魂brilliant 私信我哦！</p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GUI/" rel="tag">#GUI</a>
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+            <a href="/tags/UML/" rel="tag">#UML</a>
+          
+            <a href="/tags/面向对象/" rel="tag">#面向对象</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/10/wordpress使用markdown插件/" rel="next" title="wordpress使用markdown插件">
+                <i class="fa fa-chevron-left"></i> wordpress使用markdown插件
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/10/Java_160空格/" rel="prev" title="Java 160空格">
+                Java 160空格 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/08/10/Java模拟高速客运站/"
+     data-title="Java模拟高速客运站"
+     data-content=""
+     data-url="http://www.hoyoung.net/2015/08/10/Java模拟高速客运站/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/10/Java模拟高速客运站/"
+           data-title="Java模拟高速客运站" data-url="http://www.hoyoung.net/2015/08/10/Java模拟高速客运站/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/reindeer_72px_1207022_easyicon.net.png"
+               alt="hoyoung" />
+          <p class="site-author-name" itemprop="name">hoyoung</p>
+          <p class="site-description motion-element" itemprop="description">这货暂时还没有想好</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2304377421" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhaokidd.github.io/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> ZhaoY
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.mtxcxin.cn/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 星辰
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/liang16286" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> Liang
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#界面说明"><span class="nav-number">2.</span> <span class="nav-text">界面说明</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hoyoung</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hoyoung"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+</body>
+</html>

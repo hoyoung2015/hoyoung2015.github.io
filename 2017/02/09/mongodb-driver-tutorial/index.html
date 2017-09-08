@@ -1,0 +1,845 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,数据库,mongodb," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="Java MongoDB Driver使用下面的代码片段都来自 QuickTour.java。 英文原文：http://mongodb.github.io/mongo-java-driver/3.2/driver/getting-started/quick-tour/ 安装我使用了maven项目构建工具，引入依赖即可 &amp;lt;dependencies&amp;gt;    &amp;lt;dependency&amp;g">
+<meta name="keywords" content="Java,数据库,mongodb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongodb-driver使用">
+<meta property="og:url" content="http://www.hoyoung.net/2017/02/09/mongodb-driver-tutorial/index.html">
+<meta property="og:site_name" content="Hoyoung&#39;s Blog">
+<meta property="og:description" content="Java MongoDB Driver使用下面的代码片段都来自 QuickTour.java。 英文原文：http://mongodb.github.io/mongo-java-driver/3.2/driver/getting-started/quick-tour/ 安装我使用了maven项目构建工具，引入依赖即可 &amp;lt;dependencies&amp;gt;    &amp;lt;dependency&amp;g">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongodb-driver使用">
+<meta name="twitter:description" content="Java MongoDB Driver使用下面的代码片段都来自 QuickTour.java。 英文原文：http://mongodb.github.io/mongo-java-driver/3.2/driver/getting-started/quick-tour/ 安装我使用了maven项目构建工具，引入依赖即可 &amp;lt;dependencies&amp;gt;    &amp;lt;dependency&amp;g">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> mongodb-driver使用 | Hoyoung's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hoyoung's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">独具匠心</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mongodb-driver使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-09T16:38:42+08:00" content="2017-02-09">
+              2017-02-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/09/mongodb-driver-tutorial/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/09/mongodb-driver-tutorial/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Java-MongoDB-Driver使用"><a href="#Java-MongoDB-Driver使用" class="headerlink" title="Java MongoDB Driver使用"></a>Java MongoDB Driver使用</h1><p>下面的代码片段都来自 <a href="https://github.com/mongodb/mongo-java-driver/blob/master/driver/src/examples/tour/QuickTour.java" target="_blank" rel="external">QuickTour.java</a>。</p>
+<p>英文原文：<a href="http://mongodb.github.io/mongo-java-driver/3.2/driver/getting-started/quick-tour/" target="_blank" rel="external">http://mongodb.github.io/mongo-java-driver/3.2/driver/getting-started/quick-tour/</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>我使用了maven项目构建工具，引入依赖即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.mongodb&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;mongo-java-driver&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;3.2.2&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>建议引入mongo-java-driver，它包含了bson和mongodb-driver-core  </p>
+</blockquote>
+<a id="more"></a>
+<h2 id="创建连接"><a href="#创建连接" class="headerlink" title="创建连接"></a>创建连接</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 直接连接单机的MongoDB服务器</div><div class="line">MongoClient mongoClient = new MongoClient();</div><div class="line">// 或者</div><div class="line">MongoClient mongoClient = new MongoClient( &quot;localhost&quot; );</div><div class="line">// 或者</div><div class="line">MongoClient mongoClient = new MongoClient( &quot;localhost&quot; , 27017 );</div><div class="line"></div><div class="line">// 连接一个集群</div><div class="line">MongoClient mongoClient = new MongoClient(</div><div class="line">  Arrays.asList(new ServerAddress(&quot;localhost&quot;, 27017),</div><div class="line">                new ServerAddress(&quot;localhost&quot;, 27018),</div><div class="line">                new ServerAddress(&quot;localhost&quot;, 27019)));</div><div class="line">// 或者使用uri</div><div class="line">MongoClientURI connectionString = new MongoClientURI(&quot;mongodb://localhost:27017,localhost:27018,localhost:27019&quot;);</div><div class="line">MongoClient mongoClient = new MongoClient(connectionString);</div><div class="line">MongoDatabase database = mongoClient.getDatabase(&quot;mydb&quot;);</div></pre></td></tr></table></figure>
+<h3 id="MongoClient"><a href="#MongoClient" class="headerlink" title="MongoClient"></a>MongoClient</h3><p> <code>MongoClient</code>实例实际上代表了一个数据库连接池; 即使在多线程环境下也只需要一个 `MongoClient实例。</p>
+<h2 id="获取Collection"><a href="#获取Collection" class="headerlink" title="获取Collection"></a>获取Collection</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">MongoCollection&lt;Document&gt; collection = database.getCollection(&quot;test&quot;);</div></pre></td></tr></table></figure>
+<h2 id="插入Document"><a href="#插入Document" class="headerlink" title="插入Document"></a>插入Document</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;name&quot; : &quot;MongoDB&quot;,</div><div class="line">   &quot;type&quot; : &quot;database&quot;,</div><div class="line">   &quot;count&quot; : 1,</div><div class="line">   &quot;info&quot; : &#123;</div><div class="line">               x : 203,</div><div class="line">               y : 102</div><div class="line">             &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于上面的json对象，我们使用Document类来构建，你也可以使用这个类构建嵌套的Document。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Document doc = new Document(&quot;name&quot;, &quot;MongoDB&quot;)</div><div class="line">               .append(&quot;type&quot;, &quot;database&quot;)</div><div class="line">               .append(&quot;count&quot;, 1)</div><div class="line">               .append(&quot;info&quot;, new Document(&quot;x&quot;, 203).append(&quot;y&quot;, 102));</div></pre></td></tr></table></figure>
+<p>将Document插入到collection中</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">collection.insertOne(doc);</div></pre></td></tr></table></figure>
+<h2 id="多个Documents"><a href="#多个Documents" class="headerlink" title="多个Documents"></a>多个Documents</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">List&lt;Document&gt; documents = new ArrayList&lt;Document&gt;();</div><div class="line">for (int i = 0; i &lt; 100; i++) &#123;</div><div class="line">    documents.add(new Document(&quot;i&quot;, i));</div><div class="line">&#125;</div><div class="line">collection.insertMany(documents);</div></pre></td></tr></table></figure>
+<h2 id="获取Documents的数目"><a href="#获取Documents的数目" class="headerlink" title="获取Documents的数目"></a>获取Documents的数目</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">System.out.println(collection.count());</div></pre></td></tr></table></figure>
+<h2 id="集合查询"><a href="#集合查询" class="headerlink" title="集合查询"></a>集合查询</h2><p>我们可以在find()操作后调用first()方法获取第一个文档，这可以用来匹配唯一的文档，或者你就想获取第一个。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Document myDoc = collection.find().first();</div><div class="line">System.out.println(myDoc.toJson());</div></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&#123; &quot;_id&quot; : &#123; &quot;$oid&quot; : &quot;551582c558c7b4fbacf16735&quot; &#125;,</div><div class="line">  &quot;name&quot; : &quot;MongoDB&quot;, &quot;type&quot; : &quot;database&quot;, &quot;count&quot; : 1,</div><div class="line">  &quot;info&quot; : &#123; &quot;x&quot; : 203, &quot;y&quot; : 102 &#125; &#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>“_id”字段是mongodb自动加入的</p>
+</blockquote>
+<h3 id="查询集合所有的文档"><a href="#查询集合所有的文档" class="headerlink" title="查询集合所有的文档"></a>查询集合所有的文档</h3><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">MongoCursor&lt;Document&gt; cursor = collection.find().iterator();</div><div class="line">try &#123;</div><div class="line">    while (cursor.hasNext()) &#123;</div><div class="line">        System.out.println(cursor.next().toJson());</div><div class="line">    &#125;</div><div class="line">&#125; finally &#123;</div><div class="line">    cursor.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面的语法是可行的，但是不推荐，因为如果中途退出会造成游标没有关闭。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">for (Document cur : collection.find()) &#123;</div><div class="line">    System.out.println(cur.toJson());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="使用查询过滤获取唯一的文档"><a href="#使用查询过滤获取唯一的文档" class="headerlink" title="使用查询过滤获取唯一的文档"></a>使用查询过滤获取唯一的文档</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">import static com.mongodb.client.model.Filters.*;</div><div class="line"></div><div class="line">myDoc = collection.find(eq(&quot;i&quot;, 71)).first();</div><div class="line">System.out.println(myDoc.toJson());</div></pre></td></tr></table></figure>
+<p>这里使用了static关键词的的静态导包功能。</p>
+<blockquote>
+<p>使用 <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/filters/" target="_blank" rel="external"><code>Filters</code></a>, <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/sorts/" target="_blank" rel="external"><code>Sorts</code></a>, <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/projections/" target="_blank" rel="external"><code>Projections</code></a> 和 <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/updates/" target="_blank" rel="external"><code>Updates</code></a> 来创建查询条件</p>
+</blockquote>
+<h2 id="使用查询获取文档集合"><a href="#使用查询获取文档集合" class="headerlink" title="使用查询获取文档集合"></a>使用查询获取文档集合</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 获取子集</div><div class="line">Block&lt;Document&gt; printBlock = new Block&lt;Document&gt;() &#123;</div><div class="line">     @Override</div><div class="line">     public void apply(final Document document) &#123;</div><div class="line">         System.out.println(document.toJson());</div><div class="line">     &#125;</div><div class="line">&#125;;</div><div class="line">collection.find(gt(&quot;i&quot;, 50)).forEach(printBlock);</div></pre></td></tr></table></figure>
+<p>使用and可以限制更多的条件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">collection.find(and(gt(&quot;i&quot;, 50), lte(&quot;i&quot;, 100))).forEach(printBlock);</div></pre></td></tr></table></figure>
+<h2 id="文档排序"><a href="#文档排序" class="headerlink" title="文档排序"></a>文档排序</h2><p>我们可以使用 <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/sorts/" target="_blank" rel="external"><code>Sorts</code></a> 工具类对文档进行排序。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">myDoc = collection.find(Filters.exists(&quot;i&quot;)).sort(Sorts.descending(&quot;i&quot;)).first();</div><div class="line">System.out.println(myDoc.toJson());</div></pre></td></tr></table></figure>
+<h2 id="限制字段"><a href="#限制字段" class="headerlink" title="限制字段"></a>限制字段</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">myDoc = collection.find().projection(Projections.excludeId()).first();</div><div class="line">System.out.println(myDoc.toJson());</div></pre></td></tr></table></figure>
+<h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><p> <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/aggregation/" target="_blank" rel="external"><code>Aggregates</code></a> 工具类提供了聚合阶段创建工作。</p>
+<p>下面是个两阶段的例子，首先我们计算 <code>i * 10</code>。我们使用 <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/aggregation/#match" target="_blank" rel="external"><code>Aggregates.match</code></a> 找到所有 <code>i &gt; 0</code> 文档。 Then we reshape the document by using <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/aggregation/#project" target="_blank" rel="external"><code>Aggregates.project</code></a> in conjunction with the <a href="http://docs.mongodb.org/manual/reference/operator/aggregation/multiply/" target="_blank" rel="external"><code>$multiply</code></a> operator to calculate the “<code>ITimes10</code>” value:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">collection.aggregate(asList(</div><div class="line">        match(gt(&quot;i&quot;, 0)),</div><div class="line">        project(Document.parse(&quot;&#123;ITimes10: &#123;$multiply: [&apos;$i&apos;, 10]&#125;&#125;&quot;)))</div><div class="line">).forEach(printBlock);</div></pre></td></tr></table></figure>
+<p>For <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/aggregation/#group" target="_blank" rel="external"><code>$group</code></a> operations use the <a href="http://api.mongodb.org/java/3.2/?com/mongodb/client/model/Accumulators.html" target="_blank" rel="external"><code>Accumulators</code></a> helper for any <a href="http://docs.mongodb.org/manual/reference/operator/aggregation/group/#accumulator-operator" target="_blank" rel="external">accumulator operations</a>. Below we sum up all the values of <code>i</code> by using the <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/aggregation/#group" target="_blank" rel="external"><code>Aggregates.group</code></a> helper in conjunction with the <a href="http://api.mongodb.org/java/3.2/?com/mongodb/client/model/Accumulators#sum-java.lang.String-TExpression-.html" target="_blank" rel="external"><code>Accumulators.sum</code></a>helper:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">myDoc = collection.aggregate(singletonList(group(null, sum(&quot;total&quot;, &quot;$i&quot;)))).first();</div><div class="line">System.out.println(myDoc.toJson());</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Currently, there are no helpers for <a href="http://docs.mongodb.org/manual/meta/aggregation-quick-reference/#aggregation-expressions" target="_blank" rel="external">aggregation expressions</a>. Use the <a href="http://mongodb.github.io/mongo-java-driver/3.2/bson/extended-json/" target="_blank" rel="external"><code>Document.parse()</code></a> helper to quickly build aggregation expressions from extended JSON.</p>
+</blockquote>
+<h2 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h2><p>MongoDB支持很多 <a href="http://docs.mongodb.org/manual/reference/operator/update-field/" target="_blank" rel="external">更新操作</a> 。</p>
+<p>我们使用 <a href="http://mongodb.github.io/mongo-java-driver/3.2/builders/updates/#set" target="_blank" rel="external"><code>Updates.set</code></a> 来更新满足i==10第一个文档 ，把i更新为110：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">collection.updateOne(eq(&quot;i&quot;, 10), set(&quot;i&quot;, 110));</div></pre></td></tr></table></figure>
+<p>使用 <a href="http://api.mongodb.org/java/3.2/?com/mongodb/async/client/MongoCollection.html#updateMany-org.bson.conversions.Bson-org.bson.conversions.Bson-" target="_blank" rel="external"><code>updateMany</code></a> 来更新所有满足条件的文档。我们使用[<code>Updates.inc</code>把小于100的i增加100：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">UpdateResult updateResult = collection.updateMany(lt(&quot;i&quot;, 100), inc(&quot;i&quot;, 100));</div><div class="line">System.out.println(updateResult.getModifiedCount());</div></pre></td></tr></table></figure>
+<p><a href="http://api.mongodb.org/java/3.2/?com/mongodb/client/result/UpdateResult.html" target="_blank" rel="external"><code>UpdateResult</code></a> 提供了操作完成后修改的数量。</p>
+<h2 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">collection.deleteOne(eq(&quot;i&quot;, 110));</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">DeleteResult deleteResult = collection.deleteMany(gte(&quot;i&quot;, 100));</div><div class="line">System.out.println(deleteResult.getDeletedCount());</div></pre></td></tr></table></figure>
+<h2 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h2><p>These new commands allow for the execution of bulk insert/update/delete operations. There are two types of bulk operations:</p>
+<ol>
+<li>有序的批量操作，顺序执行所有操作，一旦出错就停止。</li>
+<li>无序批量操作，执行所有的操作，无序的批量操作并不能保证执行顺序。</li>
+</ol>
+<p>让我们看两个有序和无序批量操作的例子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">// 2. 有序批量操作——顺序有保证</div><div class="line">collection.bulkWrite(</div><div class="line">  Arrays.asList(new InsertOneModel&lt;&gt;(new Document(&quot;_id&quot;, 4)),</div><div class="line">                new InsertOneModel&lt;&gt;(new Document(&quot;_id&quot;, 5)),</div><div class="line">                new InsertOneModel&lt;&gt;(new Document(&quot;_id&quot;, 6)),</div><div class="line">                new UpdateOneModel&lt;&gt;(new Document(&quot;_id&quot;, 1),</div><div class="line">                                     new Document(&quot;$set&quot;, new Document(&quot;x&quot;, 2))),</div><div class="line">                new DeleteOneModel&lt;&gt;(new Document(&quot;_id&quot;, 2)),</div><div class="line">                new ReplaceOneModel&lt;&gt;(new Document(&quot;_id&quot;, 3),</div><div class="line">                                      new Document(&quot;_id&quot;, 3).append(&quot;x&quot;, 4))));</div><div class="line"></div><div class="line"></div><div class="line"> // 2. 无序批量操作——不保证执行顺序</div><div class="line">collection.bulkWrite(</div><div class="line">  Arrays.asList(new InsertOneModel&lt;&gt;(new Document(&quot;_id&quot;, 4)),</div><div class="line">                new InsertOneModel&lt;&gt;(new Document(&quot;_id&quot;, 5)),</div><div class="line">                new InsertOneModel&lt;&gt;(new Document(&quot;_id&quot;, 6)),</div><div class="line">                new UpdateOneModel&lt;&gt;(new Document(&quot;_id&quot;, 1),</div><div class="line">                                     new Document(&quot;$set&quot;, new Document(&quot;x&quot;, 2))),</div><div class="line">                new DeleteOneModel&lt;&gt;(new Document(&quot;_id&quot;, 2)),</div><div class="line">                new ReplaceOneModel&lt;&gt;(new Document(&quot;_id&quot;, 3),</div><div class="line">                                      new Document(&quot;_id&quot;, 3).append(&quot;x&quot;, 4))),</div><div class="line">  new BulkWriteOptions().ordered(false));</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+            <a href="/tags/mongodb/" rel="tag">#mongodb</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/16/numpy-tutorial/" rel="next" title="numpy中文教程">
+                <i class="fa fa-chevron-left"></i> numpy中文教程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/10/squid3-proxy/" rel="prev" title="Ubuntu下搭建高匿HTTP代理">
+                Ubuntu下搭建高匿HTTP代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/09/mongodb-driver-tutorial/"
+     data-title="mongodb-driver使用"
+     data-content=""
+     data-url="http://www.hoyoung.net/2017/02/09/mongodb-driver-tutorial/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/09/mongodb-driver-tutorial/"
+           data-title="mongodb-driver使用" data-url="http://www.hoyoung.net/2017/02/09/mongodb-driver-tutorial/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/reindeer_72px_1207022_easyicon.net.png"
+               alt="hoyoung" />
+          <p class="site-author-name" itemprop="name">hoyoung</p>
+          <p class="site-description motion-element" itemprop="description">这货暂时还没有想好</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2304377421" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhaokidd.github.io/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> ZhaoY
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.mtxcxin.cn/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 星辰
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/liang16286" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> Liang
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-MongoDB-Driver使用"><span class="nav-number">1.</span> <span class="nav-text">Java MongoDB Driver使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建连接"><span class="nav-number">1.2.</span> <span class="nav-text">创建连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoClient"><span class="nav-number">1.2.1.</span> <span class="nav-text">MongoClient</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取Collection"><span class="nav-number">1.3.</span> <span class="nav-text">获取Collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入Document"><span class="nav-number">1.4.</span> <span class="nav-text">插入Document</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多个Documents"><span class="nav-number">1.5.</span> <span class="nav-text">多个Documents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取Documents的数目"><span class="nav-number">1.6.</span> <span class="nav-text">获取Documents的数目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集合查询"><span class="nav-number">1.7.</span> <span class="nav-text">集合查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询集合所有的文档"><span class="nav-number">1.7.1.</span> <span class="nav-text">查询集合所有的文档</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用查询过滤获取唯一的文档"><span class="nav-number">1.8.</span> <span class="nav-text">使用查询过滤获取唯一的文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用查询获取文档集合"><span class="nav-number">1.9.</span> <span class="nav-text">使用查询获取文档集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档排序"><span class="nav-number">1.10.</span> <span class="nav-text">文档排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限制字段"><span class="nav-number">1.11.</span> <span class="nav-text">限制字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合"><span class="nav-number">1.12.</span> <span class="nav-text">聚合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新文档"><span class="nav-number">1.13.</span> <span class="nav-text">更新文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除文档"><span class="nav-number">1.14.</span> <span class="nav-text">删除文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#批量操作"><span class="nav-number">1.15.</span> <span class="nav-text">批量操作</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hoyoung</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hoyoung"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+</body>
+</html>

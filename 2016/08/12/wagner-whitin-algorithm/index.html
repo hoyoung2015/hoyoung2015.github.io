@@ -1,0 +1,777 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="算法,动态规划," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="记得第一次接触动态规划算法不是计算机的算法书籍，而是运筹学。当时对于什么无后效性啊，前一个状态的最优不影响后一个状态啊什么的是一脸懵逼，做题时也只会照公式套。 问题描述额，式子有点多，模型参数太多，我就上图片版的问题描述吧。一直觉得这些搞数学的总是把简单问题弄的那么抽象，刚看到题目的时候一头雾水，绕来绕去。">
+<meta name="keywords" content="算法,动态规划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划算法wagner-whitin最优采购问题">
+<meta property="og:url" content="http://www.hoyoung.net/2016/08/12/wagner-whitin-algorithm/index.html">
+<meta property="og:site_name" content="Hoyoung&#39;s Blog">
+<meta property="og:description" content="记得第一次接触动态规划算法不是计算机的算法书籍，而是运筹学。当时对于什么无后效性啊，前一个状态的最优不影响后一个状态啊什么的是一脸懵逼，做题时也只会照公式套。 问题描述额，式子有点多，模型参数太多，我就上图片版的问题描述吧。一直觉得这些搞数学的总是把简单问题弄的那么抽象，刚看到题目的时候一头雾水，绕来绕去。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.hoyoung.net/uploads/2016/08/problem.JPG">
+<meta property="og:image" content="http://www.hoyoung.net/uploads/2016/08/0812.png">
+<meta property="og:image" content="http://www.hoyoung.net/uploads/2016/08/13.png">
+<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动态规划算法wagner-whitin最优采购问题">
+<meta name="twitter:description" content="记得第一次接触动态规划算法不是计算机的算法书籍，而是运筹学。当时对于什么无后效性啊，前一个状态的最优不影响后一个状态啊什么的是一脸懵逼，做题时也只会照公式套。 问题描述额，式子有点多，模型参数太多，我就上图片版的问题描述吧。一直觉得这些搞数学的总是把简单问题弄的那么抽象，刚看到题目的时候一头雾水，绕来绕去。">
+<meta name="twitter:image" content="http://www.hoyoung.net/uploads/2016/08/problem.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 动态规划算法wagner-whitin最优采购问题 | Hoyoung's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hoyoung's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">独具匠心</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                动态规划算法wagner-whitin最优采购问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-12T16:21:17+08:00" content="2016-08-12">
+              2016-08-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/12/wagner-whitin-algorithm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/12/wagner-whitin-algorithm/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记得第一次接触动态规划算法不是计算机的算法书籍，而是运筹学。当时对于什么无后效性啊，前一个状态的最优不影响后一个状态啊什么的是一脸懵逼，做题时也只会照公式套。</p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>额，式子有点多，模型参数太多，我就上图片版的问题描述吧。一直觉得这些搞数学的总是把简单问题弄的那么抽象，刚看到题目的时候一头雾水，绕来绕去。<br><a id="more"></a><br><a href="/uploads/2016/08/problem.JPG"><img src="/uploads/2016/08/problem.JPG" alt="problem"></a></p>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><h3 id="1-找最优值"><a href="#1-找最优值" class="headerlink" title="1.找最优值"></a>1.找最优值</h3><p>这里我也不讨论什么状态转移方程这对比较抽象的东西，对于动态规划问题，解决的套路都是用一个二维数据保存中间的最优值，因为无后效性或者说前一个状态的最优不影响后面的最优来向后推进。拿本体来讲，比如我就打算在第4期对4-5期一次全部采购，那对于前5期来讲，我不管你前3期怎么采购，我只要前3期的最优值，那我就可以得到在这个方案下前5期的最优值。采用类似于背包问题逐渐增大背包容量的做法，从0开始逐渐增大采购总期数。<br><a href="/uploads/2016/08//0812.png"><img src="/uploads/2016/08/0812.png" alt="problem"></a><br>我用f(m&gt;n)，m&lt;=n，表示在总期数只有n期的时候，采用一次性购买m&gt;n期方案时这n期的最低费用。比如:</p>
+<ul>
+<li>只有1期的时候，那最优费用就是f(1&gt;1)。只有一种采购方案</li>
+<li>2期的时候，可以f(1&gt;2)一次采购完就完事儿了。也可以f(1&gt;1)+f(2&gt;2)采购两次，这时候可能还看不出来啥。</li>
+<li>到了第三期，可以f(1&gt;3)一次性采购，也可以f(2&gt;3)+f(1)采购两次，也可以f(3&gt;3)+前2期的最优值，问题来了，我怎么知道前2期的最优值呢？观察第二列，其实f(1&gt;2)和f(2&gt;2)就记录了前两期不同采购方案的最优值，正如前面所说我不关心前面是怎么采购的，只要是最优的就行。所以选出f(1&gt;2)和f(2&gt;2)中的较小者不就能得到当前状态的最优值了嘛。这样当算到最后一期，最后一列的最小值就是最优值了</li>
+</ul>
+<h3 id="2-找最优方案"><a href="#2-找最优方案" class="headerlink" title="2.找最优方案"></a>2.找最优方案</h3><p>叙述太抽象，先上一个计算过程中产生的记录最优中间结果的数组。<br><a href="/uploads/2016/08//13.png"><img src="/uploads/2016/08/13.png" alt="problem"></a><br>这个计算样例有10期，所以是10x10的数组（后面看到在代码中定义的是11x11的数组是为了方便的处理下标，实际不参与计算），从最后一列开始找最小值，找到倒数第二行，这个方框里的数据代表什么呢？如果前面的看明白了就知道它代表的是f(9&gt;10)，即在第9期的时候采购第9和第10期的，然后跳过第9期，在第8列找第8期的最优值，找到了倒数第4行，解释和前面的一样。像这样从后往前推就可以找到最优的采购方案了。</p>
+<h2 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">package net.hoyoung;</div><div class="line">public class Solution &#123;</div><div class="line">	// 周期数</div><div class="line">	static final int N = 10;</div><div class="line">	// 每期的需求量</div><div class="line">	static final int[] d = new int[N];</div><div class="line">	// 每期的固定费用</div><div class="line">	static final double[] k = new double[N];</div><div class="line">	// 每期的单位订货费用</div><div class="line">	static final double[] c = new double[N];</div><div class="line">	// 每期的单位存储费用</div><div class="line">	static final double[] h = new double[N];</div><div class="line">	static &#123;</div><div class="line">		for (int i = 0; i &lt; N; i++) &#123;</div><div class="line">			d[i] = (int) (Math.round(Math.random() * 100) + 10);</div><div class="line">			c[i] = Math.random() * 80 + 10;</div><div class="line">			k[i] = Math.random() * 40 + 10;</div><div class="line">			h[i] = Math.random() + 0.1;</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;需求量:&quot;);</div><div class="line">		for (int i = 0; i &lt; N; i++) &#123;</div><div class="line">			if (i &gt; 0) &#123;</div><div class="line">				System.out.print(&quot;\t&quot;);</div><div class="line">			&#125;</div><div class="line">			System.out.print(d[i]);</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;\n订货费用:&quot;);</div><div class="line">		for (int i = 0; i &lt; N; i++) &#123;</div><div class="line">			if (i &gt; 0) &#123;</div><div class="line">				System.out.print(&quot;\t&quot;);</div><div class="line">			&#125;</div><div class="line">			System.out.print(c[i]);</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;\n固定费用:&quot;);</div><div class="line">		for (int i = 0; i &lt; N; i++) &#123;</div><div class="line">			if (i &gt; 0) &#123;</div><div class="line">				System.out.print(&quot;\t&quot;);</div><div class="line">			&#125;</div><div class="line">			System.out.print(k[i]);</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;\n存储费用:&quot;);</div><div class="line">		for (int i = 0; i &lt; N; i++) &#123;</div><div class="line">			if (i &gt; 0) &#123;</div><div class="line">				System.out.print(&quot;\t&quot;);</div><div class="line">			&#125;</div><div class="line">			System.out.print(h[i]);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	/*上面是构造随机数据，忽略即可*/ </div><div class="line">	// 存储低i&gt;j期的最优值</div><div class="line">	double[][] cost = new double[N + 1][N + 1];</div><div class="line">	// 记录采购计划</div><div class="line">	int[] orders = new int[N];</div><div class="line">	public void solve() &#123;</div><div class="line">		for (int i = 1; i &lt;= N; i++) &#123;</div><div class="line">			/**</div><div class="line">			 * 查找前i-1期的最优值</div><div class="line">			 */</div><div class="line">			double tMinCost = 0;</div><div class="line">			if (i &gt; 1) &#123;</div><div class="line">				tMinCost = Double.MAX_VALUE;</div><div class="line">				for (int j = 1; j &lt;= i - 1; j++) &#123;</div><div class="line">					if (cost[j][i - 1] &lt; tMinCost) &#123;</div><div class="line">						tMinCost = cost[j][i - 1];</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			for (int j = i; j &lt;= N; j++) &#123;</div><div class="line">				/**</div><div class="line">				 * 计算i&gt;j期间费用</div><div class="line">				 */</div><div class="line">				double sum = 0;// i&gt;j区间的需求量</div><div class="line">				double csum = 0;// 这次总的订货费用</div><div class="line">				for (int k = i; k &lt;= j; k++) &#123;</div><div class="line">					sum += d[k - 1];</div><div class="line">					csum += c[k - 1] * d[k - 1];</div><div class="line">				&#125;</div><div class="line">				double hsum = 0;// 这次总的存储费用</div><div class="line">				for (int k = i; k &lt;= j; k++) &#123;</div><div class="line">					hsum += h[k - 1] * (sum - d[k - 1]);</div><div class="line">					sum -= d[k - 1];</div><div class="line">				&#125;</div><div class="line">				// 订货费+存储费+固定费+前i-1期的最优费用</div><div class="line">				cost[i][j] = csum + hsum + k[i - 1] + tMinCost;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.println(&quot;\n中间结果数组:&quot;);</div><div class="line">		this.printCost();</div><div class="line">		/**</div><div class="line">		 * 从后往前推出最优采购计划</div><div class="line">		 */</div><div class="line">		int i = N;</div><div class="line">		do &#123;</div><div class="line">			double min = Double.MAX_VALUE;</div><div class="line">			int minLine = 0;</div><div class="line">			for (int j = 1; j &lt;= i; j++) &#123;</div><div class="line">				if (min &gt; cost[j][i]) &#123;</div><div class="line">					min = cost[j][i];</div><div class="line">					minLine = j;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			if(i==N)&#123;</div><div class="line">				System.out.println(&quot;最低费用:&quot;+min);</div><div class="line">			&#125;</div><div class="line">			// 往前推</div><div class="line">			int sum = 0;// 订购量</div><div class="line">			// 批量采购的情况</div><div class="line">			while (cost[minLine][i--] &gt; 0) &#123;</div><div class="line">				sum += d[i];</div><div class="line">				orders[i] = 0;</div><div class="line">			&#125;</div><div class="line">			i += 1;</div><div class="line">			orders[i] = sum;</div><div class="line">			</div><div class="line">		&#125; while (i &gt; 0);</div><div class="line">		System.out.println(&quot;最优采购计划:&quot;);</div><div class="line">		this.printOrders();</div><div class="line">	&#125;</div><div class="line">	public void printCost() &#123;</div><div class="line">		for (int i = 0; i &lt; cost.length; i++) &#123;</div><div class="line">			for (int j = 0; j &lt; cost[i].length; j++) &#123;</div><div class="line">				if (j &gt; 0) &#123;</div><div class="line">					System.out.print(&quot;\t&quot;);</div><div class="line">				&#125;</div><div class="line">				System.out.print(cost[i][j]);</div><div class="line">			&#125;</div><div class="line">			System.out.println();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	public void printOrders()&#123;</div><div class="line">		for (int i = 0; i &lt; orders.length; i++) &#123;</div><div class="line">			if(i&gt;0)&#123;</div><div class="line">				System.out.print(&quot;\t&quot;);</div><div class="line">			&#125;</div><div class="line">			System.out.print(orders[i]);</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		new Solution().solve();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag">#算法</a>
+          
+            <a href="/tags/动态规划/" rel="tag">#动态规划</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/05/Ubuntu14.04搭建http正向代理/" rel="next" title="Ubuntu14.04搭建http正向代理">
+                <i class="fa fa-chevron-left"></i> Ubuntu14.04搭建http正向代理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/16/numpy-tutorial/" rel="prev" title="numpy中文教程">
+                numpy中文教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/08/12/wagner-whitin-algorithm/"
+     data-title="动态规划算法wagner-whitin最优采购问题"
+     data-content=""
+     data-url="http://www.hoyoung.net/2016/08/12/wagner-whitin-algorithm/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/12/wagner-whitin-algorithm/"
+           data-title="动态规划算法wagner-whitin最优采购问题" data-url="http://www.hoyoung.net/2016/08/12/wagner-whitin-algorithm/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/reindeer_72px_1207022_easyicon.net.png"
+               alt="hoyoung" />
+          <p class="site-author-name" itemprop="name">hoyoung</p>
+          <p class="site-description motion-element" itemprop="description">这货暂时还没有想好</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2304377421" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhaokidd.github.io/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> ZhaoY
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.mtxcxin.cn/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 星辰
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/liang16286" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> Liang
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题分析"><span class="nav-number">2.</span> <span class="nav-text">问题分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-找最优值"><span class="nav-number">2.1.</span> <span class="nav-text">1.找最优值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-找最优方案"><span class="nav-number">2.2.</span> <span class="nav-text">2.找最优方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现代码"><span class="nav-number">3.</span> <span class="nav-text">实现代码</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hoyoung</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hoyoung"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+</body>
+</html>

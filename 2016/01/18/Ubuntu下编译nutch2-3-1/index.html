@@ -1,0 +1,820 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nutch,爬虫," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="前言nutch是干什么的想必能来看这篇文章的都了解，就不瞎扯了哈哈！nutch目前分为两个大版本，1.x和2.x，1.x版本已经相当成熟并且可成熟的应用与商业化。2.x版本的官方已经不提供编译好的二进制包，需要我们将源码下载下来自己编译。2.x与1.x的主要区别是存储方式不同，1.x将爬取的信息存储在hadoop的hdfs中，不了解什么是hdfs的可以取看看hadoop的文件系统，实质上就是以文">
+<meta name="keywords" content="Nutch,爬虫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu下编译nutch2.3.1">
+<meta property="og:url" content="http://www.hoyoung.net/2016/01/18/Ubuntu下编译nutch2-3-1/index.html">
+<meta property="og:site_name" content="Hoyoung&#39;s Blog">
+<meta property="og:description" content="前言nutch是干什么的想必能来看这篇文章的都了解，就不瞎扯了哈哈！nutch目前分为两个大版本，1.x和2.x，1.x版本已经相当成熟并且可成熟的应用与商业化。2.x版本的官方已经不提供编译好的二进制包，需要我们将源码下载下来自己编译。2.x与1.x的主要区别是存储方式不同，1.x将爬取的信息存储在hadoop的hdfs中，不了解什么是hdfs的可以取看看hadoop的文件系统，实质上就是以文">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.hoyoung.net/uploads/2016/03/nutch_logo.jpg">
+<meta property="og:image" content="http://www.hoyoung.net/uploads/2016/03/nutchweb.png">
+<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu下编译nutch2.3.1">
+<meta name="twitter:description" content="前言nutch是干什么的想必能来看这篇文章的都了解，就不瞎扯了哈哈！nutch目前分为两个大版本，1.x和2.x，1.x版本已经相当成熟并且可成熟的应用与商业化。2.x版本的官方已经不提供编译好的二进制包，需要我们将源码下载下来自己编译。2.x与1.x的主要区别是存储方式不同，1.x将爬取的信息存储在hadoop的hdfs中，不了解什么是hdfs的可以取看看hadoop的文件系统，实质上就是以文">
+<meta name="twitter:image" content="http://www.hoyoung.net/uploads/2016/03/nutch_logo.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Ubuntu下编译nutch2.3.1 | Hoyoung's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hoyoung's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">独具匠心</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Ubuntu下编译nutch2.3.1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-18T12:04:03+08:00" content="2016-01-18">
+              2016-01-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/18/Ubuntu下编译nutch2-3-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/18/Ubuntu下编译nutch2-3-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="/uploads/2016/03/nutch_logo.jpg"><img src="/uploads/2016/03/nutch_logo.jpg" alt="nutch_logo"></a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>nutch是干什么的想必能来看这篇文章的都了解，就不瞎扯了哈哈！nutch目前分为两个大版本，1.x和2.x，1.x版本已经相当成熟并且可成熟的应用与商业化。2.x版本的官方已经不提供编译好的二进制包，需要我们将源码下载下来自己编译。2.x与1.x的主要区别是存储方式不同，1.x将爬取的信息存储在hadoop的hdfs中，不了解什么是hdfs的可以取看看hadoop的文件系统，实质上就是以文件的方式存储。而2.x将存储分离出来，采用gora这种类似于hibernate，mybatis等持久层框架来管理。gora主要面向于NoSql数据库的映射框架，比如mongodb以及基于hadoop的hbase，同时也支持关系型数据库，比如mysql。<br><a id="more"></a><br>本次编译也是作为学习，所以是最基础的例子，学习就是个循序渐进的过程嘛！本人遵从官方的例子，但是身处天朝，人家歪果仁跑的贼顺溜的例子在我们这里也会出现莫名奇妙的问题。但是都被解决了。</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
+<li>操作系统：LinuxMint 17.2（除了界面不同，它就是Ubuntu 14.04）</li>
+<li>JDK（我一般称作鸡蛋壳）1.7，此次编译的nutch版本已经不支持JDK 1.6</li>
+<li>ant构建工具</li>
+</ul>
+<h1 id="版本的选取"><a href="#版本的选取" class="headerlink" title="版本的选取"></a>版本的选取</h1><p>我直接编译nutch的最新版，即nutch2.3.1，我们打开Apache nutch的首页<a href="http://nutch.apache.org/" target="_blank" rel="external">http://nutch.apache.org/</a><a href="/uploads/2016/03/nutchweb.png"><img src="/uploads/2016/03/nutchweb.png" alt="nutch官网"></a><br>如果了解nutch你会发现hadoop正是诞生于nutch，单机版的nutch可以独立运行，官网上给出的hadoop的要求是分布式版本的nutch的运行环境，本文只讲述单机版的编译，作为学习的话整个分布式的没必要。虽然不需要分布式的，但是我们仍然需要hadoop，因为hbase的运行依赖于hadoop。2.x的nutch把存储部分分离出来，那我们就先用hbase作为存储。我们就选取hadoop1.2.1和hbase0.98.8。我们在这里可以下载到apache的所有发布软件<br><a href="http://archive.apache.org/dist/。我们需要下载下面这些软件包：" target="_blank" rel="external">http://archive.apache.org/dist/。我们需要下载下面这些软件包：</a><br><a href="http://archive.apache.org/dist/hadoop/core/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/hadoop/core/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz</a><br><a href="http://archive.apache.org/dist/hbase/0.98.16/hbase-0.98.16-hadoop2-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/hbase/0.98.16/hbase-0.98.16-hadoop2-bin.tar.gz</a><br><a href="http://archive.apache.org/dist/nutch/2.3.1/apache-nutch-2.3.1-src.tar.gz。" target="_blank" rel="external">http://archive.apache.org/dist/nutch/2.3.1/apache-nutch-2.3.1-src.tar.gz。</a><br>如果缺少ant工具，还需要下载ant<br><a href="http://archive.apache.org/dist/ant/binaries/binaries/apache-ant-1.9.4-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/ant/binaries/binaries/apache-ant-1.9.4-bin.tar.gz</a><br>ant的安装也非常的简单，我也不赘述了。</p>
+<h1 id="hadoop和hbase的安装"><a href="#hadoop和hbase的安装" class="headerlink" title="hadoop和hbase的安装"></a>hadoop和hbase的安装</h1><p>网上关于这两部分的安装教程多不胜数，我就不再赘述，这里推荐一个<a href="http://www.cnblogs.com/nexiyi/p/hbase_intro_94.html" target="_blank" rel="external">http://www.cnblogs.com/nexiyi/p/hbase_intro_94.html</a></p>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><p>先启动hadoop<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/hadoop-1.2.1# ./bin/start-all.sh </div><div class="line">Warning: $HADOOP_HOME is deprecated.</div><div class="line"></div><div class="line">starting namenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-namenode-ubuntu.out</div><div class="line">localhost: starting datanode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-datanode-ubuntu.out</div><div class="line">localhost: starting secondarynamenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-secondarynamenode-ubuntu.out</div><div class="line">starting jobtracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-jobtracker-ubuntu.out</div><div class="line">localhost: starting tasktracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-tasktracker-ubuntu.out</div></pre></td></tr></table></figure></p>
+<p>使用jps命令查看启动情况<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/hadoop-1.2.1# jps</div><div class="line">2131 TaskTracker</div><div class="line">1589 NameNode</div><div class="line">1891 SecondaryNameNode</div><div class="line">1738 DataNode</div><div class="line">1976 JobTracker</div><div class="line">2183 Jps</div></pre></td></tr></table></figure></p>
+<p>hadoop的五个进程都已经启动了<br>然后启动hbase<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/hadoop-1.2.1# cd ../hbase-0.98.8-hadoop1/</div><div class="line">root@ubuntu:/opt/hbase-0.98.8-hadoop1# ./bin/start-hbase.sh </div><div class="line">starting master, logging to /opt/hbase-0.98.8-hadoop1/bin/../logs/hbase-root-master-ubuntu.out</div><div class="line">root@ubuntu:/opt/hbase-0.98.8-hadoop1# jps</div><div class="line">2131 TaskTracker</div><div class="line">2398 HMaster</div><div class="line">1589 NameNode</div><div class="line">1891 SecondaryNameNode</div><div class="line">1738 DataNode</div><div class="line">1976 JobTracker</div><div class="line">2513 Jps</div></pre></td></tr></table></figure></p>
+<p>可以看到hbase的进程HMaster已经启动了</p>
+<p>接下来进入编译前的配置<br>解压apache-nutch-2.3.1-src.tar.gz到指定目录下，我解压到了/opt<br>我的目录结构是下面这样：<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt# ls</div><div class="line">ant-1.9.4     hbase-0.98.8-hadoop1  jdk1.7.0_21</div><div class="line">hadoop-1.2.1  hive-0.12.0           nutch-2.3.1</div></pre></td></tr></table></figure></p>
+<p>修改nutch-site.xml文件，设置HBaseStore<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>storage.data.store.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.gora.hbase.store.HBaseStore<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Default class for storing data<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>修改ivy/ivy.xml，将此段代码的注释去掉<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span> <span class="attr">org</span>=<span class="string">"org.apache.gora"</span> <span class="attr">name</span>=<span class="string">"gora-hbase"</span> <span class="attr">rev</span>=<span class="string">"0.6.1"</span> <span class="attr">conf</span>=<span class="string">"*-&gt;default"</span> /&gt;</span></div></pre></td></tr></table></figure></p>
+<p>修改ivy/ivysettings.xml，这个很关键，nutch依赖的很多jar包来自于maven仓库，而默认设置的maven仓库在我们国内访问非常非常慢，甚至会访问不到。我们需要将默认的仓库改为开源中国的镜像地址<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"repo.maven.org"</span></span></div><div class="line"><span class="tag">    <span class="attr">value</span>=<span class="string">"http://maven.oschina.net/content/groups/public/"</span></span></div><div class="line"><span class="tag">    <span class="attr">override</span>=<span class="string">"false"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
+<p>OK,我们来执行编译<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">ant runtime</div></pre></td></tr></table></figure></p>
+<p>编译完成后会在当前目录下生成一个runtime目录，里面编译好的程序就放置在里面。<br>但是编译却不是如此的顺利，我们发现编译过程会一直卡在那不动。根据以往的经验，这一定是在做远程访问但是又访问不到，于是查看ivysettings.xml发现，除了maven仓库，还有一个仓库叫做oss.sonatype.org的仓库。我一开始的想法是觉得，反正已经有了oschina的库了，那把这个多余的仓库去掉吧。但是去掉之后虽然不在编译过程不会卡在那不动了，但是有的包它配置的来源是oss.sonatype.org，可是oss.sonatype.org对应的仓库又访问不到，我不禁暗想，既然是一样的仓库，那我把它的地址也改成oschina的，于是做了下面的修改：<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"oss.sonatype.org"</span> </span></div><div class="line"><span class="tag">    <span class="attr">value</span>=<span class="string">"http://maven.oschina.net/content/groups/public/"</span> </span></div><div class="line"><span class="tag">    <span class="attr">override</span>=<span class="string">"false"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
+<p>再次去执行编译，经过8分钟后，终于看到了success，编译成功了，哈哈！<br>我们进入到runtime目录，这里有两个目录，deploy和local，其中deploy是运行在hadoop上的分布式的，local是单机版的，我们只需单机版就行了，进入local目录。<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/nutch-2.3.1# cd runtime/</div><div class="line">root@ubuntu:/opt/nutch-2.3.1/runtime# ls</div><div class="line">deploy  local</div></pre></td></tr></table></figure></p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>兴奋的编译成功之后，还要进行一下测试呀，毕竟我们编译nutch就是为了要用啊。我们抓取一个网站试试。在当前一个目录新建一个叫urls的目录，在里面新建一个文本文件作为待抓取的URL种子文件。<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/nutch-2.3.1/runtime/local# ls urls/</div><div class="line">seed.txt</div><div class="line">root@ubuntu:/opt/nutch-2.3.1/runtime/local# cat urls/seed.txt </div><div class="line">http://em.xidian.edu.cn/</div></pre></td></tr></table></figure></p>
+<p>我抓取的是我所在学院的官网。<br>有了种子文件之后我们还需要制定url过滤规则，这个很重要，nutch在抓取的过程中会解析页面中的链接然后加入到待爬取的任务中，如果没有过滤规则，那么这个爬虫将顺着url抓取整个互联网的web页面。<br>我们编辑conf/regex-urlfilter.txt文件，这里面可以使用正则表达式来过滤制定规则的url，我们修改最后一行：<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"># accept anything else</div><div class="line">+em.xidian.edu.cn</div></pre></td></tr></table></figure></p>
+<p>+号表示接受，这个语句表示我们只要包含em.xidian.edu.cn的链接。<br>OK，开始抓取，很兴奋吧！我也忘记了从哪个版本开始，nutch将crawl命令从nutch中分离出来。如果我们不知道命令格式，可以输入不带任何参数的命令看看：<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/nutch-2.3.1/runtime/local# ./bin/crawl </div><div class="line">Unknown # of arguments 0</div><div class="line">Usage: crawl <span class="tag">&lt;<span class="name">seedDir</span>&gt;</span> <span class="tag">&lt;<span class="name">crawlID</span>&gt;</span> [<span class="tag">&lt;<span class="name">solrUrl</span>&gt;</span>] <span class="tag">&lt;<span class="name">numberOfRounds</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>参数解释：</p>
+<ul>
+<li>seedDir 是url种子所在的目录，我们这里是刚刚创建的含有seed.txt的urls目录</li>
+<li>crawlID 为本次抓取取个名称，这个名称会成为hbase的仓库名</li>
+<li>solrUrl 可选参数，如果我们安装了solr，我们提供solr的地址，nutch会将解析结果索引在solr中，这个以后再讲</li>
+<li>numberOfRounds 这个指定抓取深度，指的是url的深度</li>
+</ul>
+<p>我们执行命令来抓取：<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/nutch-2.3.1/runtime/local# ./bin/crawl urls/ test_hello 2</div><div class="line">No SOLRURL specified. Skipping indexing.</div><div class="line">Injecting seed URLs</div><div class="line">/opt/nutch-2.3.1/runtime/local/bin/nutch inject urls/ -crawlId test_hello</div><div class="line">InjectorJob: starting at 2016-03-18 15:23:26</div><div class="line">InjectorJob: Injecting urlDir: urls</div><div class="line">InjectorJob: Using class org.apache.gora.hbase.store.HBaseStore as the Gora storage class.</div><div class="line">InjectorJob: total number of urls rejected by filters: 0</div><div class="line">InjectorJob: total number of urls injected after normalization and filtering: 1</div><div class="line">Injector: finished at 2016-03-18 15:23:41, elapsed: 00:00:15</div><div class="line">Fri Mar 18 15:23:42 CST 2016 : Iteration 1 of 2</div><div class="line">Generating batchId</div><div class="line">Generating a new fetchlist</div><div class="line">/opt/nutch-2.3.1/runtime/local/bin/nutch generate -D mapred.reduce.tasks=2 -D mapred.child.java.opts=-Xmx1000m -D mapred.reduce.tasks.speculative.execution=false -D mapred.map.tasks.speculative.execution=false -D mapred.compress.map.output=true -topN 50000 -noNorm -noFilter -adddays 0 -crawlId test_hello -batchId 1458285822-20389</div><div class="line">GeneratorJob: starting at 2016-03-18 15:23:48</div><div class="line">GeneratorJob: Selecting best-scoring urls due for fetch.</div><div class="line">GeneratorJob: starting</div><div class="line">GeneratorJob: filtering: false</div><div class="line">GeneratorJob: normalizing: false</div><div class="line">GeneratorJob: topN: 50000</div><div class="line">GeneratorJob: finished at 2016-03-18 15:24:05, time elapsed: 00:00:16</div><div class="line">GeneratorJob: generated batch id: 1458285822-20389 containing 1 URLs</div><div class="line">Fetching : </div><div class="line">/opt/nutch-2.3.1/runtime/local/bin/nutch fetch -D mapred.reduce.tasks=2 -D mapred.child.java.opts=-Xmx1000m -D mapred.reduce.tasks.speculative.execution=false -D mapred.map.tasks.speculative.execution=false -D mapred.compress.map.output=true -D fetcher.timelimit.mins=180 1458285822-20389 -crawlId test_hello -threads 50</div><div class="line">FetcherJob: starting at 2016-03-18 15:24:12</div><div class="line">FetcherJob: batchId: 1458285822-20389</div><div class="line">FetcherJob: threads: 50</div><div class="line">FetcherJob: parsing: false</div><div class="line">FetcherJob: resuming: false</div><div class="line">FetcherJob : timelimit set for : 1458296652357</div></pre></td></tr></table></figure></p>
+<p>开始工作了，等一会儿之后按ctrl+c停止，进入hbase查看抓取数据。</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/hbase-0.98.8-hadoop1# ./bin/hbase shell</div><div class="line">HBase Shell; enter 'help<span class="tag">&lt;<span class="name">RETURN</span>&gt;</span>' for list of supported commands.</div><div class="line">Type "exit<span class="tag">&lt;<span class="name">RETURN</span>&gt;</span>" to leave the HBase Shell</div><div class="line">Version 0.98.8-hadoop1, r6cfc8d064754251365e070a10a82eb169956d5fe, Fri Nov 14 17:14:19 PST 2014</div><div class="line"></div><div class="line">hbase(main):001:0&gt; list</div><div class="line">TABLE                                                                           </div><div class="line">SLF4J: Class path contains multiple SLF4J bindings.</div><div class="line">SLF4J: Found binding in [jar:file:/opt/hbase-0.98.8-hadoop1/lib/slf4j-log4j12-1.6.4.jar!/org/slf4j/impl/StaticLoggerBinder.class]</div><div class="line">SLF4J: Found binding in [jar:file:/opt/hadoop-1.2.1/lib/slf4j-log4j12-1.4.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]</div><div class="line">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</div><div class="line">test                                                                            </div><div class="line">test_hello_webpage                                                              </div><div class="line">xdem_webpage                                                                    </div><div class="line">3 row(s) in 1.9820 seconds</div><div class="line"></div><div class="line">=&gt; ["test", "test_hello_webpage", "xdem_webpage"]</div><div class="line">hbase(main):002:0&gt;</div></pre></td></tr></table></figure>
+<p>可以看到有一张表名叫做test_hello_webpage，test_hello就是我们刚刚定义的crawlID，下面看一下里面的数据：<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">hbase(main):007:0&gt; scan 'test_hello_webpage'</div></pre></td></tr></table></figure></p>
+<p>数据太多这里显示不全就不贴出来了。<br>其实官网有非常详细的教程，都是英文的就不说了。主要是那些文档的编写者和我们可不是同于同一个网络环境，我们国内访问那些站点是存在障碍的，这会给像我一样的小白们造成很多的困扰，不过幸好有些东西我们天朝的也能用。</p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nutch/" rel="tag">#Nutch</a>
+          
+            <a href="/tags/爬虫/" rel="tag">#爬虫</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/04/R语言分词发并绘制词云/" rel="next" title="R语言分词发并绘制词云">
+                <i class="fa fa-chevron-left"></i> R语言分词发并绘制词云
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/18/论文投稿管理小系统/" rel="prev" title="论文投稿管理小系统">
+                论文投稿管理小系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/01/18/Ubuntu下编译nutch2-3-1/"
+     data-title="Ubuntu下编译nutch2.3.1"
+     data-content=""
+     data-url="http://www.hoyoung.net/2016/01/18/Ubuntu下编译nutch2-3-1/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/18/Ubuntu下编译nutch2-3-1/"
+           data-title="Ubuntu下编译nutch2.3.1" data-url="http://www.hoyoung.net/2016/01/18/Ubuntu下编译nutch2-3-1/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/reindeer_72px_1207022_easyicon.net.png"
+               alt="hoyoung" />
+          <p class="site-author-name" itemprop="name">hoyoung</p>
+          <p class="site-description motion-element" itemprop="description">这货暂时还没有想好</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2304377421" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhaokidd.github.io/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> ZhaoY
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.mtxcxin.cn/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 星辰
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/liang16286" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> Liang
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本的选取"><span class="nav-number">3.</span> <span class="nav-text">版本的选取</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hadoop和hbase的安装"><span class="nav-number">4.</span> <span class="nav-text">hadoop和hbase的安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译"><span class="nav-number">5.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-number">6.</span> <span class="nav-text">测试</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hoyoung</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hoyoung"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+</body>
+</html>
