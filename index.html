@@ -231,6 +231,119 @@
             
               
                 
+                <a class="post-title-link" href="/2017/09/09/convert2sdcc/" itemprop="url">
+                  Keil C语法转换SDCC脚本
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-09-09T15:01:20+08:00" content="2017-09-09">
+              2017-09-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/DIY/" itemprop="url" rel="index">
+                    <span itemprop="name">DIY</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/09/09/convert2sdcc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/09/convert2sdcc/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>前文bb了<a href="http://hoyoung.net/2017/09/09/ubuntu-c51-dev/" target="_blank" rel="external">C51单片机Ubuntu基本开发环境</a>，示例中用了一个非常简单的led闪烁的代码，代码好像看着和keil c没什么区别，一切像预想中的一样完美。但当你尝试用sdcc编译一个keil c环境下写的代码时，我擦，这什么鬼</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">STC12C5A60S2.h:4: syntax error: token -&gt; 'ACC' ; column 7</div></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/09/09/convert2sdcc/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/09/09/ubuntu-c51-dev/" itemprop="url">
                   C51单片机Ubuntu基本开发环境
                 </a>
@@ -743,99 +856,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/05/Ubuntu14.04搭建http正向代理/" itemprop="url">
-                  Ubuntu14.04搭建http正向代理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-05T18:13:39+08:00" content="2016-07-05">
-              2016-07-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/05/Ubuntu14.04搭建http正向代理/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/05/Ubuntu14.04搭建http正向代理/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="爬虫需要"><a href="#爬虫需要" class="headerlink" title="爬虫需要"></a>爬虫需要</h2><p>最近在搭建一个代理IP池用于爬虫。现在越来越多的网站做了反爬策略。如果爬取过程太规律或者频率太快会被他们发现这不是正常人的行为而封的ip，好的话封几个小时，坏的话直接永久封禁。虽然可以把爬取速度放满来避免。但是太慢了又会拖延业务。如果你有大量可用的代理ip给爬取过程中做切换，那对方就不容易辨别了，可以提高抓取频率。要写一个维护ip代理池程序首先你得有一个可用的代理服务器做测试啊！正好我买了个国外的vps，配成http代理就可以做测试了。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/05/Ubuntu14.04搭建http正向代理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -882,7 +902,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

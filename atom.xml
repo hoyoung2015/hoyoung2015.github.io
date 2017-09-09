@@ -4,7 +4,7 @@
   <subtitle><![CDATA[独具匠心]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.hoyoung.net/"/>
-  <updated>2017-09-09T05:18:25.000Z</updated>
+  <updated>2017-09-09T08:52:26.000Z</updated>
   <id>http://www.hoyoung.net/</id>
   
   <author>
@@ -13,6 +13,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Keil C语法转换SDCC脚本]]></title>
+    <link href="http://www.hoyoung.net/2017/09/09/convert2sdcc/"/>
+    <id>http://www.hoyoung.net/2017/09/09/convert2sdcc/</id>
+    <published>2017-09-09T07:01:20.000Z</published>
+    <updated>2017-09-09T08:52:26.000Z</updated>
+    <content type="html"><![CDATA[<p>前文bb了<a href="http://hoyoung.net/2017/09/09/ubuntu-c51-dev/" target="_blank" rel="external">C51单片机Ubuntu基本开发环境</a>，示例中用了一个非常简单的led闪烁的代码，代码好像看着和keil c没什么区别，一切像预想中的一样完美。但当你尝试用sdcc编译一个keil c环境下写的代码时，我擦，这什么鬼</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">STC12C5A60S2.h:4: syntax error: token -&gt; 'ACC' ; column 7</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>项目使用了<code>STC12C5A60S2.h</code>的头文件，打开头文件看了下，因为是从windows下复制过来的，中文显示乱码，难道是乱码的原因？尝试把中文全部去掉，但错误依旧。标准的头文件竟然有语法错误，这怎么回事。从sdcc的官方文档中找到了问题根源，sdcc和keil c的语言标准不同，唉，厂商就是这样自傲，做大了就想建立自己的标准让下游遵从。我们可以在sdcc安装目录的标准库中找到不同。Ubuntu使用<code>sudo apt-get install sdcc</code>方式安装的sdcc目录在<code>/usr/share/sdcc</code>，在该目录下找到文件<code>/usr/share/sdcc/include/mcs51/8052.h</code>，这里贴出部分代码。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><div class="line">__sfr __at (<span class="number">0xCC</span>) TL2     ;</div><div class="line">__sfr __at (<span class="number">0xCD</span>) TH2     ;</div><div class="line"></div><div class="line"><span class="comment">/*  IE  */</span></div><div class="line">__sbit __at (<span class="number">0xAD</span>) ET2    ; <span class="comment">/* Enable timer2 interrupt */</span></div><div class="line"></div><div class="line"><span class="comment">/*  IP  */</span></div><div class="line">__sbit __at (<span class="number">0xBD</span>) PT2    ; <span class="comment">/* T2 interrupt priority bit */</span></div></pre></td></tr></table></figure>
+<p>可以看到对于一些非ANSI C的关键字，SDCC均采用双下滑线开头的方式定义,如<code>__code</code>,<code>__xdata</code>,<code>__sbit</code>,<code>__interrupt</code>……找到了问题根源长舒一口气，但怎么解决呢，如果没有适用STC单片机的特殊寄存器，那么我们可以直接使用sdcc标准库提供的<code>8051.h</code>和<code>8052.h</code>头文件，对于STC的特殊寄存器，STC也没有提供针对sdcc的头文件，我们总不能见一个头文件就手动改一个吧，这样效率低下而且容易出错。既然编程语法是一种结构化的语言，那么我们完全可以写个小程序来做语法间的转换，而且对于这点语法不同的转换还相对简单。因此，祭出Python神器，是不是激动的泪流满面？裤子先别脱，我还没说完。其实很简单，用正则去匹配关键字、变量名和地址。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line"><span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</div><div class="line">    print(<span class="string">'Usage: python convert2sdcc.py input_file output_file'</span>)</div><div class="line">    exit(<span class="number">-1</span>)</div><div class="line"></div><div class="line">input_file = sys.argv[<span class="number">1</span>]</div><div class="line">output_file = sys.argv[<span class="number">2</span>]</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hex_plus</span><span class="params">(hex_num, cnt)</span>:</span></div><div class="line">    <span class="keyword">return</span> hex(int(hex_num, <span class="number">16</span>) + cnt)</div><div class="line"></div><div class="line"></div><div class="line">address_map = &#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">with</span> open(input_file) <span class="keyword">as</span> f, open(output_file, <span class="string">'w'</span>) <span class="keyword">as</span> w:</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</div><div class="line">        line = line.strip()</div><div class="line">        rs = re.findall(<span class="string">r" *(sfr|sbit) +([A-Za-z0-9_]+) *= *([0-9a-zA-Z_\^]+) *;.*"</span>, line)</div><div class="line">        <span class="keyword">if</span> rs:</div><div class="line">            cmd, name, address = rs[<span class="number">0</span>]</div><div class="line">            <span class="comment"># 主要是用来判断Px_x是否已经生成</span></div><div class="line">            <span class="keyword">if</span> name <span class="keyword">in</span> address_map:</div><div class="line">                <span class="keyword">continue</span></div><div class="line">            <span class="keyword">if</span> re.match(<span class="string">r"0x[A-Za-z0-9]&#123;2&#125;"</span>, address):</div><div class="line">                address_map[name] = address</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                rs = re.findall(<span class="string">r"([A-Za-z0-9_]+) *(\^\d+)"</span>, address)</div><div class="line">                <span class="keyword">if</span> rs:</div><div class="line">                    symbol, opt = rs[<span class="number">0</span>]</div><div class="line">                    address = address_map[symbol] + opt</div><div class="line">            w.write(<span class="string">'__%s __at %s %s;\n'</span> % (cmd, address, name))</div><div class="line">            <span class="comment"># 解决P0_1等的定义</span></div><div class="line">            <span class="keyword">if</span> <span class="string">'sfr'</span> == cmd <span class="keyword">and</span> re.match(<span class="string">r"^P[0-3]$"</span>, name):</div><div class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">8</span>):</div><div class="line">                    w.write(<span class="string">'__sbit __at %s %s;\n'</span> % (hex_plus(address, i), name + <span class="string">'_'</span> + str(i)))</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            w.write(line + <span class="string">'\n'</span>)</div><div class="line">print(<span class="string">"done"</span>)</div></pre></td></tr></table></figure>
+<p>sdcc和keil c还有个大不同是<code>__sfr</code>和<code>__sbit</code>在编译过程中值的绑定问题。在keil c中，使用sfr定义的8位寄存器的变量名可以用作计算其他寄存器的地址，比如</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><div class="line">sfr P2 = <span class="number">0X80</span>;</div><div class="line">sbit P21 = P2^<span class="number">1</span>;</div></pre></td></tr></table></figure>
+<p>这在编译的时候就可以确定。而在sdcc编译的时候会报错，说P2不是静态变量，这在编译的时候不能确定。原来<code>sbit P2_1=P2^7;</code>这种类型的代码P2要换成绝对地址，如果头文件中已经定义了<code>P2_1</code>，可以适用宏定义，比如</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> LED P2_1</span></div></pre></td></tr></table></figure>
+<p>但是对于STC这种头文件中没有定义Px_x的头文件，转换脚本需要补充上去。脚本在遇到<code>P0</code>,<code>P1</code>,<code>P2</code>,<code>P3</code>这样的sfr定义是，会补上8个位定义。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">python convert2sdcc.py STC12C5A60S2.h output/STC12C5A60S2.h</div></pre></td></tr></table></figure>
+<p>替换就的头文件，放心大胆的编译去吧！脚本是临时写的，考虑的不够全面，如果遇到问题，请赏脸贴出bug。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>前文bb了<a href="http://hoyoung.net/2017/09/09/ubuntu-c51-dev/" target="_blank" rel="external">C51单片机Ubuntu基本开发环境</a>，示例中用了一个非常简单的led闪烁的代码，代码好像看着和keil c没什么区别，一切像预想中的一样完美。但当你尝试用sdcc编译一个keil c环境下写的代码时，我擦，这什么鬼</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">STC12C5A60S2.h:4: syntax error: token -&gt; 'ACC' ; column 7</div></pre></td></tr></table></figure>]]>
+    
+    </summary>
+    
+      <category term="Ubuntu" scheme="http://www.hoyoung.net/tags/Ubuntu/"/>
+    
+      <category term="MCU" scheme="http://www.hoyoung.net/tags/MCU/"/>
+    
+      <category term="SDCC" scheme="http://www.hoyoung.net/tags/SDCC/"/>
+    
+      <category term="DIY" scheme="http://www.hoyoung.net/categories/DIY/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[C51单片机Ubuntu基本开发环境]]></title>
@@ -750,9 +787,9 @@
     
     </summary>
     
-      <category term="Ubuntu" scheme="http://www.hoyoung.net/tags/Ubuntu/"/>
-    
       <category term="R语言" scheme="http://www.hoyoung.net/tags/R%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="Ubuntu" scheme="http://www.hoyoung.net/tags/Ubuntu/"/>
     
       <category term="R" scheme="http://www.hoyoung.net/categories/R/"/>
     
@@ -826,24 +863,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class]]>
-    </summary>
-    
-      <category term="Java" scheme="http://www.hoyoung.net/categories/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java 160空格]]></title>
-    <link href="http://www.hoyoung.net/2015/08/10/Java_160%E7%A9%BA%E6%A0%BC/"/>
-    <id>http://www.hoyoung.net/2015/08/10/Java_160空格/</id>
-    <published>2015-08-10T08:13:02.000Z</published>
-    <updated>2017-09-08T16:17:21.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="160空格……"><a href="#160空格……" class="headerlink" title="160空格……"></a>160空格……</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">System.out.println(StringEscapeUtils.unescapeHtml4(<span class="string">"&amp;nbsp; &amp;nbsp; &amp;nbsp;"</span>).trim());</div><div class="line">System.out.println(StringEscapeUtils.unescapeHtml4(<span class="string">"&amp;nbsp;"</span>).equals(<span class="string">" "</span>));</div><div class="line">System.out.println((<span class="keyword">int</span>)StringEscapeUtils.unescapeHtml4(<span class="string">"&amp;nbsp;"</span>).charAt(<span class="number">0</span>));</div><div class="line">System.out.println((<span class="keyword">int</span>)<span class="string">' '</span>);</div></pre></td></tr></table></figure>
-<p>输出<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">false</span></div><div class="line"><span class="number">160</span></div><div class="line"><span class="number">32</span></div></pre></td></tr></table></figure></p>
-<p>　　web页面 在提交的时候到服务器的时候，java String trim 方法只能处理掉ASCII 32空格，我们需要用text.replaceAll(“[\s\u00A0]+$”, “”)来去掉空格。这在些爬虫程序解析页面内容时常遇到的问题。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="160空格……"><a href="#160空格……" class="headerlink" title="160空格……"></a>160空格……</h3><figure class="highlight java"><table><tr><td class="]]>
     </summary>
     
       <category term="Java" scheme="http://www.hoyoung.net/categories/Java/"/>

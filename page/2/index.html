@@ -208,6 +208,104 @@
 
     
     
+      
+      
+
+      
+    
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/05/Ubuntu14.04搭建http正向代理/" itemprop="url">
+                  Ubuntu14.04搭建http正向代理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-05T18:13:39+08:00" content="2016-07-05">
+              2016-07-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/05/Ubuntu14.04搭建http正向代理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/05/Ubuntu14.04搭建http正向代理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="爬虫需要"><a href="#爬虫需要" class="headerlink" title="爬虫需要"></a>爬虫需要</h2><p>最近在搭建一个代理IP池用于爬虫。现在越来越多的网站做了反爬策略。如果爬取过程太规律或者频率太快会被他们发现这不是正常人的行为而封的ip，好的话封几个小时，坏的话直接永久封禁。虽然可以把爬取速度放满来避免。但是太慢了又会拖延业务。如果你有大量可用的代理ip给爬取过程中做切换，那对方就不容易辨别了，可以提高抓取频率。要写一个维护ip代理池程序首先你得有一个可用的代理服务器做测试啊！正好我买了个国外的vps，配成http代理就可以做测试了。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/05/Ubuntu14.04搭建http正向代理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -715,119 +813,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/01/18/Ubuntu下编译nutch2-3-1/" itemprop="url">
-                  Ubuntu下编译nutch2.3.1
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-18T12:04:03+08:00" content="2016-01-18">
-              2016-01-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/18/Ubuntu下编译nutch2-3-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/18/Ubuntu下编译nutch2-3-1/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="/uploads/2016/03/nutch_logo.jpg"><img src="/uploads/2016/03/nutch_logo.jpg" alt="nutch_logo"></a></p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>nutch是干什么的想必能来看这篇文章的都了解，就不瞎扯了哈哈！nutch目前分为两个大版本，1.x和2.x，1.x版本已经相当成熟并且可成熟的应用与商业化。2.x版本的官方已经不提供编译好的二进制包，需要我们将源码下载下来自己编译。2.x与1.x的主要区别是存储方式不同，1.x将爬取的信息存储在hadoop的hdfs中，不了解什么是hdfs的可以取看看hadoop的文件系统，实质上就是以文件的方式存储。而2.x将存储分离出来，采用gora这种类似于hibernate，mybatis等持久层框架来管理。gora主要面向于NoSql数据库的映射框架，比如mongodb以及基于hadoop的hbase，同时也支持关系型数据库，比如mysql。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/01/18/Ubuntu下编译nutch2-3-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
@@ -874,7 +859,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
