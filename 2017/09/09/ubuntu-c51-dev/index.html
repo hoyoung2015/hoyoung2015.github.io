@@ -66,7 +66,7 @@
 <meta property="og:description" content="已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://www.hoyoung.net/uploads/2017/09/ubuntu_dev_usb.png">
-<meta property="og:updated_time" content="2017-09-09T05:09:54.000Z">
+<meta property="og:updated_time" content="2017-09-09T05:18:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C51单片机Ubuntu基本开发环境">
 <meta name="twitter:description" content="已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从">
@@ -290,7 +290,7 @@
       
 
       
-        <p>已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从头开始，搭建Ubuntu下的开发环境吧。（这货BB了半天，终于开始正题了）</p>
+        <p>已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从头开始，搭建Ubuntu下的开发环境吧。（这货BB了半天，终于开始正题了）<br><a id="more"></a></p>
 <h1 id="安装编译工具"><a href="#安装编译工具" class="headerlink" title="安装编译工具"></a>安装编译工具</h1><p>大概的百度了下，Linux下的C51开发环境的资料还真是不多，各种资料几乎被Keil C51统治。一万头草泥马呼啸而过，不早就听说他们做嵌入式开发的都在Linux下搞吗，怎么资料这么少。不过好在Linux开源社区的强大，这些都不是问题。首先是编译器，windows下keil c51 ide集成了编译器，具体什么编译器我也忘记了。而linux下的编译器叫sdcc，想详细了解的自己百度，我在这里介绍也是没他们说的详细，反正它就是个编译器。在Ubuntu下可以在仓库中直接安装</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo apt-get install sdcc</div></pre></td></tr></table></figure>
 <h1 id="编译项目"><a href="#编译项目" class="headerlink" title="编译项目"></a>编译项目</h1><p>创建文件main.c做测试，代码很简单，单片机P1.0脚电平高低交换，LED会闪烁。</p>
