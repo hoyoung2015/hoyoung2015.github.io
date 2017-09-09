@@ -1,0 +1,809 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Ubuntu,MCU,SDCC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从">
+<meta name="keywords" content="Ubuntu,MCU,SDCC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C51单片机Ubuntu基本开发环境">
+<meta property="og:url" content="http://www.hoyoung.net/2017/09/09/ubuntu-c51-dev/index.html">
+<meta property="og:site_name" content="Hoyoung&#39;s Blog">
+<meta property="og:description" content="已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.hoyoung.net/uploads/2017/09/ubuntu_dev_usb.png">
+<meta property="og:updated_time" content="2017-09-09T05:09:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C51单片机Ubuntu基本开发环境">
+<meta name="twitter:description" content="已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从">
+<meta name="twitter:image" content="http://www.hoyoung.net/uploads/2017/09/ubuntu_dev_usb.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> C51单片机Ubuntu基本开发环境 | Hoyoung's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hoyoung's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">独具匠心</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C51单片机Ubuntu基本开发环境
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-09-09T01:10:10+08:00" content="2017-09-09">
+              2017-09-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/DIY/" itemprop="url" rel="index">
+                    <span itemprop="name">DIY</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/09/09/ubuntu-c51-dev/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/09/ubuntu-c51-dev/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从头开始，搭建Ubuntu下的开发环境吧。（这货BB了半天，终于开始正题了）</p>
+<h1 id="安装编译工具"><a href="#安装编译工具" class="headerlink" title="安装编译工具"></a>安装编译工具</h1><p>大概的百度了下，Linux下的C51开发环境的资料还真是不多，各种资料几乎被Keil C51统治。一万头草泥马呼啸而过，不早就听说他们做嵌入式开发的都在Linux下搞吗，怎么资料这么少。不过好在Linux开源社区的强大，这些都不是问题。首先是编译器，windows下keil c51 ide集成了编译器，具体什么编译器我也忘记了。而linux下的编译器叫sdcc，想详细了解的自己百度，我在这里介绍也是没他们说的详细，反正它就是个编译器。在Ubuntu下可以在仓库中直接安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo apt-get install sdcc</div></pre></td></tr></table></figure>
+<h1 id="编译项目"><a href="#编译项目" class="headerlink" title="编译项目"></a>编译项目</h1><p>创建文件main.c做测试，代码很简单，单片机P1.0脚电平高低交换，LED会闪烁。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;8052.h&gt;</span></span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="keyword">size_t</span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> LED P1_0</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">size_t</span> t)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> i;</div><div class="line">        <span class="keyword">while</span>(t--) <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">1000</span>;i++);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">        <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">        &#123;</div><div class="line">                LED = <span class="number">0</span>;</div><div class="line">                delay(<span class="number">200</span>);</div><div class="line">                LED = <span class="number">1</span>;</div><div class="line">                delay(<span class="number">200</span>);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行编译</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sdcc main.c</div></pre></td></tr></table></figure>
+<p>sdcc工具有很多参数，它不止能编译c51项目，arm、汇编、stm等都能编译，默认是编译c51项目。编译结果会产出很多文件，我们只需要main.ihx文件即可。</p>
+<h1 id="安装STC的烧写工具"><a href="#安装STC的烧写工具" class="headerlink" title="安装STC的烧写工具"></a>安装STC的烧写工具</h1><p>STC这个公司没有开放bootloader，而且传输协议也不公开，而其提供的烧录工具只有windows平台的，不过幸好有大神破解了，写了个python版本的烧录器<a href="https://github.com/grigorig/stcgal" target="_blank" rel="external">https://github.com/grigorig/stcgal</a>，如果你熟悉python，这些对你来说都不是事儿，如果不熟悉，建议简单了解下。从github上克隆下来后按照说明直接安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">./setup.py install</div></pre></td></tr></table></figure>
+<p>根据错误提示，还需要安装一些依赖的python包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">pip install pyserial</div><div class="line">sudo apt install python-serial</div></pre></td></tr></table></figure>
+<p>我的python环境是2.7.13版本，由于python3和python2版本差异较大，如果你是python3的环境，请安装<code>python3-serial</code>。</p>
+<p>安装完成后，测试检查能否读取到MCU的信息。Ubuntu系统都内置了常用PL2303芯片USB转串口的驱动，将USB串口下载板插到PC上以后查看对应的设备名称。这里和windows不一样，没有叫com口的东西。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">ls /dev/ttyUSB*</div></pre></td></tr></table></figure>
+<p><img src="/uploads/2017/09/ubuntu_dev_usb.png" alt=""></p>
+<p>比如我的串口设备就是/dev/ttyUSB0。我自己使用的STC12C5A60S2进行测试，所以单片机类型选择stc12。另外，因为程序要读取com口，需要root权限。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo ./stcgal.py -P stc12</div></pre></td></tr></table></figure>
+<p>首先程序会提示你给单片机重新上电，如果单片机当前处在断电状态，我们直接上电就行。如果处于上电状态，我们关闭电源再打开即可。正确的输出如下</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">Waiting for MCU, please cycle power: done</div><div class="line">Target model:</div><div class="line">  Name: STC12C5A60S2</div><div class="line">  Magic: D17E</div><div class="line">  Code flash: 60.0 KB</div><div class="line">  EEPROM flash: 2.0 KB</div><div class="line">Target frequency: 22.077 MHz</div><div class="line">Target BSL version: 6.2I</div><div class="line">Target options:</div><div class="line">  reset_pin_enabled=True</div><div class="line">  low_voltage_reset=False</div><div class="line">  oscillator_stable_delay=32768</div><div class="line">  por_reset_delay=long</div><div class="line">  clock_gain=high</div><div class="line">  clock_source=external</div><div class="line">  watchdog_por_enabled=False</div><div class="line">  watchdog_stop_idle=True</div><div class="line">  watchdog_prescale=256</div><div class="line">  eeprom_erase_enabled=False</div><div class="line">  bsl_pindetect_enabled=False</div><div class="line">Disconnected!</div></pre></td></tr></table></figure>
+<p>这里有人要问，端口呢？如果只有一个可用的USB串口设备，这个烧录程序可以自动识别出来，不用手动指定。</p>
+<p>二进制程序烧录</p>
+<p>前面我没有想其他教程一样将ihx文件转换为hex二进制文件，这个烧录程序支持hex,bin,ihx文件，我们使用sdcc编译出的main.ihx可直接交给程序烧录。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo ./stcgal.py -P stc12 main.ihx</div></pre></td></tr></table></figure>
+<p>输出如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">Waiting for MCU, please cycle power: done</div><div class="line">Target model:</div><div class="line">  Name: STC12C5A60S2</div><div class="line">  Magic: D17E</div><div class="line">  Code flash: 60.0 KB</div><div class="line">  EEPROM flash: 2.0 KB</div><div class="line">Target frequency: 22.077 MHz</div><div class="line">Target BSL version: 6.2I</div><div class="line">Target options:</div><div class="line">  reset_pin_enabled=True</div><div class="line">  low_voltage_reset=False</div><div class="line">  oscillator_stable_delay=32768</div><div class="line">  por_reset_delay=long</div><div class="line">  clock_gain=high</div><div class="line">  clock_source=external</div><div class="line">  watchdog_por_enabled=False</div><div class="line">  watchdog_stop_idle=True</div><div class="line">  watchdog_prescale=256</div><div class="line">  eeprom_erase_enabled=False</div><div class="line">  bsl_pindetect_enabled=False</div><div class="line">Loading flash: 138 bytes (Intel HEX)</div><div class="line">Switching to 19200 baud: testing setting done</div><div class="line">Erasing 2 blocks: done</div><div class="line">Writing 512 bytes: .... done</div><div class="line">Finishing write: done</div><div class="line">Setting options: done</div><div class="line">Target UID: 000300AF059688</div><div class="line">Disconnected!</div></pre></td></tr></table></figure>
+<p>烧录完成，自己看效果吧。有些人会纠结于没有图形界面的烧录工具，之前我也寻找过，找到一个，名字我给忘记了，那个工具我看已经很久没有维护了，而且我不知道是自己环境有问题还是怎么滴，没有烧录成功。其实如果在Linux下开发久会发现，命令行的工具才是最正常的，大多情况下我们是没有外接显示器给你显示图形界面的。</p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Ubuntu/" rel="tag">#Ubuntu</a>
+          
+            <a href="/tags/MCU/" rel="tag">#MCU</a>
+          
+            <a href="/tags/SDCC/" rel="tag">#SDCC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/10/squid3-proxy/" rel="next" title="Ubuntu下搭建高匿HTTP代理">
+                <i class="fa fa-chevron-left"></i> Ubuntu下搭建高匿HTTP代理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/09/09/ubuntu-c51-dev/"
+     data-title="C51单片机Ubuntu基本开发环境"
+     data-content=""
+     data-url="http://www.hoyoung.net/2017/09/09/ubuntu-c51-dev/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/09/09/ubuntu-c51-dev/"
+           data-title="C51单片机Ubuntu基本开发环境" data-url="http://www.hoyoung.net/2017/09/09/ubuntu-c51-dev/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/reindeer_72px_1207022_easyicon.net.png"
+               alt="hoyoung" />
+          <p class="site-author-name" itemprop="name">hoyoung</p>
+          <p class="site-description motion-element" itemprop="description">这货暂时还没有想好</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2304377421" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhaokidd.github.io/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> ZhaoY
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.mtxcxin.cn/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 星辰
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/liang16286" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> Liang
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装编译工具"><span class="nav-number">1.</span> <span class="nav-text">安装编译工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译项目"><span class="nav-number">2.</span> <span class="nav-text">编译项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装STC的烧写工具"><span class="nav-number">3.</span> <span class="nav-text">安装STC的烧写工具</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hoyoung</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"hoyoung"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+</body>
+</html>

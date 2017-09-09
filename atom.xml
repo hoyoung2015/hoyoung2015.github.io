@@ -4,7 +4,7 @@
   <subtitle><![CDATA[独具匠心]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.hoyoung.net/"/>
-  <updated>2017-09-08T16:17:21.000Z</updated>
+  <updated>2017-09-09T05:09:54.000Z</updated>
   <id>http://www.hoyoung.net/</id>
   
   <author>
@@ -13,6 +13,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[C51单片机Ubuntu基本开发环境]]></title>
+    <link href="http://www.hoyoung.net/2017/09/09/ubuntu-c51-dev/"/>
+    <id>http://www.hoyoung.net/2017/09/09/ubuntu-c51-dev/</id>
+    <published>2017-09-08T17:10:10.000Z</published>
+    <updated>2017-09-09T05:09:54.000Z</updated>
+    <content type="html"><![CDATA[<p>已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从头开始，搭建Ubuntu下的开发环境吧。（这货BB了半天，终于开始正题了）</p>
+<h1 id="安装编译工具"><a href="#安装编译工具" class="headerlink" title="安装编译工具"></a>安装编译工具</h1><p>大概的百度了下，Linux下的C51开发环境的资料还真是不多，各种资料几乎被Keil C51统治。一万头草泥马呼啸而过，不早就听说他们做嵌入式开发的都在Linux下搞吗，怎么资料这么少。不过好在Linux开源社区的强大，这些都不是问题。首先是编译器，windows下keil c51 ide集成了编译器，具体什么编译器我也忘记了。而linux下的编译器叫sdcc，想详细了解的自己百度，我在这里介绍也是没他们说的详细，反正它就是个编译器。在Ubuntu下可以在仓库中直接安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo apt-get install sdcc</div></pre></td></tr></table></figure>
+<h1 id="编译项目"><a href="#编译项目" class="headerlink" title="编译项目"></a>编译项目</h1><p>创建文件main.c做测试，代码很简单，单片机P1.0脚电平高低交换，LED会闪烁。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;8052.h&gt;</span></span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="keyword">size_t</span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> LED P1_0</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">delay</span><span class="params">(<span class="keyword">size_t</span> t)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> i;</div><div class="line">        <span class="keyword">while</span>(t--) <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">1000</span>;i++);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">        <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">        &#123;</div><div class="line">                LED = <span class="number">0</span>;</div><div class="line">                delay(<span class="number">200</span>);</div><div class="line">                LED = <span class="number">1</span>;</div><div class="line">                delay(<span class="number">200</span>);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行编译</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sdcc main.c</div></pre></td></tr></table></figure>
+<p>sdcc工具有很多参数，它不止能编译c51项目，arm、汇编、stm等都能编译，默认是编译c51项目。编译结果会产出很多文件，我们只需要main.ihx文件即可。</p>
+<h1 id="安装STC的烧写工具"><a href="#安装STC的烧写工具" class="headerlink" title="安装STC的烧写工具"></a>安装STC的烧写工具</h1><p>STC这个公司没有开放bootloader，而且传输协议也不公开，而其提供的烧录工具只有windows平台的，不过幸好有大神破解了，写了个python版本的烧录器<a href="https://github.com/grigorig/stcgal" target="_blank" rel="external">https://github.com/grigorig/stcgal</a>，如果你熟悉python，这些对你来说都不是事儿，如果不熟悉，建议简单了解下。从github上克隆下来后按照说明直接安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">./setup.py install</div></pre></td></tr></table></figure>
+<p>根据错误提示，还需要安装一些依赖的python包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">pip install pyserial</div><div class="line">sudo apt install python-serial</div></pre></td></tr></table></figure>
+<p>我的python环境是2.7.13版本，由于python3和python2版本差异较大，如果你是python3的环境，请安装<code>python3-serial</code>。</p>
+<p>安装完成后，测试检查能否读取到MCU的信息。Ubuntu系统都内置了常用PL2303芯片USB转串口的驱动，将USB串口下载板插到PC上以后查看对应的设备名称。这里和windows不一样，没有叫com口的东西。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">ls /dev/ttyUSB*</div></pre></td></tr></table></figure>
+<p><img src="/uploads/2017/09/ubuntu_dev_usb.png" alt=""></p>
+<p>比如我的串口设备就是/dev/ttyUSB0。我自己使用的STC12C5A60S2进行测试，所以单片机类型选择stc12。另外，因为程序要读取com口，需要root权限。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo ./stcgal.py -P stc12</div></pre></td></tr></table></figure>
+<p>首先程序会提示你给单片机重新上电，如果单片机当前处在断电状态，我们直接上电就行。如果处于上电状态，我们关闭电源再打开即可。正确的输出如下</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">Waiting for MCU, please cycle power: done</div><div class="line">Target model:</div><div class="line">  Name: STC12C5A60S2</div><div class="line">  Magic: D17E</div><div class="line">  Code flash: 60.0 KB</div><div class="line">  EEPROM flash: 2.0 KB</div><div class="line">Target frequency: 22.077 MHz</div><div class="line">Target BSL version: 6.2I</div><div class="line">Target options:</div><div class="line">  reset_pin_enabled=True</div><div class="line">  low_voltage_reset=False</div><div class="line">  oscillator_stable_delay=32768</div><div class="line">  por_reset_delay=long</div><div class="line">  clock_gain=high</div><div class="line">  clock_source=external</div><div class="line">  watchdog_por_enabled=False</div><div class="line">  watchdog_stop_idle=True</div><div class="line">  watchdog_prescale=256</div><div class="line">  eeprom_erase_enabled=False</div><div class="line">  bsl_pindetect_enabled=False</div><div class="line">Disconnected!</div></pre></td></tr></table></figure>
+<p>这里有人要问，端口呢？如果只有一个可用的USB串口设备，这个烧录程序可以自动识别出来，不用手动指定。</p>
+<p>二进制程序烧录</p>
+<p>前面我没有想其他教程一样将ihx文件转换为hex二进制文件，这个烧录程序支持hex,bin,ihx文件，我们使用sdcc编译出的main.ihx可直接交给程序烧录。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo ./stcgal.py -P stc12 main.ihx</div></pre></td></tr></table></figure>
+<p>输出如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">Waiting for MCU, please cycle power: done</div><div class="line">Target model:</div><div class="line">  Name: STC12C5A60S2</div><div class="line">  Magic: D17E</div><div class="line">  Code flash: 60.0 KB</div><div class="line">  EEPROM flash: 2.0 KB</div><div class="line">Target frequency: 22.077 MHz</div><div class="line">Target BSL version: 6.2I</div><div class="line">Target options:</div><div class="line">  reset_pin_enabled=True</div><div class="line">  low_voltage_reset=False</div><div class="line">  oscillator_stable_delay=32768</div><div class="line">  por_reset_delay=long</div><div class="line">  clock_gain=high</div><div class="line">  clock_source=external</div><div class="line">  watchdog_por_enabled=False</div><div class="line">  watchdog_stop_idle=True</div><div class="line">  watchdog_prescale=256</div><div class="line">  eeprom_erase_enabled=False</div><div class="line">  bsl_pindetect_enabled=False</div><div class="line">Loading flash: 138 bytes (Intel HEX)</div><div class="line">Switching to 19200 baud: testing setting done</div><div class="line">Erasing 2 blocks: done</div><div class="line">Writing 512 bytes: .... done</div><div class="line">Finishing write: done</div><div class="line">Setting options: done</div><div class="line">Target UID: 000300AF059688</div><div class="line">Disconnected!</div></pre></td></tr></table></figure>
+<p>烧录完成，自己看效果吧。有些人会纠结于没有图形界面的烧录工具，之前我也寻找过，找到一个，名字我给忘记了，那个工具我看已经很久没有维护了，而且我不知道是自己环境有问题还是怎么滴，没有烧录成功。其实如果在Linux下开发久会发现，命令行的工具才是最正常的，大多情况下我们是没有外接显示器给你显示图形界面的。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子]]>
+    </summary>
+    
+      <category term="Ubuntu" scheme="http://www.hoyoung.net/tags/Ubuntu/"/>
+    
+      <category term="MCU" scheme="http://www.hoyoung.net/tags/MCU/"/>
+    
+      <category term="SDCC" scheme="http://www.hoyoung.net/tags/SDCC/"/>
+    
+      <category term="DIY" scheme="http://www.hoyoung.net/categories/DIY/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Ubuntu下搭建高匿HTTP代理]]></title>
@@ -796,49 +844,6 @@
     <summary type="html">
     <![CDATA[<h3 id="160空格……"><a href="#160空格……" class="headerlink" title="160空格……"></a>160空格……</h3><figure class="highlight java"><table><tr><td class="]]>
     </summary>
-    
-      <category term="Java" scheme="http://www.hoyoung.net/categories/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Java模拟高速客运站]]></title>
-    <link href="http://www.hoyoung.net/2015/08/10/Java%E6%A8%A1%E6%8B%9F%E9%AB%98%E9%80%9F%E5%AE%A2%E8%BF%90%E7%AB%99/"/>
-    <id>http://www.hoyoung.net/2015/08/10/Java模拟高速客运站/</id>
-    <published>2015-08-10T01:51:36.000Z</published>
-    <updated>2017-09-08T16:17:21.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>1.1 问题域概述</p>
-<p>用面向对象方法和面向对象程序设计语言，实现满足下述要求的一个高速公路客运活动仿真程序。西安市到宝鸡市之间是我省主要的高速公路客运路线之一，经过简化后的客运路线端点、中途停靠点和里程如下图所示（括号里是简称，里程的单位是公里）</p>
-<p>1.2 限定条件</p>
-<p>（1）从XN 始发至BJ 的客车和从BJ 始发至XN 的客车均有两种车型：沃尔沃（限定乘客人数为48 人）；依维柯（限定乘客人数为21 人）。沃尔沃的速度为1.9 公里/分钟，依维柯的速度为1.4 公里/分钟。<br>（2）起始状态时，XN 拥有沃尔沃和依维柯客车分别为XNW和XNY 辆，BJ 拥有沃尔沃和依维柯客车分别为BJW和BJY 辆。<br>（3）从XN 至BJ 和从BJ 至XN 的沃尔沃，均为上午8:30 开始，每小时一班，最后一班为下午5:30；从XN 至BJ 和从BJ 至XN 的依维柯，均为上午8:00 开始，每20 分钟一班，最后一班为下午6:00。<br><a id="more"></a><br>（4）从XN 至BJ 的客车到达BJ 后，即成为从BJ 至XN 的客车，排在当时BJ 同类车型的队尾，再按（3）确定发车时间；从BJ 至XN 的客车到达XN 后的规则相同。<br>（5）只考虑途中只有乘客下车、没有乘客上车的情况。<br>（6）有乘客下车时，不论方向与车型，停车时间统一为2 分钟。<br>（7）乘坐从XN 至BJ 客车的乘客，其下车点为XY、XP、WG、CP、GZ 和BJ 的可能性分别为P_XBXY、P_XBXP、P_XBWG、P_XBCP、P_XBGZ 和P_XBBJ。这些可能性之和为1；乘坐从BJ 至XN 客车的乘客，其下车点为GZ、CP、WG、XP、XY 和XN 的可能性分别为P_BXGZ、P_BXCP、P_BXWG、P_BXXP、P_BXXY 和P_BXXN。这些可能性之和为1。</p>
-<p>2.1.3须仿真的客运活动</p>
-<p>（1）从上午7:30 开始到下午5:59 为止，每分钟分别在XN 和BJ 随机产生去往BJ 和XN 方向的新到达的乘客。每分钟到达的人数范围为0~PN 人。<br>（2）按照限定条件，随机产生新到达的乘客的目的地。<br>（3）乘客按到达的先后顺序上最近一辆该车客满则等候下一辆始发的客车。<br>（4）若客车到达中途停靠站时有乘客在此下车，按限定条件（5）和（6）处理，否则不停车继续行驶。</p>
-<p><a href="/uploads/2015/08/模拟客运站UML类图.png"><img src="/uploads/2015/08/模拟客运站UML类图.png" alt="模拟客运站UML类图"></a></p>
-<p><strong>使用PowerDesigner16反向工程导出的UML类图</strong></p>
-<p><strong>运行情况</strong><br>开发语言为java，开发环境为Eclipse</p>
-<h3 id="界面说明"><a href="#界面说明" class="headerlink" title="界面说明"></a>界面说明</h3><p><a href="/uploads/2015/08/模拟客运站界面.png"><img src="/uploads/2015/08/模拟客运站界面.png" alt="模拟客运站界面"></a></p>
-<p>高速公路中开往宝鸡和西安的两个车队显示在列表中，列表的每个条目含义如下：</p>
-<p>客车编号-路程-状态（行驶/停车）-乘客数量-当前所在地点</p>
-<p>图中红色框框中客车的状态表示编号是依维柯Y3，已经行驶了138.6km，正在行驶中，车中目前有五名乘客，刚停靠过的地点是CP。</p>
-<p>系统运行流畅稳定，没有报错。车站中的乘客生成数量也满足系统容量，不会出现等待乘客不断增加而超过车站服务速率的问题。最终会达到稳态。该程序完整的显示了车站、高速公路、汽车的各项指标，并且将高速公路中的行车状况绘制出来，可以直观的看到在途客车的行驶和停车情况。</p>
-<p>系统存在的问题是，现实世界中乘客到达服从泊松分布，而程序中则是均匀到达，有待改进。另外高速公路的绘制不够精确。程序中没有将停车时下去了多少名乘客显示出来，以及没有将汽车距离下一站的距离明确标注出来，只能从图中大概看到汽车是否到达站点。</p>
-<p>最后是下载地址，我分享到百度网盘了<a href="http://pan.baidu.com/s/1pKgB2Vh" target="_blank" rel="external">http://pan.baidu.com/s/1pKgB2Vh</a>，如果遇到什么问题可以新浪微博@噬魂brilliant 私信我哦！</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>1.1 问题域概述</p>
-<p>用面向对象方法和面向对象程序设计语言，实现满足下述要求的一个高速公路客运活动仿真程序。西安市到宝鸡市之间是我省主要的高速公路客运路线之一，经过简化后的客运路线端点、中途停靠点和里程如下图所示（括号里是简称，里程的单位是公里）</p>
-<p>1.2 限定条件</p>
-<p>（1）从XN 始发至BJ 的客车和从BJ 始发至XN 的客车均有两种车型：沃尔沃（限定乘客人数为48 人）；依维柯（限定乘客人数为21 人）。沃尔沃的速度为1.9 公里/分钟，依维柯的速度为1.4 公里/分钟。<br>（2）起始状态时，XN 拥有沃尔沃和依维柯客车分别为XNW和XNY 辆，BJ 拥有沃尔沃和依维柯客车分别为BJW和BJY 辆。<br>（3）从XN 至BJ 和从BJ 至XN 的沃尔沃，均为上午8:30 开始，每小时一班，最后一班为下午5:30；从XN 至BJ 和从BJ 至XN 的依维柯，均为上午8:00 开始，每20 分钟一班，最后一班为下午6:00。<br>]]>
-    
-    </summary>
-    
-      <category term="GUI" scheme="http://www.hoyoung.net/tags/GUI/"/>
-    
-      <category term="Java" scheme="http://www.hoyoung.net/tags/Java/"/>
-    
-      <category term="UML" scheme="http://www.hoyoung.net/tags/UML/"/>
-    
-      <category term="面向对象" scheme="http://www.hoyoung.net/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
     
       <category term="Java" scheme="http://www.hoyoung.net/categories/Java/"/>
     
