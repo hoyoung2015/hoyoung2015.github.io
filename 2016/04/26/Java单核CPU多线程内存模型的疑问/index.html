@@ -61,18 +61,18 @@
 <meta name="keywords" content="多线程,内存模型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java单核CPU多线程内存模型的疑问">
-<meta property="og:url" content="http://www.hoyoung.net/2016/04/26/Java单核CPU多线程内存模型的疑问/index.html">
+<meta property="og:url" content="http://hoyoung.net/2016/04/26/Java单核CPU多线程内存模型的疑问/index.html">
 <meta property="og:site_name" content="Hoyoung&#39;s Blog">
 <meta property="og:description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;在Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model，JMM）来屏蔽各个硬件平台和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。具体来讲就是:Java内存模型规定所有的变量都是存在主存当中，每个线程都有自己的工作内存。线程对变量的所有操作都必须在工作内存中进行，而不能直接对主存进">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://www.hoyoung.net/uploads/2016/04/cpu1.png">
-<meta property="og:image" content="http://www.hoyoung.net/uploads/2016/04/cpu1.png">
-<meta property="og:image" content="http://www.hoyoung.net/uploads/2016/04/result1.png">
+<meta property="og:image" content="http://hoyoung.net/uploads/2016/04/cpu1.png">
+<meta property="og:image" content="http://hoyoung.net/uploads/2016/04/cpu1.png">
+<meta property="og:image" content="http://hoyoung.net/uploads/2016/04/result1.png">
 <meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java单核CPU多线程内存模型的疑问">
 <meta name="twitter:description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;在Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model，JMM）来屏蔽各个硬件平台和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。具体来讲就是:Java内存模型规定所有的变量都是存在主存当中，每个线程都有自己的工作内存。线程对变量的所有操作都必须在工作内存中进行，而不能直接对主存进">
-<meta name="twitter:image" content="http://www.hoyoung.net/uploads/2016/04/cpu1.png">
+<meta name="twitter:image" content="http://hoyoung.net/uploads/2016/04/cpu1.png">
 
 
 
@@ -268,13 +268,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/26/Java单核CPU多线程内存模型的疑问/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/26/Java单核CPU多线程内存模型的疑问/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -341,25 +334,6 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/04/26/Java单核CPU多线程内存模型的疑问/"
-     data-title="Java单核CPU多线程内存模型的疑问"
-     data-content=""
-     data-url="http://www.hoyoung.net/2016/04/26/Java单核CPU多线程内存模型的疑问/">
-  <div class="ds-share-inline">
-    <ul  class="ds-share-icons-16">
-
-      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-
-    </ul>
-    <div class="ds-share-icons-more">
-    </div>
-  </div>
-</div>
-      
     </div>
   </div>
 
@@ -370,10 +344,6 @@
 
           
   <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2016/04/26/Java单核CPU多线程内存模型的疑问/"
-           data-title="Java单核CPU多线程内存模型的疑问" data-url="http://www.hoyoung.net/2016/04/26/Java单核CPU多线程内存模型的疑问/">
-      </div>
     
   </div>
 
@@ -417,7 +387,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -756,28 +726,9 @@
 
   
 
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"hoyoung"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-  
 
 
+  
 
 
 

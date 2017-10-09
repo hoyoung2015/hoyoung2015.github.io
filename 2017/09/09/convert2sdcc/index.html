@@ -61,7 +61,7 @@
 <meta name="keywords" content="Ubuntu,MCU,SDCC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Keil C语法转换SDCC脚本">
-<meta property="og:url" content="http://www.hoyoung.net/2017/09/09/convert2sdcc/index.html">
+<meta property="og:url" content="http://hoyoung.net/2017/09/09/convert2sdcc/index.html">
 <meta property="og:site_name" content="Hoyoung&#39;s Blog">
 <meta property="og:description" content="前文bb了C51单片机Ubuntu基本开发环境，示例中用了一个非常简单的led闪烁的代码，代码好像看着和keil c没什么区别，一切像预想中的一样完美。但当你尝试用sdcc编译一个keil c环境下写的代码时，我擦，这什么鬼 STC12C5A60S2.h:4: syntax error: token -&amp;gt; &apos;ACC&apos; ; column 7">
 <meta property="og:locale" content="zh-Hans">
@@ -264,13 +264,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/09/09/convert2sdcc/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/09/convert2sdcc/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -288,7 +281,7 @@
       
 
       
-        <p>前文bb了<a href="http://hoyoung.net/2017/09/09/ubuntu-c51-dev/" target="_blank" rel="external">C51单片机Ubuntu基本开发环境</a>，示例中用了一个非常简单的led闪烁的代码，代码好像看着和keil c没什么区别，一切像预想中的一样完美。但当你尝试用sdcc编译一个keil c环境下写的代码时，我擦，这什么鬼</p>
+        <p>前文bb了<a href="http://hoyoung.net/2017/09/09/ubuntu-c51-dev/">C51单片机Ubuntu基本开发环境</a>，示例中用了一个非常简单的led闪烁的代码，代码好像看着和keil c没什么区别，一切像预想中的一样完美。但当你尝试用sdcc编译一个keil c环境下写的代码时，我擦，这什么鬼</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">STC12C5A60S2.h:4: syntax error: token -&gt; 'ACC' ; column 7</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>项目使用了<code>STC12C5A60S2.h</code>的头文件，打开头文件看了下，因为是从windows下复制过来的，中文显示乱码，难道是乱码的原因？尝试把中文全部去掉，但错误依旧。标准的头文件竟然有语法错误，这怎么回事。从sdcc的官方文档中找到了问题根源，sdcc和keil c的语言标准不同，唉，厂商就是这样自傲，做大了就想建立自己的标准让下游遵从。我们可以在sdcc安装目录的标准库中找到不同。Ubuntu使用<code>sudo apt-get install sdcc</code>方式安装的sdcc目录在<code>/usr/share/sdcc</code>，在该目录下找到文件<code>/usr/share/sdcc/include/mcs51/8052.h</code>，这里贴出部分代码。</p>
@@ -331,6 +324,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/09/26/elasticsearch-guide/" rel="prev" title="elasticsearch_guide">
+                elasticsearch_guide <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -344,25 +341,6 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/09/09/convert2sdcc/"
-     data-title="Keil C语法转换SDCC脚本"
-     data-content=""
-     data-url="http://www.hoyoung.net/2017/09/09/convert2sdcc/">
-  <div class="ds-share-inline">
-    <ul  class="ds-share-icons-16">
-
-      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-
-    </ul>
-    <div class="ds-share-icons-more">
-    </div>
-  </div>
-</div>
-      
     </div>
   </div>
 
@@ -373,10 +351,6 @@
 
           
   <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2017/09/09/convert2sdcc/"
-           data-title="Keil C语法转换SDCC脚本" data-url="http://www.hoyoung.net/2017/09/09/convert2sdcc/">
-      </div>
     
   </div>
 
@@ -420,7 +394,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -759,28 +733,9 @@
 
   
 
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"hoyoung"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-  
 
 
+  
 
 
 
