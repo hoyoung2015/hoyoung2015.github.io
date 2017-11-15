@@ -1,0 +1,777 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="hive,hadoop,uff," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="hive教程众多，这些教程详细的介绍了从搭建hive环境到基本使用的全部过程，本着不重复造轮子的理念。本文这对于针对于已经了解hadoop及hive的基础知识和用法，简要讲解企业常用的数据类型和方法。">
+<meta name="keywords" content="hive,hadoop,uff">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据攻城狮必备工具之Hive实例">
+<meta property="og:url" content="http://hoyoung.net/2017/11/12/hive-demo/index.html">
+<meta property="og:site_name" content="Hoyoung&#39;s Blog">
+<meta property="og:description" content="hive教程众多，这些教程详细的介绍了从搭建hive环境到基本使用的全部过程，本着不重复造轮子的理念。本文这对于针对于已经了解hadoop及hive的基础知识和用法，简要讲解企业常用的数据类型和方法。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-15T05:22:14.927Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据攻城狮必备工具之Hive实例">
+<meta name="twitter:description" content="hive教程众多，这些教程详细的介绍了从搭建hive环境到基本使用的全部过程，本着不重复造轮子的理念。本文这对于针对于已经了解hadoop及hive的基础知识和用法，简要讲解企业常用的数据类型和方法。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 数据攻城狮必备工具之Hive实例 | Hoyoung's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hoyoung's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">独具匠心</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据攻城狮必备工具之Hive实例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-11-12T11:22:51+08:00" content="2017-11-12">
+              2017-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>hive教程众多，这些教程详细的介绍了从搭建hive环境到基本使用的全部过程，本着不重复造轮子的理念。本文这对于针对于已经了解hadoop及hive的基础知识和用法，简要讲解企业常用的数据类型和方法。<br><a id="more"></a></p>
+<h1 id="复合数据类型"><a href="#复合数据类型" class="headerlink" title="复合数据类型"></a>复合数据类型</h1><h2 id="数组array"><a href="#数组array" class="headerlink" title="数组array"></a>数组array</h2><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> test_array(province <span class="keyword">string</span>,city <span class="built_in">array</span>&lt;<span class="keyword">string</span>&gt;)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span></div><div class="line"><span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line"><span class="comment">-- 指定集合类型用英文逗号分隔</span></div><div class="line">COLLECTION ITEMS <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span></div><div class="line"><span class="comment">-- 指定数据存储位置</span></div><div class="line">LOCATION <span class="string">'hdfs path'</span></div><div class="line">TBLPROPERTIES (<span class="string">'hadoop.job.ugi'</span>=<span class="string">'user,passwd'</span>);</div></pre></td></tr></table></figure>
+<p>数据的文本格式：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">江苏	苏州,无锡,南京</div><div class="line">浙江	杭州,绍兴</div></pre></td></tr></table></figure>
+<p>查询方法</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> test_array;</div><div class="line"><span class="comment">-- 指定索引</span></div><div class="line"><span class="keyword">select</span> province,city[<span class="number">0</span>] <span class="keyword">from</span> test_array;</div></pre></td></tr></table></figure>
+<h2 id="字典map"><a href="#字典map" class="headerlink" title="字典map"></a>字典map</h2><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> test_map(<span class="keyword">name</span> <span class="keyword">string</span>, score <span class="keyword">map</span>&lt;<span class="keyword">string</span>,<span class="built_in">int</span>&gt;)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span></div><div class="line"><span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line"><span class="comment">-- 键值对之间用逗号分隔</span></div><div class="line">COLLECTION ITEMS <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span></div><div class="line"><span class="comment">-- key和value用冒号分隔</span></div><div class="line"><span class="keyword">MAP</span> <span class="keyword">KEYS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">':'</span></div><div class="line">LOCATION <span class="string">'hdfs path'</span></div><div class="line">TBLPROPERTIES (</div><div class="line">  <span class="string">'hadoop.job.ugi'</span>=<span class="string">'user,passwd'</span></div><div class="line">);</div></pre></td></tr></table></figure>
+<p>数据文本存储格式：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">张三    math:80,chinese:89,english:95</div><div class="line">李四    chinese:60,math:80</div></pre></td></tr></table></figure>
+<p>查询方法</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> test_map;</div><div class="line"><span class="keyword">select</span> score[<span class="string">'english'</span>] <span class="keyword">from</span> test_map;</div></pre></td></tr></table></figure>
+<h2 id="结构体struct"><a href="#结构体struct" class="headerlink" title="结构体struct"></a>结构体struct</h2><pre><code>CREATE external TABLE test_struct(
+id int,
+province struct&lt;pid:int,pname:string&gt;)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY &apos;\t&apos;
+COLLECTION ITEMS TERMINATED BY &apos;,&apos;
+LOCATION &apos;hdfs path&apos;
+TBLPROPERTIES (
+  &apos;hadoop.job.ugi&apos;=&apos;user,passwd&apos;
+);
+</code></pre><p>结构体的与字典不同的是，结构体中的key必须在文本数据中存在</p>
+<p>文本存储格式：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">1	1001,jiangsu</div><div class="line">2	2001,zhejiang</div></pre></td></tr></table></figure>
+<p>查询方法：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> test_struct;</div><div class="line"><span class="keyword">select</span> province.pid,province.pname <span class="keyword">from</span> test_struct;</div></pre></td></tr></table></figure>
+<h1 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h1><p>常用元信息查询方法：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 显示可用函数</span></div><div class="line"><span class="keyword">show</span> functions;</div><div class="line">desc function extended concat;</div><div class="line"><span class="comment">-- 显示表</span></div><div class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</div><div class="line"><span class="comment">-- 显示分区</span></div><div class="line"><span class="keyword">show</span> <span class="keyword">partitions</span> bfp_search_log_info <span class="keyword">partition</span>(yymmdd=<span class="number">20170509</span>);</div><div class="line"><span class="comment">-- 显示分区的详细信息，包括分区存储数据的真实位置。常用在将hive数据作为mapreduce输入的时候，由此获取数据位置</span></div><div class="line">desc formatted bfp_search_log_info partition(yymmdd=20170509,hhmm=0000);</div></pre></td></tr></table></figure>
+<p>创建示例表</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">external</span> <span class="keyword">TABLE</span> test_partition(<span class="keyword">id</span> <span class="built_in">int</span>, <span class="keyword">name</span> <span class="keyword">string</span>)</div><div class="line">partitioned <span class="keyword">by</span> (yymmdd <span class="keyword">string</span>)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span></div><div class="line"><span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line">COLLECTION ITEMS <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span></div><div class="line">LOCATION <span class="string">'hdfs path'</span></div><div class="line">TBLPROPERTIES (</div><div class="line">  <span class="string">'hadoop.job.ugi'</span>=<span class="string">'user,passwd'</span></div><div class="line">);</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 显示分区</span></div><div class="line"><span class="keyword">show</span> <span class="keyword">partitions</span> test_partition;</div><div class="line"><span class="comment">-- 增加分区</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">ADD</span> <span class="keyword">PARTITION</span> (yymmdd=<span class="string">'20170510'</span>) location <span class="string">'hdfs_path/test_partition/20170510'</span>;</div><div class="line"><span class="comment">-- 删除分区</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">DROP</span> <span class="keyword">PARTITION</span> (yymmdd=<span class="string">'20170510'</span>);</div><div class="line"><span class="comment">-- 修改分区</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">PARTITION</span> (yymmdd=<span class="string">'20170510'</span>) <span class="keyword">SET</span> LOCATION <span class="string">'hdfs_path/test_partition/20170510'</span>;</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">PARTITION</span> (yymmdd=<span class="string">'20170510'</span>) <span class="keyword">RENAME</span> <span class="keyword">TO</span> <span class="keyword">PARTITION</span> (yymmdd=<span class="string">'2017-05-10'</span>);</div><div class="line"><span class="comment">-- 添加列</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">ADD</span> <span class="keyword">COLUMNS</span> (age <span class="built_in">int</span>);</div><div class="line"><span class="comment">-- 修改列</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">CHANGE</span> <span class="keyword">id</span> id1 <span class="built_in">INT</span>;</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">CHANGE</span> <span class="keyword">name</span> <span class="keyword">name</span> <span class="keyword">STRING</span> <span class="keyword">AFTER</span> age;</div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">CHANGE</span> age age <span class="built_in">INT</span> <span class="keyword">FIRST</span>;</div><div class="line"><span class="comment">-- 修改表属性</span></div><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test_partition <span class="keyword">set</span> TBLPROPERTIES (<span class="string">'partition_retention_days'</span>=<span class="string">'14'</span>);</div><div class="line"><span class="comment">-- 表的重命名</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> test_partition <span class="keyword">RENAME</span> <span class="keyword">TO</span> test_partition111</div></pre></td></tr></table></figure>
+<h1 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h1><p>创建示例表</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">external</span> <span class="keyword">TABLE</span> test_fun(<span class="keyword">id</span> <span class="built_in">int</span>,money <span class="keyword">string</span>)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span></div><div class="line"><span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line">COLLECTION ITEMS <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span></div><div class="line">LOCATION <span class="string">'数据在hdfs上的存储位置'</span></div><div class="line">TBLPROPERTIES (</div><div class="line">  <span class="string">'hadoop.job.ugi'</span>=<span class="string">'user,passwd'</span></div><div class="line">);</div></pre></td></tr></table></figure>
+<h2 id="and-or-顺序"><a href="#and-or-顺序" class="headerlink" title="and or 顺序"></a>and or 顺序</h2><figure class="highlight"><table><tr><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">id</span>,money <span class="keyword">from</span> test_fun <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1001</span> <span class="keyword">or</span> <span class="keyword">id</span>=<span class="number">1002</span> <span class="keyword">and</span> money=<span class="string">'100'</span>;</div><div class="line"><span class="comment">-- 类型转换</span></div><div class="line"><span class="keyword">select</span> <span class="keyword">cast</span>(<span class="number">1.5</span> <span class="keyword">as</span> <span class="built_in">int</span>)<span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div><div class="line"><span class="comment">-- 条件判断</span></div><div class="line"><span class="keyword">select</span> <span class="keyword">if</span>(<span class="number">2</span>&gt;<span class="number">3</span>,<span class="string">'aaaa'</span>,<span class="string">'bbbb'</span>) <span class="keyword">from</span> test.dual ;</div><div class="line"><span class="comment">-- 多分枝条件判断</span></div><div class="line">case when xx then .. when xx then .. else <span class="keyword">end</span></div><div class="line"><span class="comment">-- 提取json</span></div><div class="line"><span class="keyword">select</span> get_json_object(<span class="string">'&#123;"id":"1001","name":"wangwei"&#125;'</span>,<span class="string">"$.id"</span>) <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div><div class="line"><span class="comment">-- 解析URL</span></div><div class="line"><span class="keyword">select</span> parse_url(<span class="string">"http://www.baidu.com/news"</span>,<span class="string">"HOST"</span>) <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>; </div><div class="line"><span class="comment">-- 字符串连接</span></div><div class="line"><span class="keyword">select</span> <span class="keyword">concat</span>(<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>) <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div><div class="line"><span class="comment">-- 指定分隔符连接字符串</span></div><div class="line"><span class="keyword">select</span> <span class="keyword">concat_ws</span>(<span class="string">'-'</span>,<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>) <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div><div class="line"><span class="comment">-- 分组连接字符串</span></div><div class="line"><span class="keyword">select</span> <span class="keyword">concat_ws</span>(<span class="string">'-'</span>,money) <span class="keyword">from</span> test_fun <span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">id</span>;</div><div class="line"><span class="comment">-- 将分组后的组内元素转为集合，collect_set是去重了的，collect_list不去重</span></div><div class="line"><span class="keyword">select</span> <span class="keyword">id</span>,collect_set(money) <span class="keyword">from</span> test_fun <span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">id</span>;</div><div class="line"><span class="comment">-- 返回参数中的第一个非空值</span></div><div class="line"><span class="keyword">select</span> <span class="keyword">COALESCE</span>(<span class="literal">null</span>,<span class="string">'aaa'</span>) <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div><div class="line">id!=null and id&lt;&gt;''  =&gt;  COALESCE(id,'')&lt;&gt;''</div></pre></td></tr></table></figure>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>A LIKE B<br>A RLIKE B<br>regexp_replace<br>regexp_extract</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="string">'ssdfdsafas'</span> <span class="keyword">like</span> <span class="string">'s%'</span> <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="keyword">select</span> <span class="string">'s12123s'</span> <span class="keyword">rlike</span> <span class="string">'^s.*s$'</span> <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="keyword">select</span> regexp_replace(<span class="string">'foobar'</span>, <span class="string">'oo|ar'</span>, <span class="string">''</span>) <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="keyword">select</span> regexp_extract(<span class="string">'foothebar'</span>, <span class="string">'foo(.*?)(bar)'</span>, <span class="number">1</span>) <span class="keyword">from</span> test.dual <span class="keyword">limit</span> <span class="number">1</span>;</div></pre></td></tr></table></figure>
+<h1 id="编写UDF"><a href="#编写UDF" class="headerlink" title="编写UDF"></a>编写UDF</h1><p>用户自定义函数是为解决hive自带函数功能不足或处理与业务相关的复杂逻辑</p>
+<p>maven依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hive<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hive-exec<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.6.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这两个依赖的版本根据自身使用的hadoop和hive版本来定，自定义函数很简单，只需要继承<code>org.apache.hadoop.hive.ql.exec.UDF</code>类并开发<code>evaluate</code>方法，该方法的参数也是在hive sql中使用该函数时的参数。注意，我这里说的是开发<code>evaluate</code>方法，并不是实现，因为UDF这个类以及它的父类中并不存在这个方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyUDF</span> <span class="keyword">extends</span> <span class="title">UDF</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">evaluate</span><span class="params">(String value, String key)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> value + <span class="string">"_"</span> + key;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>maven打包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">mvn clean package -Dmaven.test.skip=true</div></pre></td></tr></table></figure>
+<p>打包后会生成一个jar包，将其上传到hive客户端所在的机器上。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 载入jar包</span></div><div class="line">add jar xxx.jar;</div><div class="line"><span class="comment">-- 创建函数</span></div><div class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">function</span> my_func <span class="keyword">as</span> <span class="string">'package.MyUDF'</span>;</div><div class="line"><span class="comment">-- 函数调用</span></div><div class="line"><span class="keyword">select</span> my_func(<span class="string">'hello'</span>,<span class="keyword">name</span>) <span class="keyword">from</span> my_table <span class="keyword">limit</span> <span class="number">10</span>;</div></pre></td></tr></table></figure>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 查询显示列名</span></div><div class="line"><span class="keyword">set</span> hive.cli.print.header=<span class="literal">true</span>;</div><div class="line"><span class="comment">-- 设置hive mapreduce执行队列的优先级</span></div><div class="line"><span class="keyword">set</span> mapred.job.priority=VERY_HIGH;</div><div class="line"><span class="comment">-- 设置map和reduce的并发量</span></div><div class="line"><span class="keyword">set</span> mapred.job.map.capacity=<span class="number">3000</span></div><div class="line"><span class="keyword">set</span> mapred.job.reduce.capacity=<span class="number">3000</span></div><div class="line"><span class="comment">-- 设置hive任务名称</span></div><div class="line"><span class="keyword">set</span> mapred.job.name=jobName</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hive/" rel="tag">#hive</a>
+          
+            <a href="/tags/hadoop/" rel="tag">#hadoop</a>
+          
+            <a href="/tags/uff/" rel="tag">#uff</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/26/elasticsearch-guide/" rel="next" title="elasticsearch_guide">
+                <i class="fa fa-chevron-left"></i> elasticsearch_guide
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/reindeer_72px_1207022_easyicon.net.png"
+               alt="hoyoung" />
+          <p class="site-author-name" itemprop="name">hoyoung</p>
+          <p class="site-description motion-element" itemprop="description">这货暂时还没有想好</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2304377421" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhaokidd.github.io/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> ZhaoY
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.mtxcxin.cn/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 星辰
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/liang16286" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> Liang
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#复合数据类型"><span class="nav-number">1.</span> <span class="nav-text">复合数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数组array"><span class="nav-number">1.1.</span> <span class="nav-text">数组array</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典map"><span class="nav-number">1.2.</span> <span class="nav-text">字典map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构体struct"><span class="nav-number">1.3.</span> <span class="nav-text">结构体struct</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DDL"><span class="nav-number">2.</span> <span class="nav-text">DDL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用函数"><span class="nav-number">3.</span> <span class="nav-text">常用函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#and-or-顺序"><span class="nav-number">3.1.</span> <span class="nav-text">and or 顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式"><span class="nav-number">3.2.</span> <span class="nav-text">正则表达式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写UDF"><span class="nav-number">4.</span> <span class="nav-text">编写UDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hoyoung</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+
+  
+  
+
+</body>
+</html>

@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="存储,全文检索," />
 
 
 
@@ -57,17 +57,18 @@
 
 
 
-<meta name="description" content="删除索引 curl rs = es.indices.delete(index=&quot;index_name&quot;, ignore=[400, 404]) 当进行精确值查找时， 我们会使用过滤器（filters）。过滤器很重要，因为它们执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存，尽可能多的使用过滤式查询。 精确查询 &amp;#123;    &quot;term&quot; : &amp;#123;">
+<meta name="description" content="删除索引 curl rs = es.indices.delete(index=&quot;index_name&quot;, ignore=[400, 404]) 当进行精确值查找时， 我们会使用过滤器（filters）。过滤器很重要，因为它们执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存，尽可能多的使用过滤式查询。">
+<meta name="keywords" content="存储,全文检索">
 <meta property="og:type" content="article">
 <meta property="og:title" content="elasticsearch_guide">
 <meta property="og:url" content="http://hoyoung.net/2017/09/26/elasticsearch-guide/index.html">
 <meta property="og:site_name" content="Hoyoung&#39;s Blog">
-<meta property="og:description" content="删除索引 curl rs = es.indices.delete(index=&quot;index_name&quot;, ignore=[400, 404]) 当进行精确值查找时， 我们会使用过滤器（filters）。过滤器很重要，因为它们执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存，尽可能多的使用过滤式查询。 精确查询 &amp;#123;    &quot;term&quot; : &amp;#123;">
+<meta property="og:description" content="删除索引 curl rs = es.indices.delete(index=&quot;index_name&quot;, ignore=[400, 404]) 当进行精确值查找时， 我们会使用过滤器（filters）。过滤器很重要，因为它们执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存，尽可能多的使用过滤式查询。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-26T03:43:13.000Z">
+<meta property="og:updated_time" content="2017-11-15T05:25:38.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch_guide">
-<meta name="twitter:description" content="删除索引 curl rs = es.indices.delete(index=&quot;index_name&quot;, ignore=[400, 404]) 当进行精确值查找时， 我们会使用过滤器（filters）。过滤器很重要，因为它们执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存，尽可能多的使用过滤式查询。 精确查询 &amp;#123;    &quot;term&quot; : &amp;#123;">
+<meta name="twitter:description" content="删除索引 curl rs = es.indices.delete(index=&quot;index_name&quot;, ignore=[400, 404]) 当进行精确值查找时， 我们会使用过滤器（filters）。过滤器很重要，因为它们执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存，尽可能多的使用过滤式查询。">
 
 
 
@@ -241,6 +242,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -264,7 +284,7 @@
         <p>删除索引</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">curl</div></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="code"><pre><div class="line">rs = es.indices.delete(index=<span class="string">"index_name"</span>, ignore=[<span class="number">400</span>, <span class="number">404</span>])</div></pre></td></tr></table></figure>
-<p>当进行精确值查找时， 我们会使用过滤器（filters）。过滤器很重要，因为它们执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存，尽可能多的使用过滤式查询。</p>
+<p>当进行精确值查找时， 我们会使用过滤器（filters）。过滤器很重要，因为它们执行速度非常快，不会计算相关度（直接跳过了整个评分阶段）而且很容易被缓存，尽可能多的使用过滤式查询。<br><a id="more"></a></p>
 <p>精确查询</p>
 <figure class="highlight json"><table><tr><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"term"</span> : &#123;</div><div class="line">        <span class="attr">"price"</span> : <span class="number">20</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>用 <em>任意</em> 查询词项匹配文档可能会导致结果中出现不相关的长尾。 这是种散弹式搜索。可能我们只想搜索包含 <em>所有</em> 词项的文档，也就是说，不去匹配 <code>brown OR dog</code> ，而通过匹配 <code>brown AND dog</code> 找到所有文档。</p>
@@ -275,6 +295,14 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/存储/" rel="tag">#存储</a>
+          
+            <a href="/tags/全文检索/" rel="tag">#全文检索</a>
+          
+        </div>
       
 
       
@@ -288,6 +316,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/12/hive-demo/" rel="prev" title="数据攻城狮必备工具之Hive实例">
+                数据攻城狮必备工具之Hive实例 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -355,21 +387,21 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
