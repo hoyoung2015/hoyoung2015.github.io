@@ -65,14 +65,14 @@
 <meta property="og:site_name" content="Hoyoung&#39;s Blog">
 <meta property="og:description" content="关于分词　　玩文本挖掘一定少不了分词，自己找了两个R语言的分词包，一个是Rwordseg，安装这个包之前必须配置好Java环境并且安装rJava，因为它调用的是Java的一个分词工具叫ansj，这是一个鼎鼎大名的中文分析系统ictclas的Java实现。另一个是jiebaR，这是github上的一个开源项目，安装这个包和安装其他普通的包一样，非常的方便，准确率和Rwordseg相差无几，但是效率">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://hoyoung.net/uploads/images/R/ciyun.jpg">
-<meta property="og:image" content="http://hoyoung.net/uploads/images/R/gongzuo.jpg">
-<meta property="og:image" content="http://hoyoung.net/uploads/images/R/cipin.png">
-<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta property="og:image" content="http://hoyoung.net/2016/01/04/R语言分词发并绘制词云/ciyun.jpg">
+<meta property="og:image" content="http://hoyoung.net/2016/01/04/R语言分词发并绘制词云/uploads/images/R/gongzuo.jpg">
+<meta property="og:image" content="http://hoyoung.net/2016/01/04/R语言分词发并绘制词云/cipin.png">
+<meta property="og:updated_time" content="2018-06-25T09:03:31.245Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="R语言分词发并绘制词云">
 <meta name="twitter:description" content="关于分词　　玩文本挖掘一定少不了分词，自己找了两个R语言的分词包，一个是Rwordseg，安装这个包之前必须配置好Java环境并且安装rJava，因为它调用的是Java的一个分词工具叫ansj，这是一个鼎鼎大名的中文分析系统ictclas的Java实现。另一个是jiebaR，这是github上的一个开源项目，安装这个包和安装其他普通的包一样，非常的方便，准确率和Rwordseg相差无几，但是效率">
-<meta name="twitter:image" content="http://hoyoung.net/uploads/images/R/ciyun.jpg">
+<meta name="twitter:image" content="http://hoyoung.net/2016/01/04/R语言分词发并绘制词云/ciyun.jpg">
 
 
 
@@ -285,7 +285,7 @@
       
 
       
-        <p><img src="/uploads/images/R/ciyun.jpg" alt="词云"></p>
+        <p><img src="/2016/01/04/R语言分词发并绘制词云/ciyun.jpg" alt="词云"></p>
 <h3 id="关于分词"><a href="#关于分词" class="headerlink" title="关于分词"></a>关于分词</h3><p>　　玩文本挖掘一定少不了分词，自己找了两个R语言的分词包，一个是Rwordseg，安装这个包之前必须配置好Java环境并且安装rJava，因为它调用的是Java的一个分词工具叫ansj，这是一个鼎鼎大名的中文分析系统ictclas的Java实现。另一个是jiebaR，这是github上的一个开源项目，安装这个包和安装其他普通的包一样，非常的方便，准确率和Rwordseg相差无几，但是效率要高，于是选用了这个分词工具。这是jiebaR的github地址<code>https://github.com/qinwf/jiebaR</code>，安装方式和中文帮助文档都在上面。<br><a id="more"></a></p>
 <h3 id="数据来源"><a href="#数据来源" class="headerlink" title="数据来源"></a>数据来源</h3><p>　　要分词，得有文本数据，最近突然对数据挖掘感兴趣，想了解数据挖掘的就业情况，于是自己写了个简单的网络爬虫，从互联网领域比较专业招聘网站“拉勾网”爬取了1020条数据挖掘职位的招聘信息。我已近从数据库中导出为csv文件。由于我是在windows环境下做实验的，数据文件的格式要转成ANSI的，我都已经转换过了。</p>
 <ul>
@@ -296,7 +296,7 @@
 <figure class="highlight r"><table><tr><td class="code"><pre><div class="line">position = read.csv(file=<span class="string">"position_1450922618842_.csv"</span>,header = <span class="literal">T</span>)</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="/uploads/images/R/gongzuo.jpg" alt="职位"></p>
+<p><img src="/2016/01/04/R语言分词发并绘制词云/uploads/images/R/gongzuo.jpg" alt="职位"></p>
 <ul>
 <li><p>加载jiebaR中文分词</p>
 <figure class="highlight r"><table><tr><td class="code"><pre><div class="line"><span class="keyword">library</span>(jiebaR)</div></pre></td></tr></table></figure>
@@ -334,7 +334,7 @@
 <figure class="highlight r"><table><tr><td class="code"><pre><div class="line">res=res[which(substr(res$char,<span class="number">1</span>,<span class="number">1</span>) %<span class="keyword">in</span>% c(<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"D"</span>,<span class="string">"E"</span>,<span class="string">"F"</span>,<span class="string">"G"</span>,<span class="string">"H"</span>,<span class="string">"I"</span>,<span class="string">"J"</span>,<span class="string">"K"</span>,<span class="string">"L"</span>,<span class="string">"M"</span>,<span class="string">"N"</span>,<span class="string">"O"</span>,<span class="string">"P"</span>,<span class="string">"Q"</span>,<span class="string">"R"</span>,<span class="string">"S"</span>,<span class="string">"T"</span>,<span class="string">"U"</span>,<span class="string">"V"</span>,<span class="string">"W"</span>,<span class="string">"X"</span>,<span class="string">"Y"</span>,<span class="string">"Z"</span>)),]</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="/uploads/images/R/cipin.png" alt="词频"></p>
+<p><img src="/2016/01/04/R语言分词发并绘制词云/cipin.png" alt="词频"></p>
 <ul>
 <li><p>加载绘制词云的包</p>
 <figure class="highlight r"><table><tr><td class="code"><pre><div class="line"><span class="keyword">library</span>(wordcloud)</div></pre></td></tr></table></figure>
@@ -441,14 +441,14 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>

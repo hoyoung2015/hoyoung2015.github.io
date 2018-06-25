@@ -65,12 +65,12 @@
 <meta property="og:site_name" content="Hoyoung&#39;s Blog">
 <meta property="og:description" content="我们在使用R软件的时候经常需要安装一些软件包，而R软件默认的cran源是国外的，我们可以修改R的配置文件，添加国内的镜像源，这样在安装R的包时包的下载速度会很快。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://hoyoung.net/uploads/images/R/rlogo.jpg">
-<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta property="og:image" content="http://hoyoung.net/2015/12/06/R软件linux环境下设置cran国内镜像/rlogo.jpg">
+<meta property="og:updated_time" content="2018-06-25T09:05:01.225Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="R软件linux环境下设置cran国内镜像">
 <meta name="twitter:description" content="我们在使用R软件的时候经常需要安装一些软件包，而R软件默认的cran源是国外的，我们可以修改R的配置文件，添加国内的镜像源，这样在安装R的包时包的下载速度会很快。">
-<meta name="twitter:image" content="http://hoyoung.net/uploads/images/R/rlogo.jpg">
+<meta name="twitter:image" content="http://hoyoung.net/2015/12/06/R软件linux环境下设置cran国内镜像/rlogo.jpg">
 
 
 
@@ -283,7 +283,8 @@
       
 
       
-        <p><img src="/uploads/images/R/rlogo.jpg" alt="test"><br>我们在使用R软件的时候经常需要安装一些软件包，而R软件默认的cran源是国外的，我们可以修改R的配置文件，添加国内的镜像源，这样在安装R的包时包的下载速度会很快。<br><a id="more"></a><br>R在linux环境下配置文件默认放置在/etc/R/目录下<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">hoyoung@hoyoung:/etc/R$ ls</div><div class="line">ldpaths Renviron repositories Rprofile.site~</div><div class="line">Makeconf Renviron.site Rprofile.site</div><div class="line">我们修改Rprofile.site文件，将下面这段代码的注释去掉</div><div class="line"><span class="comment"># ## Example of Rprofile.site</span></div><div class="line"> local(&#123;</div><div class="line">  <span class="comment"># add MASS to the default packages, set a CRAN mirror</span></div><div class="line">  old &lt;- getOption(<span class="string">"defaultPackages"</span>); r &lt;- getOption(<span class="string">"repos"</span>)</div><div class="line">  r[<span class="string">"CRAN"</span>] &lt;- <span class="string">"http://mirror.bjtu.edu.cn/cran"</span></div><div class="line">  options(defaultPackages = c(old, <span class="string">"MASS"</span>), repos = r)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+        <p><img src="/2015/12/06/R软件linux环境下设置cran国内镜像/rlogo.jpg" alt="test"></p>
+<p>我们在使用R软件的时候经常需要安装一些软件包，而R软件默认的cran源是国外的，我们可以修改R的配置文件，添加国内的镜像源，这样在安装R的包时包的下载速度会很快。<br><a id="more"></a><br>R在linux环境下配置文件默认放置在/etc/R/目录下<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">hoyoung@hoyoung:/etc/R$ ls</div><div class="line">ldpaths Renviron repositories Rprofile.site~</div><div class="line">Makeconf Renviron.site Rprofile.site</div><div class="line">我们修改Rprofile.site文件，将下面这段代码的注释去掉</div><div class="line"><span class="comment"># ## Example of Rprofile.site</span></div><div class="line"> local(&#123;</div><div class="line">  <span class="comment"># add MASS to the default packages, set a CRAN mirror</span></div><div class="line">  old &lt;- getOption(<span class="string">"defaultPackages"</span>); r &lt;- getOption(<span class="string">"repos"</span>)</div><div class="line">  r[<span class="string">"CRAN"</span>] &lt;- <span class="string">"http://mirror.bjtu.edu.cn/cran"</span></div><div class="line">  options(defaultPackages = c(old, <span class="string">"MASS"</span>), repos = r)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 <p>将其中的镜像改为国内的一个镜像地址，其他的国内站点还有</p>
 <ul>
 <li>Beijing Jiaotong University<ul>
@@ -400,14 +401,14 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>

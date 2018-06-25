@@ -208,227 +208,6 @@
 
     
     
-      
-      
-
-      
-    
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/09/mongodb-driver-tutorial/" itemprop="url">
-                  mongodb-driver使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-09T16:38:42+08:00" content="2017-02-09">
-              2017-02-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Java-MongoDB-Driver使用"><a href="#Java-MongoDB-Driver使用" class="headerlink" title="Java MongoDB Driver使用"></a>Java MongoDB Driver使用</h1><p>下面的代码片段都来自 <a href="https://github.com/mongodb/mongo-java-driver/blob/master/driver/src/examples/tour/QuickTour.java" target="_blank" rel="external">QuickTour.java</a>。</p>
-<p>英文原文：<a href="http://mongodb.github.io/mongo-java-driver/3.2/driver/getting-started/quick-tour/" target="_blank" rel="external">http://mongodb.github.io/mongo-java-driver/3.2/driver/getting-started/quick-tour/</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>我使用了maven项目构建工具，引入依赖即可</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.mongodb&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;mongo-java-driver&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;3.2.2&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>建议引入mongo-java-driver，它包含了bson和mongodb-driver-core  </p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/02/09/mongodb-driver-tutorial/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/16/numpy-tutorial/" itemprop="url">
-                  numpy中文教程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-16T10:36:01+08:00" content="2016-12-16">
-              2016-12-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>##基本介绍<br>Numpy的主要对象是同质多维数组，同质是指数组里的元素都是相同的类型。Numpy的数组被称为<code>ndarray</code>,也有别名叫<code>array</code>.Python标准库的类<code>array.array</code>只提供一位数组和较少的功能，而<code>numpy.array</code>和它有很大的差别的，不能混淆。下面是<code>ndarray</code>的几个比较重要的属性：<br><strong>ndarray.ndim</strong><br>　　数组的维度个数。在Python世界里，维度的数量被称为rank。<br><strong>ndarray.shape</strong><br>　　数组的维度。这是一个表示每个维度数组大小的元组，对于一个有n行m列的矩阵, shape是(n,m)。shape元组的长度是rank，或者说维度的个数ndim。<br><strong>ndarray.size</strong><br>　　数组中元素的数量，和shape元素的数量相等。<br><strong>ndarray.dtype</strong><br>　　一个描述数组中元素类型的类。我们可以使用标准的Python类型来指定dtype。另外Numpy也提供了自己的类型。比如<code>numpy.int32</code>, <code>numpy.int16</code>, and <code>numpy.float64</code>。<br><strong>ndarray.itemsize</strong><br>　　数组元素的字节大小。比如<code>float64</code>的<code>itemsize</code>为8 (=64/8), <code>complex32</code>为4 (=32/8)。等于<code>ndarray.dtype.itemsize</code>。<br><strong>ndarray.data</strong><br>　　缓冲区中真实包含的数组元素。一般不会使用这个属性，因为我们使用索引访问数组中的元素。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/16/numpy-tutorial/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
 
     
       
@@ -494,7 +273,7 @@
       
         
           <p>记得第一次接触动态规划算法不是计算机的算法书籍，而是运筹学。当时对于什么无后效性啊，前一个状态的最优不影响后一个状态啊什么的是一脸懵逼，做题时也只会照公式套。</p>
-<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>额，式子有点多，模型参数太多，我就上图片版的问题描述吧。一直觉得这些搞数学的总是把简单问题弄的那么抽象，刚看到题目的时候一头雾水，绕来绕去。<br>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>额，式子有点多，模型参数太多，我就上图片版的问题描述吧。一直觉得这些搞数学的总是把简单问题弄的那么抽象，刚看到题目的时候一头雾水，绕来绕去。<br></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/08/12/wagner-whitin-algorithm/#more" rel="contents">
               阅读全文 &raquo;
@@ -580,7 +359,7 @@
 
       
         
-          <h2 id="爬虫需要"><a href="#爬虫需要" class="headerlink" title="爬虫需要"></a>爬虫需要</h2><p>最近在搭建一个代理IP池用于爬虫。现在越来越多的网站做了反爬策略。如果爬取过程太规律或者频率太快会被他们发现这不是正常人的行为而封的ip，好的话封几个小时，坏的话直接永久封禁。虽然可以把爬取速度放满来避免。但是太慢了又会拖延业务。如果你有大量可用的代理ip给爬取过程中做切换，那对方就不容易辨别了，可以提高抓取频率。要写一个维护ip代理池程序首先你得有一个可用的代理服务器做测试啊！正好我买了个国外的vps，配成http代理就可以做测试了。<br>
+          <h2 id="爬虫需要"><a href="#爬虫需要" class="headerlink" title="爬虫需要"></a>爬虫需要</h2><p>最近在搭建一个代理IP池用于爬虫。现在越来越多的网站做了反爬策略。如果爬取过程太规律或者频率太快会被他们发现这不是正常人的行为而封的ip，好的话封几个小时，坏的话直接永久封禁。虽然可以把爬取速度放满来避免。但是太慢了又会拖延业务。如果你有大量可用的代理ip给爬取过程中做切换，那对方就不容易辨别了，可以提高抓取频率。要写一个维护ip代理池程序首先你得有一个可用的代理服务器做测试啊！正好我买了个国外的vps，配成http代理就可以做测试了。<br></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/07/05/Ubuntu14.04搭建http正向代理/#more" rel="contents">
               阅读全文 &raquo;
@@ -685,7 +464,7 @@
 
       
         
-          <p><img src="/uploads/2016/04/cpu1.png" alt="CPU情况"><br>&#160;&#160;&#160;&#160;在Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model，JMM）来屏蔽各个硬件平台和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。具体来讲就是:<u>Java内存模型规定所有的变量都是存在主存当中，每个线程都有自己的工作内存。线程对变量的所有操作都必须在工作内存中进行，而不能直接对主存进行操作。并且每个线程不能访问其他线程的工作内存.</u><br>
+          <p><img src="/2016/04/26/Java单核CPU多线程内存模型的疑问/cpu1.png" alt="CPU情况"><br>&#160;&#160;&#160;&#160;在Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model，JMM）来屏蔽各个硬件平台和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。具体来讲就是:<u>Java内存模型规定所有的变量都是存在主存当中，每个线程都有自己的工作内存。线程对变量的所有操作都必须在工作内存中进行，而不能直接对主存进行操作。并且每个线程不能访问其他线程的工作内存.</u><br></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/04/26/Java单核CPU多线程内存模型的疑问/#more" rel="contents">
               阅读全文 &raquo;
@@ -790,9 +569,183 @@
 
       
         
-          <p><iframe src="http://player.youku.com/embed/XMzI1ODQ5NjAw" frameborder="0" allowfullscreen></iframe><br>
+          <iframe src="http://player.youku.com/embed/XMzI1ODQ5NjAw" frameborder="0" allowfullscreen></iframe>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/04/02/制作狂拽酷炫的LED_CUBE/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/24/JS和CSS3实现的网络最短路径图形求解工具/" itemprop="url">
+                  JS和CSS3实现的网络最短路径图形求解工具
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-24T14:05:53+08:00" content="2016-03-24">
+              2016-03-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>演示地址：<a href="http://xdpaper.applinzi.com/GraphTheory/" target="_blank" rel="external">http://xdpaper.applinzi.com/GraphTheory/</a><br>源代码下载链接：<a href="http://pan.baidu.com/s/1qWYx01A" target="_blank" rel="external">http://pan.baidu.com/s/1qWYx01A</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>&#160;&#160;&#160;&#160;这是很早以前做的东西了，今天整理硬盘突然想起来了。当年学运筹学的图论（我也是个渣渣），学习了一个求最短路径的Floyd算法，求最短路径的还有dijkstra算法。Floyd算法是将图转化为邻接矩阵，然后进行迭代，具体的算法原理资料一大堆，作为一个渣渣我也就不在这里装了，哈哈！做作业的时候，由图写出邻接矩阵是个细致活儿，一不小心就弄错，于是我就想，弄个图形化的求解工具该多好。于是就干呗！<br></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/03/24/JS和CSS3实现的网络最短路径图形求解工具/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/24/排版修复小小工具/" itemprop="url">
+                  排版修复小小工具
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-24T13:08:41+08:00" content="2016-03-24">
+              2016-03-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>首先直接给出工具的链接<a href="http://xdpaper.applinzi.com/demo/enfilter.html" target="_blank" rel="external">http://xdpaper.applinzi.com/demo/enfilter.html</a></p>
+<h1 id="英文渣的痛点"><a href="#英文渣的痛点" class="headerlink" title="英文渣的痛点"></a>英文渣的痛点</h1><p>&#160; &#160; &#160; &#160;作为一名研究僧，搞科研看论文是必不可少的，导师还一再强调我们要看英文文献，可是本人虽然过了天朝英语六级，可还是个英语渣渣，看英文文献跟天书似的。所以呢看英文文献就借助翻译工具了，还好现在的翻译工具还算给力，即使翻译的不通顺，自己再看看原文也是能够理解作者的意思的。我看自己周围的很多同学也是要借助翻译才能完全理解论文的意思。<br></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/03/24/排版修复小小工具/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -819,7 +772,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -860,14 +813,14 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>

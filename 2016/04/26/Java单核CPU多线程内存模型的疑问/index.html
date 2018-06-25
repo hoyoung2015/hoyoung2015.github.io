@@ -65,14 +65,14 @@
 <meta property="og:site_name" content="Hoyoung&#39;s Blog">
 <meta property="og:description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;在Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model，JMM）来屏蔽各个硬件平台和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。具体来讲就是:Java内存模型规定所有的变量都是存在主存当中，每个线程都有自己的工作内存。线程对变量的所有操作都必须在工作内存中进行，而不能直接对主存进">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://hoyoung.net/uploads/2016/04/cpu1.png">
-<meta property="og:image" content="http://hoyoung.net/uploads/2016/04/cpu1.png">
-<meta property="og:image" content="http://hoyoung.net/uploads/2016/04/result1.png">
-<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta property="og:image" content="http://hoyoung.net/2016/04/26/Java单核CPU多线程内存模型的疑问/cpu1.png">
+<meta property="og:image" content="http://hoyoung.net/2016/04/26/Java单核CPU多线程内存模型的疑问/cpu1.png">
+<meta property="og:image" content="http://hoyoung.net/2016/04/26/Java单核CPU多线程内存模型的疑问/result1.png">
+<meta property="og:updated_time" content="2018-06-25T08:49:43.586Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java单核CPU多线程内存模型的疑问">
 <meta name="twitter:description" content="&amp;#160;&amp;#160;&amp;#160;&amp;#160;在Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model，JMM）来屏蔽各个硬件平台和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。具体来讲就是:Java内存模型规定所有的变量都是存在主存当中，每个线程都有自己的工作内存。线程对变量的所有操作都必须在工作内存中进行，而不能直接对主存进">
-<meta name="twitter:image" content="http://hoyoung.net/uploads/2016/04/cpu1.png">
+<meta name="twitter:image" content="http://hoyoung.net/2016/04/26/Java单核CPU多线程内存模型的疑问/cpu1.png">
 
 
 
@@ -285,10 +285,10 @@
       
 
       
-        <p><img src="/uploads/2016/04/cpu1.png" alt="CPU情况"><br>&#160;&#160;&#160;&#160;在Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model，JMM）来屏蔽各个硬件平台和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。具体来讲就是:<u>Java内存模型规定所有的变量都是存在主存当中，每个线程都有自己的工作内存。线程对变量的所有操作都必须在工作内存中进行，而不能直接对主存进行操作。并且每个线程不能访问其他线程的工作内存.</u><br><a id="more"></a><br>我们知道CPU的执行速度比内存快得多,不在同一个数量级,内存严重拉低了CPU的效率,我们花大价钱买个CPU肯定不是让他老在那睡觉啊,所以为了平衡CPU与内存间的速度,CPU里一般会加入高速缓存,当然,这个高速缓存的价格是很高昂.通过总线锁(现在已经不常用)或者缓存一致性协议来保证缓存中的数据和主存是一致的.另外,CPU的每个核心都有自己的缓存.那么,这和Java的内存模型有什么关系呢?</p>
+        <p><img src="/2016/04/26/Java单核CPU多线程内存模型的疑问/cpu1.png" alt="CPU情况"><br>&#160;&#160;&#160;&#160;在Java虚拟机规范中试图定义一种Java内存模型（Java Memory Model，JMM）来屏蔽各个硬件平台和操作系统的内存访问差异，以实现让Java程序在各种平台下都能达到一致的内存访问效果。具体来讲就是:<u>Java内存模型规定所有的变量都是存在主存当中，每个线程都有自己的工作内存。线程对变量的所有操作都必须在工作内存中进行，而不能直接对主存进行操作。并且每个线程不能访问其他线程的工作内存.</u><br><a id="more"></a><br>我们知道CPU的执行速度比内存快得多,不在同一个数量级,内存严重拉低了CPU的效率,我们花大价钱买个CPU肯定不是让他老在那睡觉啊,所以为了平衡CPU与内存间的速度,CPU里一般会加入高速缓存,当然,这个高速缓存的价格是很高昂.通过总线锁(现在已经不常用)或者缓存一致性协议来保证缓存中的数据和主存是一致的.另外,CPU的每个核心都有自己的缓存.那么,这和Java的内存模型有什么关系呢?</p>
 <p>&#160;&#160;&#160;&#160;Java多线程充分利用了CPU的多核并行特性,使得多个任务分配到多个CPU并发执行.如果线程的数量大于CPU的数量,则采用轮换时间片的方式对多个线程进行轮流执行.我看到过一种说话,Java的工作内存等同于CPU里的高速缓存,按照这种说话,那Java里的工作内存不久很好理解了吗,但是观点听上去非常的具有迷惑性,按照这种说话,单核CPU下不就有相同的工作内存了吗,内存可见性以及多线程情况下的共享变量的读写都不存在不一致的问题了啊.</p>
 <p>&#160;&#160;&#160;&#160;那么在线程数大于CPU核心数的情况下,Java的内存模型和多核心的是一样的吗?看过很多讲Java内存模型的文章，这些文章在讲线程工作内存的时候都是把CPU的多个核心比作多个线程，每个线程运行在一个核心上，核心的缓存认为是线程的工作内存，老实说这么还真有利于理解，但是事实真的是这样的吗？我们做了个实验验证一下,我们就在单核CPU下做，在单核下多个线程同时递增一个共享变量，但是不保证同步，如果前面的说法是正确的，结果应该和单线程的结果是一样的。在最极端的单核CPU下做的,这样效果也最明显.下面是我写的简单的例子,创建10个线程,每个线程对count进行100000000次的递增操作,对count变量的修改没有使用任何锁.用大腿都能想到在单线程下输出的结果是10<em>100000000,在多核心CPU下的多线程模式下输出的结果小于10</em>100000000.那么在单核CPU会怎么样呢?<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">import java.util.concurrent.ExecutorService;</div><div class="line">import java.util.concurrent.Executors;</div><div class="line">import java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line">/**</div><div class="line"> * Created by hoyoung on 16-4-26.</div><div class="line"> */</div><div class="line">public class OneCoreThreadVisibilityDemo &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        CounterRunnableImpl counter = new CounterRunnableImpl();</div><div class="line">        //创建一个线程池</div><div class="line">        ExecutorService threadPool = Executors.newCachedThreadPool();</div><div class="line">        //创建10个线程</div><div class="line">        for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">            threadPool.execute(counter);</div><div class="line">        &#125;</div><div class="line">        threadPool.shutdown();</div><div class="line">        try &#123;</div><div class="line">            //这里是等待线程池中的线程全部执行完</div><div class="line">            threadPool.awaitTermination(100, TimeUnit.SECONDS);</div><div class="line">        &#125; catch (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        //输出计数器的结果</div><div class="line">        System.out.println(counter.getCount());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    static class CounterRunnableImpl implements Runnable &#123;</div><div class="line">        //定义一个共享的计数器</div><div class="line">        private int count = 0;</div><div class="line"></div><div class="line">        public int getCount() &#123;</div><div class="line">            return count;</div><div class="line">        &#125;</div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            System.out.println(Thread.currentThread()+&quot;开始运行&quot;);</div><div class="line">            //为了让效果明显,取一个较大的值</div><div class="line">            int len = 100000000;</div><div class="line">            while (len-- &gt; 0) &#123;</div><div class="line">//                synchronized (this)&#123;</div><div class="line">                    count += 1;//递增操作</div><div class="line">//                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>&#160;&#160;&#160;&#160;于是我装了个UbuntuServer系统的虚拟机,使用htop命令查看系统的CPU情况如下:<br><img src="/uploads/2016/04/cpu1.png" alt="CPU情况"><br>可以看到,系统只有一个cpu,编译后的执行结果如下:结果小于10*100000000<br><img src="/uploads/2016/04/result1.png" alt="CPU情况"></p>
+<p>&#160;&#160;&#160;&#160;于是我装了个UbuntuServer系统的虚拟机,使用htop命令查看系统的CPU情况如下:<br><img src="/2016/04/26/Java单核CPU多线程内存模型的疑问/cpu1.png" alt="CPU情况"><br>可以看到,系统只有一个cpu,编译后的执行结果如下:结果小于10*100000000<br><img src="/2016/04/26/Java单核CPU多线程内存模型的疑问/result1.png" alt="CPU情况"></p>
 <p>&#160;&#160;&#160;&#160;<u>所以,这个实验说明（还不够充分）不论在多核心还是单核心下,Java的内存模型是一样的,每个线程都有自己的工作内存，但是这个工作内存并不一定是和CPU的核心缓存一一对应。</u></p>
 
       
@@ -387,14 +387,14 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>

@@ -65,13 +65,13 @@
 <meta property="og:site_name" content="Hoyoung&#39;s Blog">
 <meta property="og:description" content="前言nutch是干什么的想必能来看这篇文章的都了解，就不瞎扯了哈哈！nutch目前分为两个大版本，1.x和2.x，1.x版本已经相当成熟并且可成熟的应用与商业化。2.x版本的官方已经不提供编译好的二进制包，需要我们将源码下载下来自己编译。2.x与1.x的主要区别是存储方式不同，1.x将爬取的信息存储在hadoop的hdfs中，不了解什么是hdfs的可以取看看hadoop的文件系统，实质上就是以文">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://hoyoung.net/uploads/2016/03/nutch_logo.jpg">
-<meta property="og:image" content="http://hoyoung.net/uploads/2016/03/nutchweb.png">
-<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta property="og:image" content="http://hoyoung.net/2016/01/18/Ubuntu下编译nutch2-3-1/nutch_logo.jpg">
+<meta property="og:image" content="http://hoyoung.net/2016/01/18/Ubuntu下编译nutch2-3-1/nutchweb.png">
+<meta property="og:updated_time" content="2018-06-25T09:14:58.812Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu下编译nutch2.3.1">
 <meta name="twitter:description" content="前言nutch是干什么的想必能来看这篇文章的都了解，就不瞎扯了哈哈！nutch目前分为两个大版本，1.x和2.x，1.x版本已经相当成熟并且可成熟的应用与商业化。2.x版本的官方已经不提供编译好的二进制包，需要我们将源码下载下来自己编译。2.x与1.x的主要区别是存储方式不同，1.x将爬取的信息存储在hadoop的hdfs中，不了解什么是hdfs的可以取看看hadoop的文件系统，实质上就是以文">
-<meta name="twitter:image" content="http://hoyoung.net/uploads/2016/03/nutch_logo.jpg">
+<meta name="twitter:image" content="http://hoyoung.net/2016/01/18/Ubuntu下编译nutch2-3-1/nutch_logo.jpg">
 
 
 
@@ -284,14 +284,14 @@
       
 
       
-        <p><a href="/uploads/2016/03/nutch_logo.jpg"><img src="/uploads/2016/03/nutch_logo.jpg" alt="nutch_logo"></a></p>
+        <p><img src="/2016/01/18/Ubuntu下编译nutch2-3-1/nutch_logo.jpg" alt="nutch_logo"></p>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>nutch是干什么的想必能来看这篇文章的都了解，就不瞎扯了哈哈！nutch目前分为两个大版本，1.x和2.x，1.x版本已经相当成熟并且可成熟的应用与商业化。2.x版本的官方已经不提供编译好的二进制包，需要我们将源码下载下来自己编译。2.x与1.x的主要区别是存储方式不同，1.x将爬取的信息存储在hadoop的hdfs中，不了解什么是hdfs的可以取看看hadoop的文件系统，实质上就是以文件的方式存储。而2.x将存储分离出来，采用gora这种类似于hibernate，mybatis等持久层框架来管理。gora主要面向于NoSql数据库的映射框架，比如mongodb以及基于hadoop的hbase，同时也支持关系型数据库，比如mysql。<br><a id="more"></a><br>本次编译也是作为学习，所以是最基础的例子，学习就是个循序渐进的过程嘛！本人遵从官方的例子，但是身处天朝，人家歪果仁跑的贼顺溜的例子在我们这里也会出现莫名奇妙的问题。但是都被解决了。</p>
 <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><ul>
 <li>操作系统：LinuxMint 17.2（除了界面不同，它就是Ubuntu 14.04）</li>
 <li>JDK（我一般称作鸡蛋壳）1.7，此次编译的nutch版本已经不支持JDK 1.6</li>
 <li>ant构建工具</li>
 </ul>
-<h1 id="版本的选取"><a href="#版本的选取" class="headerlink" title="版本的选取"></a>版本的选取</h1><p>我直接编译nutch的最新版，即nutch2.3.1，我们打开Apache nutch的首页<a href="http://nutch.apache.org/" target="_blank" rel="external">http://nutch.apache.org/</a><a href="/uploads/2016/03/nutchweb.png"><img src="/uploads/2016/03/nutchweb.png" alt="nutch官网"></a><br>如果了解nutch你会发现hadoop正是诞生于nutch，单机版的nutch可以独立运行，官网上给出的hadoop的要求是分布式版本的nutch的运行环境，本文只讲述单机版的编译，作为学习的话整个分布式的没必要。虽然不需要分布式的，但是我们仍然需要hadoop，因为hbase的运行依赖于hadoop。2.x的nutch把存储部分分离出来，那我们就先用hbase作为存储。我们就选取hadoop1.2.1和hbase0.98.8。我们在这里可以下载到apache的所有发布软件<br><a href="http://archive.apache.org/dist/。我们需要下载下面这些软件包：" target="_blank" rel="external">http://archive.apache.org/dist/。我们需要下载下面这些软件包：</a><br><a href="http://archive.apache.org/dist/hadoop/core/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/hadoop/core/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz</a><br><a href="http://archive.apache.org/dist/hbase/0.98.16/hbase-0.98.16-hadoop2-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/hbase/0.98.16/hbase-0.98.16-hadoop2-bin.tar.gz</a><br><a href="http://archive.apache.org/dist/nutch/2.3.1/apache-nutch-2.3.1-src.tar.gz。" target="_blank" rel="external">http://archive.apache.org/dist/nutch/2.3.1/apache-nutch-2.3.1-src.tar.gz。</a><br>如果缺少ant工具，还需要下载ant<br><a href="http://archive.apache.org/dist/ant/binaries/binaries/apache-ant-1.9.4-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/ant/binaries/binaries/apache-ant-1.9.4-bin.tar.gz</a><br>ant的安装也非常的简单，我也不赘述了。</p>
+<h1 id="版本的选取"><a href="#版本的选取" class="headerlink" title="版本的选取"></a>版本的选取</h1><p>我直接编译nutch的最新版，即nutch2.3.1，我们打开Apache nutch的首页<a href="http://nutch.apache.org/" target="_blank" rel="external">http://nutch.apache.org/</a><br><img src="/2016/01/18/Ubuntu下编译nutch2-3-1/nutchweb.png" alt="nutch官网"><br>如果了解nutch你会发现hadoop正是诞生于nutch，单机版的nutch可以独立运行，官网上给出的hadoop的要求是分布式版本的nutch的运行环境，本文只讲述单机版的编译，作为学习的话整个分布式的没必要。虽然不需要分布式的，但是我们仍然需要hadoop，因为hbase的运行依赖于hadoop。2.x的nutch把存储部分分离出来，那我们就先用hbase作为存储。我们就选取hadoop1.2.1和hbase0.98.8。我们在这里可以下载到apache的所有发布软件<br><a href="http://archive.apache.org/dist/。我们需要下载下面这些软件包：" target="_blank" rel="external">http://archive.apache.org/dist/。我们需要下载下面这些软件包：</a><br><a href="http://archive.apache.org/dist/hadoop/core/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/hadoop/core/hadoop-1.2.1/hadoop-1.2.1-bin.tar.gz</a><br><a href="http://archive.apache.org/dist/hbase/0.98.16/hbase-0.98.16-hadoop2-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/hbase/0.98.16/hbase-0.98.16-hadoop2-bin.tar.gz</a><br><a href="http://archive.apache.org/dist/nutch/2.3.1/apache-nutch-2.3.1-src.tar.gz。" target="_blank" rel="external">http://archive.apache.org/dist/nutch/2.3.1/apache-nutch-2.3.1-src.tar.gz。</a><br>如果缺少ant工具，还需要下载ant<br><a href="http://archive.apache.org/dist/ant/binaries/binaries/apache-ant-1.9.4-bin.tar.gz" target="_blank" rel="external">http://archive.apache.org/dist/ant/binaries/binaries/apache-ant-1.9.4-bin.tar.gz</a><br>ant的安装也非常的简单，我也不赘述了。</p>
 <h1 id="hadoop和hbase的安装"><a href="#hadoop和hbase的安装" class="headerlink" title="hadoop和hbase的安装"></a>hadoop和hbase的安装</h1><p>网上关于这两部分的安装教程多不胜数，我就不再赘述，这里推荐一个<a href="http://www.cnblogs.com/nexiyi/p/hbase_intro_94.html" target="_blank" rel="external">http://www.cnblogs.com/nexiyi/p/hbase_intro_94.html</a></p>
 <h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><p>先启动hadoop<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/hadoop-1.2.1# ./bin/start-all.sh </div><div class="line">Warning: $HADOOP_HOME is deprecated.</div><div class="line"></div><div class="line">starting namenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-namenode-ubuntu.out</div><div class="line">localhost: starting datanode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-datanode-ubuntu.out</div><div class="line">localhost: starting secondarynamenode, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-secondarynamenode-ubuntu.out</div><div class="line">starting jobtracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-jobtracker-ubuntu.out</div><div class="line">localhost: starting tasktracker, logging to /opt/hadoop-1.2.1/libexec/../logs/hadoop-root-tasktracker-ubuntu.out</div></pre></td></tr></table></figure></p>
 <p>使用jps命令查看启动情况<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">root@ubuntu:/opt/hadoop-1.2.1# jps</div><div class="line">2131 TaskTracker</div><div class="line">1589 NameNode</div><div class="line">1891 SecondaryNameNode</div><div class="line">1738 DataNode</div><div class="line">1976 JobTracker</div><div class="line">2183 Jps</div></pre></td></tr></table></figure></p>
@@ -416,14 +416,14 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
