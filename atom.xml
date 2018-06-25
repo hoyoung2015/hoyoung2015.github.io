@@ -4,7 +4,7 @@
   <subtitle><![CDATA[独具匠心]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://hoyoung.net/"/>
-  <updated>2017-11-15T05:22:14.927Z</updated>
+  <updated>2018-06-25T07:43:07.406Z</updated>
   <id>http://hoyoung.net/</id>
   
   <author>
@@ -15,11 +15,26 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[test_photo]]></title>
+    <link href="http://hoyoung.net/2018/06/25/test-photo/"/>
+    <id>http://hoyoung.net/2018/06/25/test-photo/</id>
+    <published>2018-06-25T07:37:14.000Z</published>
+    <updated>2018-06-25T07:43:07.406Z</updated>
+    <content type="html"><![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><p><img src="test-photo/figure_1.png" alt="a"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h1 id="test"><a href="#test" class="headerlink" title="test"></a>test</h1><p><img src="test-photo/figure_1.png" alt="a"></p>
+]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[数据攻城狮必备工具之Hive实例]]></title>
     <link href="http://hoyoung.net/2017/11/12/hive-demo/"/>
     <id>http://hoyoung.net/2017/11/12/hive-demo/</id>
     <published>2017-11-12T03:22:51.000Z</published>
-    <updated>2017-11-15T05:22:14.927Z</updated>
+    <updated>2017-12-07T12:29:00.301Z</updated>
     <content type="html"><![CDATA[<p>hive教程众多，这些教程详细的介绍了从搭建hive环境到基本使用的全部过程，本着不重复造轮子的理念。本文这对于针对于已经了解hadoop及hive的基础知识和用法，简要讲解企业常用的数据类型和方法。<br><a id="more"></a></p>
 <h1 id="复合数据类型"><a href="#复合数据类型" class="headerlink" title="复合数据类型"></a>复合数据类型</h1><h2 id="数组array"><a href="#数组array" class="headerlink" title="数组array"></a>数组array</h2><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> test_array(province <span class="keyword">string</span>,city <span class="built_in">array</span>&lt;<span class="keyword">string</span>&gt;)</div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span></div><div class="line"><span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line"><span class="comment">-- 指定集合类型用英文逗号分隔</span></div><div class="line">COLLECTION ITEMS <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span></div><div class="line"><span class="comment">-- 指定数据存储位置</span></div><div class="line">LOCATION <span class="string">'hdfs path'</span></div><div class="line">TBLPROPERTIES (<span class="string">'hadoop.job.ugi'</span>=<span class="string">'user,passwd'</span>);</div></pre></td></tr></table></figure>
 <p>数据的文本格式：</p>
@@ -66,7 +81,11 @@ TBLPROPERTIES (
 <p>打包后会生成一个jar包，将其上传到hive客户端所在的机器上。</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 载入jar包</span></div><div class="line">add jar xxx.jar;</div><div class="line"><span class="comment">-- 创建函数</span></div><div class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">function</span> my_func <span class="keyword">as</span> <span class="string">'package.MyUDF'</span>;</div><div class="line"><span class="comment">-- 函数调用</span></div><div class="line"><span class="keyword">select</span> my_func(<span class="string">'hello'</span>,<span class="keyword">name</span>) <span class="keyword">from</span> my_table <span class="keyword">limit</span> <span class="number">10</span>;</div></pre></td></tr></table></figure>
 <h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 查询显示列名</span></div><div class="line"><span class="keyword">set</span> hive.cli.print.header=<span class="literal">true</span>;</div><div class="line"><span class="comment">-- 设置hive mapreduce执行队列的优先级</span></div><div class="line"><span class="keyword">set</span> mapred.job.priority=VERY_HIGH;</div><div class="line"><span class="comment">-- 设置map和reduce的并发量</span></div><div class="line"><span class="keyword">set</span> mapred.job.map.capacity=<span class="number">3000</span></div><div class="line"><span class="keyword">set</span> mapred.job.reduce.capacity=<span class="number">3000</span></div><div class="line"><span class="comment">-- 设置hive任务名称</span></div><div class="line"><span class="keyword">set</span> mapred.job.name=jobName</div></pre></td></tr></table></figure>
-]]></content>
+<h2 id="数组array转行row"><a href="#数组array转行row" class="headerlink" title="数组array转行row"></a>数组array转行row</h2><p>原始表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">ID   |    items                                  | name  |  loc  </div><div class="line">_________________________________________________________________</div><div class="line">id1  | [&quot;item1&quot;,&quot;item2&quot;,&quot;item3&quot;,&quot;item4&quot;,&quot;item5&quot;] | Mike | CT</div><div class="line">id2  | [&quot;item3&quot;,&quot;item7&quot;,&quot;item4&quot;,&quot;item9&quot;,&quot;item8&quot;] | Chris| MN</div></pre></td></tr></table></figure>
+<p>期望的结果</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">ID   |    items                       | name  |  loc  </div><div class="line">______________________________________________________</div><div class="line">id1  | item1                          | Mike  | CT</div><div class="line">id1  | item2                          | Mike  | CT</div><div class="line">id1  | item3                          | Mike  | CT</div><div class="line">id1  | item4                          | Mike  | CT</div><div class="line">id1  | item5                          | Mike  | CT</div><div class="line">id2  | item3                          | Chris | MN</div><div class="line">id2  | item7                          | Chris | MN</div><div class="line">id2  | item4                          | Chris | MN</div><div class="line">id2  | item9                          | Chris | MN</div><div class="line">id2  | item8                          | Chris | MN</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> <span class="keyword">ID</span>,itemsName,<span class="keyword">name</span>,loc</div><div class="line"><span class="keyword">FROM</span> <span class="keyword">Table</span></div><div class="line">LATERAL <span class="keyword">VIEW</span> explode(items) itemTable <span class="keyword">AS</span> itemsName;</div></pre></td></tr></table></figure>]]></content>
     <summary type="html">
     <![CDATA[<p>hive教程众多，这些教程详细的介绍了从搭建hive环境到基本使用的全部过程，本着不重复造轮子的理念。本文这对于针对于已经了解hadoop及hive的基础知识和用法，简要讲解企业常用的数据类型和方法。<br>]]>
     
@@ -156,7 +175,7 @@ TBLPROPERTIES (
     <link href="http://hoyoung.net/2017/09/09/ubuntu-c51-dev/"/>
     <id>http://hoyoung.net/2017/09/09/ubuntu-c51-dev/</id>
     <published>2017-09-08T17:10:10.000Z</published>
-    <updated>2017-09-09T05:18:25.000Z</updated>
+    <updated>2018-06-25T07:17:30.931Z</updated>
     <content type="html"><![CDATA[<p>已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从头开始，搭建Ubuntu下的开发环境吧。（这货BB了半天，终于开始正题了）<br><a id="more"></a></p>
 <h1 id="安装编译工具"><a href="#安装编译工具" class="headerlink" title="安装编译工具"></a>安装编译工具</h1><p>大概的百度了下，Linux下的C51开发环境的资料还真是不多，各种资料几乎被Keil C51统治。一万头草泥马呼啸而过，不早就听说他们做嵌入式开发的都在Linux下搞吗，怎么资料这么少。不过好在Linux开源社区的强大，这些都不是问题。首先是编译器，windows下keil c51 ide集成了编译器，具体什么编译器我也忘记了。而linux下的编译器叫sdcc，想详细了解的自己百度，我在这里介绍也是没他们说的详细，反正它就是个编译器。在Ubuntu下可以在仓库中直接安装</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo apt-get install sdcc</div></pre></td></tr></table></figure>
@@ -171,7 +190,7 @@ TBLPROPERTIES (
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">pip install pyserial</div><div class="line">sudo apt install python-serial</div></pre></td></tr></table></figure>
 <p>我的python环境是2.7.13版本，由于python3和python2版本差异较大，如果你是python3的环境，请安装<code>python3-serial</code>。</p>
 <p>安装完成后，测试检查能否读取到MCU的信息。Ubuntu系统都内置了常用PL2303芯片USB转串口的驱动，将USB串口下载板插到PC上以后查看对应的设备名称。这里和windows不一样，没有叫com口的东西。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">ls /dev/ttyUSB*</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ls /dev/ttyUSB*</div></pre></td></tr></table></figure>
 <p><img src="/uploads/2017/09/ubuntu_dev_usb.png" alt=""></p>
 <p>比如我的串口设备就是/dev/ttyUSB0。我自己使用的STC12C5A60S2进行测试，所以单片机类型选择stc12。另外，因为程序要读取com口，需要root权限。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo ./stcgal.py -P stc12</div></pre></td></tr></table></figure>
@@ -637,9 +656,9 @@ TBLPROPERTIES (
     <link href="http://hoyoung.net/2016/03/24/%E6%8E%92%E7%89%88%E4%BF%AE%E5%A4%8D%E5%B0%8F%E5%B0%8F%E5%B7%A5%E5%85%B7/"/>
     <id>http://hoyoung.net/2016/03/24/排版修复小小工具/</id>
     <published>2016-03-24T05:08:41.000Z</published>
-    <updated>2017-09-08T16:17:21.000Z</updated>
+    <updated>2018-06-25T07:06:23.605Z</updated>
     <content type="html"><![CDATA[<p>首先直接给出工具的链接<a href="http://xdpaper.applinzi.com/demo/enfilter.html" target="_blank" rel="external">http://xdpaper.applinzi.com/demo/enfilter.html</a></p>
-<h1 id="英文渣的痛点"><a href="#英文渣的痛点" class="headerlink" title="英文渣的痛点"></a>英文渣的痛点</h1><p>&#160; &#160; &#160; &#160;作为一名研究僧，搞科研看论文是必不可少的，导师还一再强调我们要看英文文献，可是本人虽然过了天朝英语六级，可还是个英语渣渣，看英文文献跟天书似的。所以呢看英文文献就借助翻译工具了，还好现在的翻译工具还算给力，即使翻译的不通顺，自己再看看原文也是能够理解作者的意思的。我看自己周围的很多同学也是要借助翻译才能完全理解论文的意思。<br><a id="more"></a><br>&#160; &#160; &#160; &#160;那么问题来了，我们下载的文献几乎都是pdf格式的，扫描版的我们不提，因为这跟图片一样几乎没办法复制，而大多从word转换得到的pdf文件，里面的文字我们是可以复制的。可是当我们复制到翻译工具的输入框中时，复制文字的排版不是连续的，文本还保持了原有的换行，以及有的完整的英语单词在采用了等宽分布的排版后为了维持等宽，会把单词拆开用’-‘分隔。我对比了这样的翻译结果和把排版整理恢复为正常排版的翻译结果，这两个的翻译结果可是有差别的。正常的排版更接近于语义。<br>比如pdf中的一个段落是这样的<br><a href="/uploads/2016/03/pdfdemo.png"><img src="/uploads/2016/03/pdfdemo.png" alt="pdf原段落"></a><br>我们复制文本输入框之后是这样的，这排版保持了和pdf一样的排版，但是明显不对嘛。<br><a href="/uploads/2016/03/pdf_copy.png"><img src="/uploads/2016/03/pdf_copy.png" alt="复制到文本框"></a><br>我们希望它能恢复成这个样子<br><a href="/uploads/2016/03/pdf_check.png"><img src="/uploads/2016/03/pdf_check.png" alt="正确的排版"></a><br>&#160; &#160; &#160; &#160;如果懂点编程的话，这个问题是很好解决的，起初我是这么干的，使用高级点的文本编辑器，比如sublime text，atom等，打开替换功能，用两步正则替换就可以恢复成正常的排版了。</p>
+<h1 id="英文渣的痛点"><a href="#英文渣的痛点" class="headerlink" title="英文渣的痛点"></a>英文渣的痛点</h1><p>&#160; &#160; &#160; &#160;作为一名研究僧，搞科研看论文是必不可少的，导师还一再强调我们要看英文文献，可是本人虽然过了天朝英语六级，可还是个英语渣渣，看英文文献跟天书似的。所以呢看英文文献就借助翻译工具了，还好现在的翻译工具还算给力，即使翻译的不通顺，自己再看看原文也是能够理解作者的意思的。我看自己周围的很多同学也是要借助翻译才能完全理解论文的意思。<br><a id="more"></a><br>&#160; &#160; &#160; &#160;那么问题来了，我们下载的文献几乎都是pdf格式的，扫描版的我们不提，因为这跟图片一样几乎没办法复制，而大多从word转换得到的pdf文件，里面的文字我们是可以复制的。可是当我们复制到翻译工具的输入框中时，复制文字的排版不是连续的，文本还保持了原有的换行，以及有的完整的英语单词在采用了等宽分布的排版后为了维持等宽，会把单词拆开用’-‘分隔。我对比了这样的翻译结果和把排版整理恢复为正常排版的翻译结果，这两个的翻译结果可是有差别的。正常的排版更接近于语义。<br>比如pdf中的一个段落是这样的<br><img src="/Users/baidu/workspace/myblog/source/uploads/2016/03/pdfdemo.png" alt="pdf原段落"><br>我们复制文本输入框之后是这样的，这排版保持了和pdf一样的排版，但是明显不对嘛。<br><a href="/uploads/2016/03/pdf_copy.png"><img src="/uploads/2016/03/pdf_copy.png" alt="复制到文本框"></a><br>我们希望它能恢复成这个样子<br><a href="/uploads/2016/03/pdf_check.png"><img src="/uploads/2016/03/pdf_check.png" alt="正确的排版"></a><br>&#160; &#160; &#160; &#160;如果懂点编程的话，这个问题是很好解决的，起初我是这么干的，使用高级点的文本编辑器，比如sublime text，atom等，打开替换功能，用两步正则替换就可以恢复成正常的排版了。</p>
 <h1 id="一步到位"><a href="#一步到位" class="headerlink" title="一步到位"></a>一步到位</h1><p>&#160; &#160; &#160; &#160;作为一名懒癌中度患者，每次复制pdf，粘贴到atom，在写两下正则表达式来替换，还是觉得麻烦，于是呢就做了这个小小工具，之所以称为小小工具，因为这真的实在是太太太简单了。其实就是用正则先把’\n’的换行符替换为空格’ ‘，然后在用正则’- ‘替换为空字符’’，这样就恢复了原来被拆开的完整英文单词了。这个小工具知识刚刚制作，还很简陋。<br><a href="/uploads/2016/03/pdfe.png"><img src="/uploads/2016/03/pdfe.png" alt="最终的样子"></a></p>
 <h1 id="后面的改进"><a href="#后面的改进" class="headerlink" title="后面的改进"></a>后面的改进</h1><ul>
 <li>‘-‘分隔的专有词组的过滤，有的单词它就是用’-‘分隔，但人家就是一个完整的单词，比如cloud-based。打算通过建立一个词库来过滤。</li>
@@ -887,9 +906,9 @@ TBLPROPERTIES (
     
     </summary>
     
-      <category term="Ubuntu" scheme="http://hoyoung.net/tags/Ubuntu/"/>
-    
       <category term="R语言" scheme="http://hoyoung.net/tags/R%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="Ubuntu" scheme="http://hoyoung.net/tags/Ubuntu/"/>
     
       <category term="R" scheme="http://hoyoung.net/categories/R/"/>
     
@@ -911,23 +930,6 @@ TBLPROPERTIES (
     <![CDATA[<p><a href="/uploads/2015/11/示例图.png"><img src="/uploads/2015/11/示例图.png" alt=""></a></p>
 <p>　　作为一个IT汪，自己经常在慕课网上看视频学些混饭吃的挨踢打怪技能，自己觉得慕课网的视频短小，不拖泥带水，结构清晰。如果能把视频分章节都保存下来的话那就好了。<br>慕课网的app提供了缓存的功能，但是手机内存有限啊（自己的手机的存储都是乞丐版的16G的），存不了几个视频就满了。慕课网的app缓存到手机内存卡，是能播放的mp4文件，但是问题来了，这些视频文件的命名是数字，我累个去，即使你把视频从内存卡里导出也要一个个的看一便再将其归类，太麻烦了。自己之前写了个爬虫程序来对这些不按照内容命名的视频文件进行重命名，自己用的还行，但还是觉得麻烦，于是直接写了个完整的下载工具。<br>]]>
     
-    </summary>
-    
-      <category term="Java" scheme="http://hoyoung.net/categories/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[递归算法的幂运算]]></title>
-    <link href="http://hoyoung.net/2015/08/16/%E9%80%92%E5%BD%92%E7%AE%97%E6%B3%95%E7%9A%84%E5%B9%82%E8%BF%90%E7%AE%97/"/>
-    <id>http://hoyoung.net/2015/08/16/递归算法的幂运算/</id>
-    <published>2015-08-16T06:49:59.000Z</published>
-    <updated>2017-09-08T16:17:21.000Z</updated>
-    <content type="html"><![CDATA[<p>Java代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">	 * 求x的n次方</span></div><div class="line"><span class="comment">	 * <span class="doctag">@param</span> x</span></div><div class="line"><span class="comment">	 * <span class="doctag">@param</span> n</span></div><div class="line"><span class="comment">	 * <span class="doctag">@return</span></span></div><div class="line"><span class="comment">	 */</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">pow</span><span class="params">(<span class="keyword">long</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> x;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> (n % <span class="number">2</span> == <span class="number">0</span>) &#123;<span class="comment">// 偶数</span></div><div class="line">			<span class="keyword">return</span> pow(x*x,n/<span class="number">2</span>);</div><div class="line">		&#125; <span class="keyword">else</span> &#123;<span class="comment">// 奇数</span></div><div class="line">			<span class="keyword">return</span> pow(x*x,(n-<span class="number">1</span>)/<span class="number">2</span>)*x;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p>比如求3的6次幂，被分解为求3<em>3的3次幂-&gt;9</em>9的2次幂<em>9-&gt;81的1次幂</em>9，减少了循环迭代的次数</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Java代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div c]]>
     </summary>
     
       <category term="Java" scheme="http://hoyoung.net/categories/Java/"/>

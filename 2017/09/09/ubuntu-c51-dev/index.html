@@ -66,7 +66,7 @@
 <meta property="og:description" content="已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://hoyoung.net/uploads/2017/09/ubuntu_dev_usb.png">
-<meta property="og:updated_time" content="2017-09-09T05:18:25.000Z">
+<meta property="og:updated_time" content="2018-06-25T07:17:30.931Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C51单片机Ubuntu基本开发环境">
 <meta name="twitter:description" content="已经不知道从什么时候开始，在我的字典里，windows已经成为了游戏机，除了打游戏，我基本不用windows了，公司的mac笔记本也只是处理些办公事物，开发基本在linux下，而我自己家里使用的也是Ubuntu系统。想起自己本科的时候还没怎么接触过linux，那时候搞写电子小制作，对windows下的环境配置搞的还挺熟的，毕业后等我拾起搁置三年的爱好时，当年熟悉的windows开发环境已经不在，从">
@@ -297,7 +297,7 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">pip install pyserial</div><div class="line">sudo apt install python-serial</div></pre></td></tr></table></figure>
 <p>我的python环境是2.7.13版本，由于python3和python2版本差异较大，如果你是python3的环境，请安装<code>python3-serial</code>。</p>
 <p>安装完成后，测试检查能否读取到MCU的信息。Ubuntu系统都内置了常用PL2303芯片USB转串口的驱动，将USB串口下载板插到PC上以后查看对应的设备名称。这里和windows不一样，没有叫com口的东西。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">ls /dev/ttyUSB*</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ls /dev/ttyUSB*</div></pre></td></tr></table></figure>
 <p><img src="/uploads/2017/09/ubuntu_dev_usb.png" alt=""></p>
 <p>比如我的串口设备就是/dev/ttyUSB0。我自己使用的STC12C5A60S2进行测试，所以单片机类型选择stc12。另外，因为程序要读取com口，需要root权限。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">sudo ./stcgal.py -P stc12</div></pre></td></tr></table></figure>
@@ -409,7 +409,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -511,7 +511,7 @@
         <div class="copyright" >
   
   &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>

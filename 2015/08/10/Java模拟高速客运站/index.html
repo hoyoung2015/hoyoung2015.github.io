@@ -67,7 +67,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://hoyoung.net/uploads/2015/08/模拟客运站UML类图.png">
 <meta property="og:image" content="http://hoyoung.net/uploads/2015/08/模拟客运站界面.png">
-<meta property="og:updated_time" content="2017-09-08T16:17:21.000Z">
+<meta property="og:updated_time" content="2018-06-25T07:01:16.955Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java模拟高速客运站">
 <meta name="twitter:description" content="问题描述1.1 问题域概述 用面向对象方法和面向对象程序设计语言，实现满足下述要求的一个高速公路客运活动仿真程序。西安市到宝鸡市之间是我省主要的高速公路客运路线之一，经过简化后的客运路线端点、中途停靠点和里程如下图所示（括号里是简称，里程的单位是公里） 1.2 限定条件 （1）从XN 始发至BJ 的客车和从BJ 始发至XN 的客车均有两种车型：沃尔沃（限定乘客人数为48 人）；依维柯（限定乘客人数">
@@ -284,16 +284,16 @@
       
 
       
-        <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>1.1 问题域概述</p>
+        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1.1 问题域概述</p>
 <p>用面向对象方法和面向对象程序设计语言，实现满足下述要求的一个高速公路客运活动仿真程序。西安市到宝鸡市之间是我省主要的高速公路客运路线之一，经过简化后的客运路线端点、中途停靠点和里程如下图所示（括号里是简称，里程的单位是公里）</p>
 <p>1.2 限定条件</p>
 <p>（1）从XN 始发至BJ 的客车和从BJ 始发至XN 的客车均有两种车型：沃尔沃（限定乘客人数为48 人）；依维柯（限定乘客人数为21 人）。沃尔沃的速度为1.9 公里/分钟，依维柯的速度为1.4 公里/分钟。<br>（2）起始状态时，XN 拥有沃尔沃和依维柯客车分别为XNW和XNY 辆，BJ 拥有沃尔沃和依维柯客车分别为BJW和BJY 辆。<br>（3）从XN 至BJ 和从BJ 至XN 的沃尔沃，均为上午8:30 开始，每小时一班，最后一班为下午5:30；从XN 至BJ 和从BJ 至XN 的依维柯，均为上午8:00 开始，每20 分钟一班，最后一班为下午6:00。<br><a id="more"></a><br>（4）从XN 至BJ 的客车到达BJ 后，即成为从BJ 至XN 的客车，排在当时BJ 同类车型的队尾，再按（3）确定发车时间；从BJ 至XN 的客车到达XN 后的规则相同。<br>（5）只考虑途中只有乘客下车、没有乘客上车的情况。<br>（6）有乘客下车时，不论方向与车型，停车时间统一为2 分钟。<br>（7）乘坐从XN 至BJ 客车的乘客，其下车点为XY、XP、WG、CP、GZ 和BJ 的可能性分别为P_XBXY、P_XBXP、P_XBWG、P_XBCP、P_XBGZ 和P_XBBJ。这些可能性之和为1；乘坐从BJ 至XN 客车的乘客，其下车点为GZ、CP、WG、XP、XY 和XN 的可能性分别为P_BXGZ、P_BXCP、P_BXWG、P_BXXP、P_BXXY 和P_BXXN。这些可能性之和为1。</p>
 <p>2.1.3须仿真的客运活动</p>
 <p>（1）从上午7:30 开始到下午5:59 为止，每分钟分别在XN 和BJ 随机产生去往BJ 和XN 方向的新到达的乘客。每分钟到达的人数范围为0~PN 人。<br>（2）按照限定条件，随机产生新到达的乘客的目的地。<br>（3）乘客按到达的先后顺序上最近一辆该车客满则等候下一辆始发的客车。<br>（4）若客车到达中途停靠站时有乘客在此下车，按限定条件（5）和（6）处理，否则不停车继续行驶。</p>
-<p><a href="/uploads/2015/08/模拟客运站UML类图.png"><img src="/uploads/2015/08/模拟客运站UML类图.png" alt="模拟客运站UML类图"></a></p>
+<p><img src="/uploads/2015/08/模拟客运站UML类图.png" alt="模拟客运站UML类图"></p>
 <p><strong>使用PowerDesigner16反向工程导出的UML类图</strong></p>
 <p><strong>运行情况</strong><br>开发语言为java，开发环境为Eclipse</p>
-<h3 id="界面说明"><a href="#界面说明" class="headerlink" title="界面说明"></a>界面说明</h3><p><a href="/uploads/2015/08/模拟客运站界面.png"><img src="/uploads/2015/08/模拟客运站界面.png" alt="模拟客运站界面"></a></p>
+<h1 id="界面说明"><a href="#界面说明" class="headerlink" title="界面说明"></a>界面说明</h1><p><a href="/uploads/2015/08/模拟客运站界面.png"><img src="/uploads/2015/08/模拟客运站界面.png" alt="模拟客运站界面"></a></p>
 <p>高速公路中开往宝鸡和西安的两个车队显示在列表中，列表的每个条目含义如下：</p>
 <p>客车编号-路程-状态（行驶/停车）-乘客数量-当前所在地点</p>
 <p>图中红色框框中客车的状态表示编号是依维柯Y3，已经行驶了138.6km，正在行驶中，车中目前有五名乘客，刚停靠过的地点是CP。</p>
@@ -401,7 +401,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -481,7 +481,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#界面说明"><span class="nav-number">2.</span> <span class="nav-text">界面说明</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#界面说明"><span class="nav-number">2.</span> <span class="nav-text">界面说明</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
@@ -503,7 +503,7 @@
         <div class="copyright" >
   
   &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart fa fa-heart"></i>
   </span>
