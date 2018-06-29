@@ -1,0 +1,706 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.0" />
+
+
+
+
+
+
+<meta name="description" content="代码文件编码py文件默认的是ascii编码，当你在python文件里写的内容全是英文的时候没有任何问题s = &quot;hello world&quot;print s 但当你写中文的时候，不论是注释里还是变量的值都会报错。因为中文的编码范围已经超过了ascii返回，解决方法是在py文件内容的开头加# -*- coding: utf-8 -*-，让文件支持中文内容。# -*- coding: utf-8 -*-s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python2编码总结">
+<meta property="og:url" content="http://hoyoung.net/2018/06/29/python2-encoding/index.html">
+<meta property="og:site_name" content="Hoyoung&#39;s Blog">
+<meta property="og:description" content="代码文件编码py文件默认的是ascii编码，当你在python文件里写的内容全是英文的时候没有任何问题s = &quot;hello world&quot;print s 但当你写中文的时候，不论是注释里还是变量的值都会报错。因为中文的编码范围已经超过了ascii返回，解决方法是在py文件内容的开头加# -*- coding: utf-8 -*-，让文件支持中文内容。# -*- coding: utf-8 -*-s">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-29T03:45:14.535Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python2编码总结">
+<meta name="twitter:description" content="代码文件编码py文件默认的是ascii编码，当你在python文件里写的内容全是英文的时候没有任何问题s = &quot;hello world&quot;print s 但当你写中文的时候，不论是注释里还是变量的值都会报错。因为中文的编码范围已经超过了ascii返回，解决方法是在py文件内容的开头加# -*- coding: utf-8 -*-，让文件支持中文内容。# -*- coding: utf-8 -*-s">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: '[object Object]',
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> python2编码总结 | Hoyoung's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hoyoung's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">独具匠心</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python2编码总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-06-29T11:44:03+08:00" content="2018-06-29">
+              2018-06-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="代码文件编码"><a href="#代码文件编码" class="headerlink" title="代码文件编码"></a>代码文件编码</h2><p>py文件默认的是ascii编码，当你在python文件里写的内容全是英文的时候没有任何问题<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">s = <span class="string">"hello world"</span></div><div class="line"><span class="keyword">print</span> s</div></pre></td></tr></table></figure></p>
+<p>但当你写中文的时候，不论是注释里还是变量的值都会报错。因为中文的编码范围已经超过了ascii返回，解决方法是在py文件内容的开头加<code># -*- coding: utf-8 -*-</code>，让文件支持中文内容。<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line">s = <span class="string">"中文"</span></div><div class="line"><span class="keyword">print</span> s</div></pre></td></tr></table></figure></p>
+<h2 id="程序编码"><a href="#程序编码" class="headerlink" title="程序编码"></a>程序编码</h2><p>此时变量<code>s</code>的类型是<code>str</code>，你可以打印出它的类型<code>print type(s)</code><br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">s = <span class="string">u"中文"</span></div></pre></td></tr></table></figure></p>
+<p>如果在字符串的前面加<code>u</code>修饰，那么这个变量值就是<code>unicode</code>编码。</p>
+<font color="red">出现编码问题主要因为从外界读入的内容的编码问题</font><br>下面已读取文件的方式模拟外界的输入（外界的输入有很多可能，比如还有从网络传过来的，从数据库查出来的，等等）<br>### 读取常见的utf8编码的文件<br>文件<code>utf8.txt</code>的文件内容为<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">中文</div></pre></td></tr></table></figure><br><br>读取代码为<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'utf8.txt'</span>) <span class="keyword">as</span> f:</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f:</div><div class="line">        <span class="keyword">print</span> line, type(line)</div></pre></td></tr></table></figure><br><br>输出结果为<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">中文 &lt;<span class="built_in">type</span> <span class="string">'str'</span>&gt;</div></pre></td></tr></table></figure><br><br>### 读取gbk编码文件<br>gbk编码或者gb2310编码是windows系统默认的编码，因此这些编码在的编码在windows下常见。<br>文件<code>gbk.txt</code>的内容为<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">����</div></pre></td></tr></table></figure><br><br>看的内容是乱码，没错，因为是在utf8环境下看的。<br>此时，使用和前面同样的代码读取<code>gbk.txt</code>文件，输出同样为乱码，但没有错。<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">���� &lt;<span class="built_in">type</span> <span class="string">'str'</span>&gt;</div></pre></td></tr></table></figure><br><br>如果输出想看到正常的编码，则需要解码，解码的过程是<code>str-&gt;unicode</code><br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'gbk.txt'</span>) <span class="keyword">as</span> f:</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f:</div><div class="line">        line = line.strip()</div><div class="line">        line = line.decode(<span class="string">'gbk'</span>, <span class="string">'ignore'</span>)</div><div class="line">        <span class="keyword">print</span> line, type(line)</div></pre></td></tr></table></figure><br><br>输出为<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">中文 &lt;type &apos;unicode&apos;&gt;</div></pre></td></tr></table></figure><br><br>注意此时的输出编码变为了<code>unicode</code>，任何输入的其他编码的解码(decode)都是解为<code>unicode</code>，<code>decode</code>的第二个参数<code>ignore</code>是为了忽略一些编码失败的错误，避免极少极少的特殊字符解码失败导致的程序运行失败。<br><br>### 进行编码<br><strong>进行编码的原因主要是因为保存文件或者下游输入的需要</strong><br><code>encode</code>的过程是<code>unicode-&gt;str</code>的过程<br>比如我想保存gbk内容编码的文件<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">s = <span class="string">u"中文"</span></div><div class="line"><span class="keyword">with</span> open(<span class="string">'gbk_output.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> w:</div><div class="line">    w.write(s.encode(<span class="string">'gbk'</span>, <span class="string">'ignore'</span>))</div></pre></td></tr></table></figure><br><br>注意变量<code>s</code>值的前面有<code>u</code>修饰，是<code>unicode</code>编码，在做编码之前都要保证编码对象是<code>unicode</code>编码，如果不是则需要先<code>decode</code>为<code>unicode</code>，再进行<code>decode</code><br><br>## 注意事项<br>- 字符串操作，一定要保证参与的字符串变量的编码是统一的<br>比如字符串比较，比较的两个字符串变量的编码要相同。再比如正则表达式，定义正则表达式的字符串要和进行正则匹配的字符串编码相同。又比如<code>dict</code>，如果<code>key</code>是中文，则需要编码相同。举个例子<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">d = &#123;</div><div class="line">    <span class="string">u'中文'</span>: <span class="number">1</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">print</span> d[<span class="string">u'中文'</span>] <span class="comment"># 正确</span></div><div class="line"><span class="keyword">print</span> d[<span class="string">'中文'</span>] <span class="comment"># 错误，会找不到key</span></div></pre></td></tr></table></figure><br><br>- <code>json</code>模块解析出的<code>dict</code>的<code>key</code>和<code>value</code>都是<code>unicode</code><br>- 如果所有编码都没错，在输出的时候出现如下错误<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">UnicodeDecodeError: <span class="string">'ascii'</span> codec can<span class="string">'t decode byte 0xe4 in position</span></div><div class="line"><span class="string">0: ordinal not in range(128)</span></div></pre></td></tr></table></figure><br><br>解决方式是在开头加入<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">reload(sys)</div><div class="line">sys.setdefaultencoding(<span class="string">"utf8"</span>)</div></pre></td></tr></table></figure><br><br><font color="red">python3 之所以没有这些问题，因为它把所有的编码都默认统一成<code>unicode</code></font>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/12/hive-demo/" rel="next" title="数据攻城狮必备工具之Hive实例">
+                <i class="fa fa-chevron-left"></i> 数据攻城狮必备工具之Hive实例
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/reindeer_72px_1207022_easyicon.net.png"
+               alt="hoyoung" />
+          <p class="site-author-name" itemprop="name">hoyoung</p>
+          <p class="site-description motion-element" itemprop="description">这货暂时还没有想好</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2304377421" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhaokidd.github.io/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> ZhaoY
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.mtxcxin.cn/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> 星辰
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.csdn.net/liang16286" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> Liang
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码文件编码"><span class="nav-number">1.</span> <span class="nav-text">代码文件编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序编码"><span class="nav-number">2.</span> <span class="nav-text">程序编码</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hoyoung</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  
+
+
+  
+
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+
+  
+  
+
+</body>
+</html>

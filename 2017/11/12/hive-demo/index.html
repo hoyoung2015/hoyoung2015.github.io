@@ -65,7 +65,7 @@
 <meta property="og:site_name" content="Hoyoung&#39;s Blog">
 <meta property="og:description" content="hive教程众多，这些教程详细的介绍了从搭建hive环境到基本使用的全部过程，本着不重复造轮子的理念。本文这对于针对于已经了解hadoop及hive的基础知识和用法，简要讲解企业常用的数据类型和方法。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-07T12:29:00.301Z">
+<meta property="og:updated_time" content="2018-06-25T12:02:49.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据攻城狮必备工具之Hive实例">
 <meta name="twitter:description" content="hive教程众多，这些教程详细的介绍了从搭建hive环境到基本使用的全部过程，本着不重复造轮子的理念。本文这对于针对于已经了解hadoop及hive的基础知识和用法，简要讲解企业常用的数据类型和方法。">
@@ -292,17 +292,8 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">张三    math:80,chinese:89,english:95</div><div class="line">李四    chinese:60,math:80</div></pre></td></tr></table></figure>
 <p>查询方法</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> test_map;</div><div class="line"><span class="keyword">select</span> score[<span class="string">'english'</span>] <span class="keyword">from</span> test_map;</div></pre></td></tr></table></figure>
-<h2 id="结构体struct"><a href="#结构体struct" class="headerlink" title="结构体struct"></a>结构体struct</h2><pre><code>CREATE external TABLE test_struct(
-id int,
-province struct&lt;pid:int,pname:string&gt;)
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY &apos;\t&apos;
-COLLECTION ITEMS TERMINATED BY &apos;,&apos;
-LOCATION &apos;hdfs path&apos;
-TBLPROPERTIES (
-  &apos;hadoop.job.ugi&apos;=&apos;user,passwd&apos;
-);
-</code></pre><p>结构体的与字典不同的是，结构体中的key必须在文本数据中存在</p>
+<h2 id="结构体struct"><a href="#结构体struct" class="headerlink" title="结构体struct"></a>结构体struct</h2><figure class="highlight sql"><table><tr><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">external</span> <span class="keyword">TABLE</span> test_struct(</div><div class="line">    <span class="keyword">id</span> <span class="built_in">int</span>,</div><div class="line">    province <span class="keyword">struct</span>&lt;pid:<span class="built_in">int</span>,pname:<span class="keyword">string</span>&gt;)</div><div class="line">    <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span></div><div class="line">    <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span></div><div class="line">    COLLECTION ITEMS <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span></div><div class="line">    LOCATION <span class="string">'hdfs path'</span></div><div class="line">    TBLPROPERTIES (</div><div class="line">      <span class="string">'hadoop.job.ugi'</span>=<span class="string">'user,passwd'</span></div><div class="line">    );</div></pre></td></tr></table></figure>
+<p>结构体的与字典不同的是，结构体中的key必须在文本数据中存在</p>
 <p>文本存储格式：</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">1	1001,jiangsu</div><div class="line">2	2001,zhejiang</div></pre></td></tr></table></figure>
 <p>查询方法：</p>
@@ -359,6 +350,10 @@ TBLPROPERTIES (
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/29/python2-encoding/" rel="prev" title="python2编码总结">
+                python2编码总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -426,7 +421,7 @@ TBLPROPERTIES (
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

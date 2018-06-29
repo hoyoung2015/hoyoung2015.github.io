@@ -231,6 +231,94 @@
             
               
                 
+                <a class="post-title-link" href="/2018/06/29/python2-encoding/" itemprop="url">
+                  python2编码总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-06-29T11:44:03+08:00" content="2018-06-29">
+              2018-06-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="代码文件编码"><a href="#代码文件编码" class="headerlink" title="代码文件编码"></a>代码文件编码</h2><p>py文件默认的是ascii编码，当你在python文件里写的内容全是英文的时候没有任何问题<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">s = <span class="string">"hello world"</span></div><div class="line"><span class="keyword">print</span> s</div></pre></td></tr></table></figure></p>
+<p>但当你写中文的时候，不论是注释里还是变量的值都会报错。因为中文的编码范围已经超过了ascii返回，解决方法是在py文件内容的开头加<code># -*- coding: utf-8 -*-</code>，让文件支持中文内容。<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line">s = <span class="string">"中文"</span></div><div class="line"><span class="keyword">print</span> s</div></pre></td></tr></table></figure></p>
+<h2 id="程序编码"><a href="#程序编码" class="headerlink" title="程序编码"></a>程序编码</h2><p>此时变量<code>s</code>的类型是<code>str</code>，你可以打印出它的类型<code>print type(s)</code><br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">s = <span class="string">u"中文"</span></div></pre></td></tr></table></figure></p>
+<p>如果在字符串的前面加<code>u</code>修饰，那么这个变量值就是<code>unicode</code>编码。</p>
+<font color="red">出现编码问题主要因为从外界读入的内容的编码问题</font><br>下面已读取文件的方式模拟外界的输入（外界的输入有很多可能，比如还有从网络传过来的，从数据库查出来的，等等）<br>### 读取常见的utf8编码的文件<br>文件<code>utf8.txt</code>的文件内容为<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">中文</div></pre></td></tr></table></figure><br><br>读取代码为<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'utf8.txt'</span>) <span class="keyword">as</span> f:</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f:</div><div class="line">        <span class="keyword">print</span> line, type(line)</div></pre></td></tr></table></figure><br><br>输出结果为<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">中文 &lt;<span class="built_in">type</span> <span class="string">'str'</span>&gt;</div></pre></td></tr></table></figure><br><br>### 读取gbk编码文件<br>gbk编码或者gb2310编码是windows系统默认的编码，因此这些编码在的编码在windows下常见。<br>文件<code>gbk.txt</code>的内容为<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">����</div></pre></td></tr></table></figure><br><br>看的内容是乱码，没错，因为是在utf8环境下看的。<br>此时，使用和前面同样的代码读取<code>gbk.txt</code>文件，输出同样为乱码，但没有错。<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">���� &lt;<span class="built_in">type</span> <span class="string">'str'</span>&gt;</div></pre></td></tr></table></figure><br><br>如果输出想看到正常的编码，则需要解码，解码的过程是<code>str-&gt;unicode</code><br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">with</span> open(<span class="string">'gbk.txt'</span>) <span class="keyword">as</span> f:</div><div class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f:</div><div class="line">        line = line.strip()</div><div class="line">        line = line.decode(<span class="string">'gbk'</span>, <span class="string">'ignore'</span>)</div><div class="line">        <span class="keyword">print</span> line, type(line)</div></pre></td></tr></table></figure><br><br>输出为<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">中文 &lt;type &apos;unicode&apos;&gt;</div></pre></td></tr></table></figure><br><br>注意此时的输出编码变为了<code>unicode</code>，任何输入的其他编码的解码(decode)都是解为<code>unicode</code>，<code>decode</code>的第二个参数<code>ignore</code>是为了忽略一些编码失败的错误，避免极少极少的特殊字符解码失败导致的程序运行失败。<br><br>### 进行编码<br><strong>进行编码的原因主要是因为保存文件或者下游输入的需要</strong><br><code>encode</code>的过程是<code>unicode-&gt;str</code>的过程<br>比如我想保存gbk内容编码的文件<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">s = <span class="string">u"中文"</span></div><div class="line"><span class="keyword">with</span> open(<span class="string">'gbk_output.txt'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> w:</div><div class="line">    w.write(s.encode(<span class="string">'gbk'</span>, <span class="string">'ignore'</span>))</div></pre></td></tr></table></figure><br><br>注意变量<code>s</code>值的前面有<code>u</code>修饰，是<code>unicode</code>编码，在做编码之前都要保证编码对象是<code>unicode</code>编码，如果不是则需要先<code>decode</code>为<code>unicode</code>，再进行<code>decode</code><br><br>## 注意事项<br>- 字符串操作，一定要保证参与的字符串变量的编码是统一的<br>比如字符串比较，比较的两个字符串变量的编码要相同。再比如正则表达式，定义正则表达式的字符串要和进行正则匹配的字符串编码相同。又比如<code>dict</code>，如果<code>key</code>是中文，则需要编码相同。举个例子<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line">d = &#123;</div><div class="line">    <span class="string">u'中文'</span>: <span class="number">1</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">print</span> d[<span class="string">u'中文'</span>] <span class="comment"># 正确</span></div><div class="line"><span class="keyword">print</span> d[<span class="string">'中文'</span>] <span class="comment"># 错误，会找不到key</span></div></pre></td></tr></table></figure><br><br>- <code>json</code>模块解析出的<code>dict</code>的<code>key</code>和<code>value</code>都是<code>unicode</code><br>- 如果所有编码都没错，在输出的时候出现如下错误<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">UnicodeDecodeError: <span class="string">'ascii'</span> codec can<span class="string">'t decode byte 0xe4 in position</span></div><div class="line"><span class="string">0: ordinal not in range(128)</span></div></pre></td></tr></table></figure><br><br>解决方式是在开头加入<br><figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">reload(sys)</div><div class="line">sys.setdefaultencoding(<span class="string">"utf8"</span>)</div></pre></td></tr></table></figure><br><br><font color="red">python3 之所以没有这些问题，因为它把所有的编码都默认统一成<code>unicode</code></font>
+
+          
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/12/hive-demo/" itemprop="url">
                   数据攻城狮必备工具之Hive实例
                 </a>
@@ -727,117 +815,12 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/16/numpy-tutorial/" itemprop="url">
-                  numpy中文教程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-16T10:36:01+08:00" content="2016-12-16">
-              2016-12-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><p>Numpy的主要对象是同质多维数组，同质是指数组里的元素都是相同的类型。Numpy的数组被称为<code>ndarray</code>,也有别名叫<code>array</code>.Python标准库的类<code>array.array</code>只提供一位数组和较少的功能，而<code>numpy.array</code>和它有很大的差别的，不能混淆。下面是<code>ndarray</code>的几个比较重要的属性：<br><strong>ndarray.ndim</strong><br>　　数组的维度个数。在Python世界里，维度的数量被称为rank。<br><strong>ndarray.shape</strong><br>　　数组的维度。这是一个表示每个维度数组大小的元组，对于一个有n行m列的矩阵, shape是(n,m)。shape元组的长度是rank，或者说维度的个数ndim。<br><strong>ndarray.size</strong><br>　　数组中元素的数量，和shape元素的数量相等。<br><strong>ndarray.dtype</strong><br>　　一个描述数组中元素类型的类。我们可以使用标准的Python类型来指定dtype。另外Numpy也提供了自己的类型。比如<code>numpy.int32</code>, <code>numpy.int16</code>, and <code>numpy.float64</code>。<br><strong>ndarray.itemsize</strong><br>　　数组元素的字节大小。比如<code>float64</code>的<code>itemsize</code>为8 (=64/8), <code>complex32</code>为4 (=32/8)。等于<code>ndarray.dtype.itemsize</code>。<br><strong>ndarray.data</strong><br>　　缓冲区中真实包含的数组元素。一般不会使用这个属性，因为我们使用索引访问数组中的元素。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/16/numpy-tutorial/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
 
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -878,7 +861,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
